@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>에이전트 스킬(Skills) 완전정리 — AI에게 '능력'을 붙이는 법 — 멘토 김부장</title>
+<meta name="description" content="Anthropic의 에이전트 스킬(Agent Skills) 심층 정리. SKILL.md 구조, 프로그레시브 디스클로저 동작 방식, 도구·MCP와의 차이, 실제 스킬 예시와 만드는 법까지 비개발자 눈높이로 자세히 설명합니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="index.html#books">책</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트</span>
+    <h1>에이전트 스킬(Skills) 완전정리<br>— AI에게 '<span style="color:#8b5cf6">능력</span>'을 붙이는 법</h1>
+    <div class="meta">멘토 김부장 · 2026년 7월 · 에이전트 · 읽는 데 약 7분</div>
+  </div>
+
+  <div class="article-body">
+    <p>요즘 AI 업계에서 조용히, 그러나 크게 번지는 개념이 <strong>'에이전트 스킬(Agent Skills)'</strong>입니다. Anthropic이 이를 <strong>공개 표준</strong>으로 내놓으면서 Notion·Figma·Atlassian 같은 회사들도 자기 스킬을 내놓기 시작했어요. 이름은 낯설지만 개념은 아주 직관적입니다. 이 글에서 스킬이 <strong>무엇인지, 어떻게 생겼는지, 왜 똑똑한 설계인지, 도구·MCP와 뭐가 다른지</strong>까지 제대로 파고들어 볼게요.</p>
+
+    <h2>1. 스킬 = AI에게 붙이는 '전문 매뉴얼'</h2>
+    <p>스킬은 <strong>"이런 일은 이렇게 처리해"라고 적어둔 업무 설명서</strong>를 AI에게 붙여주는 것입니다. 사람으로 치면, 신입에게 "우리 회사 보고서는 이 양식으로, 이 순서로 쓴다"는 매뉴얼을 쥐여주는 것과 같아요. 그걸 가진 AI는 매번 처음부터 설명하지 않아도 <strong>그 일을 일관되게, 전문가처럼</strong> 해냅니다.</p>
+    <p>예를 들어 'PDF 스킬'이 있으면 AI는 PDF를 다루는 표준 절차를, '엑셀 스킬'이 있으면 스프레드시트를 만드는 요령을 이미 아는 상태로 시작합니다. 능력을 <strong>플러그인처럼 꽂았다 뺐다</strong> 하는 셈이죠.</p>
+
+    <h2>2. 어떻게 생겼나 — SKILL.md 한 장이 뼈대</h2>
+    <p>스킬의 핵심은 <code>SKILL.md</code>라는 파일 하나입니다. 위쪽엔 간단한 정보(YAML)가, 아래쪽엔 사람이 읽는 글(마크다운)로 지침이 적혀 있어요. 대략 이런 구조입니다.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>구성</th><th>내용</th></tr></thead>
+        <tbody>
+          <tr><td><b>이름 (name)</b></td><td>스킬 이름 (예: "pdf-편집")</td></tr>
+          <tr><td><b>설명 (description)</b></td><td>이 스킬을 <b>언제</b> 써야 하는지 — AI가 상황을 보고 알아서 꺼내 쓰는 기준</td></tr>
+          <tr><td><b>본문 (지침)</b></td><td>단계별 방법, 주의사항, 사용 예시</td></tr>
+          <tr><td><b>참고 파일</b></td><td>필요하면 스크립트·템플릿 등 딸린 파일도 함께</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout">📄 <strong>놀라운 점:</strong> 스킬은 코드가 아니라 <strong>'글'로</strong> 만듭니다. "이런 작업을 해주는 스킬 만들어줘"라고 부탁하면 AI가 이 SKILL.md를 대신 작성해주기도 해요.</div>
+
+    <h2>3. 왜 똑똑한 설계인가 — '필요할 때만 펼치기'</h2>
+    <p>스킬의 진짜 영리한 부분은 <strong>'프로그레시브 디스클로저(progressive disclosure)'</strong>, 우리말로 '점진적 공개'입니다. 무슨 뜻이냐면 —</p>
+    <div class="steps">
+      <div class="step"><div class="sn">1</div><div><h4>평소엔 '이름과 설명'만 본다</h4><p>AI는 수십 개 스킬의 짧은 설명만 알고 있습니다. 메뉴판만 훑는 셈이라 가볍습니다.</p></div></div>
+      <div class="step"><div class="sn">2</div><div><h4>필요한 순간에 '본문을 펼친다'</h4><p>PDF 작업이 필요해지면 그때 'PDF 스킬'의 전체 지침을 불러옵니다. 필요한 것만 꺼내 쓰는 거죠.</p></div></div>
+      <div class="step"><div class="sn">3</div><div><h4>덕분에 가볍고 정확하다</h4><p>모든 지식을 한꺼번에 머리에 넣지 않으니, 헷갈리지 않고 그 일에 집중합니다.</p></div></div>
+    </div>
+    <p>이 방식 덕분에 스킬을 아무리 많이 만들어 둬도 AI가 <strong>느려지거나 혼란스러워지지 않습니다.</strong> "필요할 때만 펼친다"는 이 원리가 스킬 설계의 핵심이에요.</p>
+
+    <h2>4. 도구(Tools)·MCP와는 뭐가 다를까</h2>
+    <p>가장 헷갈리는 부분입니다. 셋의 관계를 '요리사'에 비유하면 깔끔해요.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>개념</th><th>한 줄 정의</th><th>요리 비유</th></tr></thead>
+        <tbody>
+          <tr><td><b>도구 (Tool)</b></td><td>AI가 쓰는 개별 기능(파일 읽기, 검색 등)</td><td>칼·냄비 같은 '주방 도구'</td></tr>
+          <tr><td><b>MCP</b></td><td>외부 앱(슬랙·노션 등)에 연결하는 표준 규격</td><td>식자재를 배달받는 '표준 유통망'</td></tr>
+          <tr><td><b>스킬 (Skill)</b></td><td>언제 무엇을 어떤 순서로 할지 담은 매뉴얼</td><td>'레시피' 그 자체</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>즉 도구가 '무엇을 할 수 있나'라면, 스킬은 '어떤 상황에서 어떤 순서로 하나'를 담습니다. 좋은 도구가 있어도 레시피(스킬)가 없으면 결과가 들쭉날쭉하죠. 스킬이 붙으면 AI의 결과물이 훨씬 <strong>일관되고 전문적</strong>으로 바뀌는 이유입니다.</p>
+
+    <h2>5. 왜 '표준'이 중요한가</h2>
+    <p>Anthropic이 스킬을 공개 표준(agentskills.io)으로 푼 이유는, 예전에 <strong>MCP가 'AI가 외부 도구 쓰는 표준'</strong>으로 자리 잡은 것과 같은 그림을 노려서예요. 표준이 되면 —</p>
+    <ul>
+      <li>한 번 만든 스킬을 <strong>여러 AI·여러 사람이 공유</strong>할 수 있습니다.</li>
+      <li>회사라면 <strong>"우리 팀 표준 스킬"</strong>을 중앙에서 관리할 수 있어요.</li>
+      <li>Notion·Figma·Atlassian처럼 <strong>서비스 회사들이 자기 스킬</strong>을 내놓으며 생태계가 커집니다.</li>
+    </ul>
+
+    <h2>6. 비개발자에게 주는 의미</h2>
+    <p>가장 반가운 소식은, 스킬은 <strong>코드가 아니라 '글(설명)'로 만든다</strong>는 점입니다. 즉 코딩을 몰라도, <strong>일을 잘 정리해서 설명할 줄 아는 사람</strong>이면 좋은 스킬을 만들 수 있어요. "우리 일은 이런 순서로 한다"를 명확히 적을 수 있는 사람이 강해지는 시대입니다.</p>
+    <blockquote>코드를 짜는 능력보다, "일을 잘 정리해 설명하는 능력"이 값어치를 갖는 시대입니다.</blockquote>
+
+    <div class="buybox">
+      <div><b>AI에게 '잘 설명해서 시키는 법'을 익히고 싶다면</b><span>「코딩 몰라도 AI로 사주앱 만들기」 · 프롬프트 부록 수록</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <p style="font-size:14px;color:#8a90a6;margin-top:24px">※ 에이전트 스킬 생태계는 빠르게 발전 중입니다. 세부 규격은 각 플랫폼의 최신 문서를 확인하세요. (2026년 7월 기준 작성)</p>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

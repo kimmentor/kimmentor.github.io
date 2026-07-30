@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI로 앱 만들 때 꼭 알아야 할 3가지 주의점 — 멘토 김부장</title>
+<meta name="description" content="AI로 앱을 만드는 건 편하지만 다 맡기면 안 됩니다. 보안, 코드 검토, AI가 잘 못하는 것 — 비개발자가 반드시 알아야 할 3가지.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">기술</span>
+    <h1>AI로 앱 만들 때<br>꼭 알아야 할 <span style="color:#c9922a">3가지 주의점</span></h1>
+    <div class="meta">멘토 김부장 · 2026년 7월 · 기술</div>
+  </div>
+
+  <div class="article-body">
+    <p>AI로 앱을 만드는 건 정말 편합니다. 하지만 "편하다"와 "아무거나 다 맡겨도 된다"는 다릅니다. 제가 직접 만들며 배운, 그리고 업계에서도 공통으로 지적하는 <strong>세 가지 주의점</strong>을 비개발자 눈높이로 정리했습니다. 미리 알면 사고를 크게 줄일 수 있어요.</p>
+
+    <h2>1. 보안은 AI가 알아서 챙겨주지 않는다</h2>
+    <p>AI가 만든 코드는 잘 돌아가는 것처럼 보여도, <strong>보안 구멍이 생기는 경우가 꽤 많습니다.</strong> 예를 들어 비밀번호나 API 키(서비스 열쇠 같은 것) 같은 민감한 정보가 코드에 그대로 노출되기도 해요. 실제로 "빠르게 만든 앱"에서 이런 취약점이 자주 발견됩니다.</p>
+    <div class="callout">🛡️ <strong>이렇게 하세요:</strong> "이 코드에 보안상 위험한 부분이 있는지 점검해줘"라고 AI에게 <em>따로</em> 물어보세요. 만들 때와 검토할 때를 나누는 것만으로도 크게 안전해집니다.</div>
+
+    <h2>2. AI가 준 코드를 '그대로 믿지' 말 것</h2>
+    <p>AI는 자신 있게 틀립니다. 그럴듯해 보이지만 실제로는 작동하지 않거나, 엉뚱하게 동작하는 코드를 내놓기도 해요. 그래서 <strong>코드 검토(리뷰)는 선택이 아니라 필수</strong>입니다. 코드를 읽을 줄 몰라도 방법은 있어요.</p>
+    <ul>
+      <li>바꾸기 전과 후를 <strong>반드시 직접 눌러보며</strong> 확인한다</li>
+      <li>이상하면 "방금 바꾼 게 왜 이렇게 동작해?"라고 <strong>되묻는다</strong></li>
+      <li>한 번에 많이 바꾸지 말고 <strong>작게 쪼개서</strong> 확인한다</li>
+    </ul>
+    <p>"의심하고, 눌러보고, 되묻기" — 이 습관 하나가 대형 사고를 막습니다.</p>
+
+    <h2>3. AI가 유독 약한 영역이 있다</h2>
+    <p>단순한 화면이나 기능은 AI가 잘 만듭니다. 하지만 여러 기능이 복잡하게 얽힌 <strong>큰 시스템</strong>, 미묘한 <strong>디버깅(오류 추적)</strong>은 아직 서툽니다. 그래서 처음부터 거대한 걸 만들려 하면 오히려 지쳐요.</p>
+    <blockquote>작게 시작해서 하나씩 붙이세요. AI는 '전체를 한 번에'보다 '작은 걸 여러 번'에서 훨씬 강합니다.</blockquote>
+
+    <h2>겁먹으라는 얘기가 아닙니다</h2>
+    <p>이 세 가지는 "AI로 앱 만들기가 위험하다"는 뜻이 아니라, <strong>"이것만 알면 훨씬 안전하고 빠르게 갈 수 있다"</strong>는 안내입니다. 자동차를 몰 때 안전벨트를 매는 것과 같아요. 원리를 알면 오히려 더 과감하게 만들 수 있습니다.</p>
+    <p>제 책에는 이런 함정들을 미리 피하도록, <strong>흔한 에러와 해결법·안전하게 시키는 프롬프트</strong>를 부록에 따로 모아뒀습니다. 저처럼 헤매지 않으시길 바라는 마음으로요.</p>
+
+    <div class="buybox">
+      <div><b>안전하게, 끝까지 만들고 싶다면</b><span>「코딩 몰라도 AI로 사주앱 만들기」 · 에러 해결·프롬프트 부록 수록</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

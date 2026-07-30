@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 에이전트 완전정복 — 챗봇과 뭐가 다른가, 어떻게 일하는가 — 멘토 김부장</title>
+<meta name="description" content="AI 에이전트란 무엇인가. 챗봇과의 결정적 차이, 에이전트를 이루는 4가지 부품(두뇌·도구·기억·계획), 실제 동작 흐름과 한계까지 비개발자 눈높이로 자세히 정리했습니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="index.html#books">책</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트</span>
+    <h1>AI 에이전트 완전정복<br>— <span style="color:#8b5cf6">챗봇</span>과 뭐가 다른가,<br>어떻게 일하는가</h1>
+    <div class="meta">멘토 김부장 · 2026년 7월 · 에이전트 · 읽는 데 약 7분</div>
+  </div>
+
+  <div class="article-body">
+    <p>2026년 IT 뉴스에서 가장 자주 보이는 단어를 꼽으라면 단연 <strong>'AI 에이전트(Agent)'</strong>입니다. 그런데 "그거 그냥 챗봇 아니야?"라고 생각하는 분이 많아요. 아닙니다. 챗봇과 에이전트는 <strong>구조부터 다릅니다.</strong> 이 글에서는 그 차이를 확실히 잡고, 에이전트가 <strong>무엇으로 이뤄져 어떻게 일하는지</strong>, 그리고 <strong>한계는 무엇인지</strong>까지 차근차근 파고들어 보겠습니다.</p>
+
+    <h2>1. 챗봇 vs 에이전트 — 결정적 차이</h2>
+    <p>가장 큰 차이는 <strong>"누가 다음 행동을 정하느냐"</strong>입니다.</p>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>구분</th><th>챗봇 (예: 기본 ChatGPT)</th><th>에이전트</th></tr></thead>
+        <tbody>
+          <tr><td><b>기본 구조</b></td><td>질문 → 답변 (1회성)</td><td>목표 → 계획 → 실행 → 확인 → 반복</td></tr>
+          <tr><td><b>다음 행동</b></td><td>사람이 정함</td><td>AI가 스스로 정함</td></tr>
+          <tr><td><b>도구 사용</b></td><td>대부분 대화만</td><td>파일·검색·실행 등 도구 사용</td></tr>
+          <tr><td><b>비유</b></td><td>똑똑한 상담사</td><td>일을 맡길 수 있는 동료</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <blockquote>챗봇은 '답하는 도구', 에이전트는 '일하는 동료'. 이 한 줄이 핵심입니다.</blockquote>
+    <div class="callout">
+      🍳 <strong>요리로 비유하면</strong><br>
+      · <strong>챗봇</strong>: "김치찌개 레시피 알려줘" → 레시피를 알려준다. 요리는 내가 한다.<br>
+      · <strong>에이전트</strong>: "김치찌개 만들어줘" → 재료를 확인하고, 끓이고, 간을 보고, 부족하면 더 넣어서 <strong>완성된 찌개</strong>를 내온다.
+    </div>
+
+    <h2>2. 에이전트를 이루는 4가지 '부품'</h2>
+    <p>에이전트가 실제로 일을 해내려면 네 가지가 맞물려 돌아갑니다. 사람이 일하는 방식과 놀랍도록 닮았어요.</p>
+    <div class="steps">
+      <div class="step"><div class="sn">🧠</div><div><h4>① 두뇌 (LLM)</h4><p>ChatGPT·Claude 같은 언어 모델. 상황을 이해하고 "다음에 뭘 할지" 판단하는 중심입니다.</p></div></div>
+      <div class="step"><div class="sn">🔧</div><div><h4>② 도구 (Tools)</h4><p>파일 읽기, 웹 검색, 코드 실행, 외부 앱 연결(MCP) 등 실제로 '손을 쓰는' 능력. 도구가 없으면 말만 하고 아무것도 못 합니다.</p></div></div>
+      <div class="step"><div class="sn">📝</div><div><h4>③ 기억 (Memory)</h4><p>지금까지 무엇을 했고 무엇을 알아냈는지 기억. 긴 작업에서 길을 잃지 않게 해줍니다.</p></div></div>
+      <div class="step"><div class="sn">🗺️</div><div><h4>④ 계획 (Planning)</h4><p>큰 목표를 작은 단계로 쪼개고, 순서를 정하고, 안 되면 다시 계획하는 능력.</p></div></div>
+    </div>
+
+    <h2>3. 에이전트가 일하는 실제 흐름</h2>
+    <p>"블로그 글을 하나 써서 올려줘"라는 목표를 받았다고 해볼게요. 에이전트는 대략 이렇게 돕니다.</p>
+    <div class="flow">
+      <div class="node">목표 받기</div><div class="arr">→</div>
+      <div class="node">계획 세우기</div><div class="arr">→</div>
+      <div class="node">도구로 실행</div><div class="arr">→</div>
+      <div class="node">결과 확인</div><div class="arr">→</div>
+      <div class="node">부족하면<br>다시 반복</div>
+    </div>
+    <p>핵심은 마지막 <strong>"부족하면 다시 반복"</strong>입니다. 사람이 매 단계 지시하지 않아도, <strong>목표에 닿을 때까지 스스로 순환</strong>해요. 이 반복 구조를 잘 설계하는 것이 바로 <a href="post-loop-engineering.html" style="color:#8b5cf6;font-weight:700">루프 엔지니어링</a>이고, 안전하게 굴러가게 붙잡아주는 골격이 <strong>하네스</strong>입니다(다음 글에서 자세히).</p>
+
+    <h2>4. 에이전트가 잘하는 일 vs 아직 어려운 일</h2>
+    <div class="pc">
+      <div class="col pro"><h4>👍 잘하는 일</h4><ul><li>정해진 절차가 있는 반복 작업</li><li>여러 도구를 순서대로 쓰는 일</li><li>"확인 가능한 목표"가 분명한 작업(테스트 통과 등)</li></ul></div>
+      <div class="col con"><h4>👎 아직 어려운 일</h4><ul><li>목표가 모호하거나 정답이 없는 일</li><li>여러 판단이 복잡하게 얽힌 큰 시스템</li><li>맥락이 아주 길어 기억이 흐려지는 작업</li></ul></div>
+    </div>
+    <div class="callout">⚠️ <strong>그래서 중요한 것.</strong> 에이전트에게는 <strong>"확인 가능한 목표"</strong>를 줘야 잘 굴러갑니다. "좋게 만들어줘"보다 "이 버튼을 누르면 결과가 화면에 뜨게 해줘"처럼, 성공 여부를 눈으로 확인할 수 있게 정해주세요.</div>
+
+    <h2>5. 비개발자에게 주는 의미</h2>
+    <p>에이전트 시대의 좋은 소식은, <strong>'시키는 사람'의 역할이 커졌다</strong>는 점입니다. 코드를 직접 못 짜도, 목표를 명확히 정하고 잘 위임하면 결과를 낼 수 있어요. 사실 이건 좋은 팀장이 되는 것과 비슷합니다 — 무엇을 원하는지 분명히 하고, 중간중간 확인하고, 방향을 잡아주는 것. 제가 앱을 만든 방식도 정확히 이 흐름 위에 있었습니다.</p>
+
+    <blockquote>AI 시대의 새로운 능력은 '코드를 짜는 힘'이 아니라 '일을 잘 맡기고 확인하는 힘'입니다.</blockquote>
+
+    <div class="buybox">
+      <div><b>AI에게 '제대로 시켜서' 앱을 만들고 싶다면</b><span>「코딩 몰라도 AI로 사주앱 만들기」 · 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+</body>
+</html>

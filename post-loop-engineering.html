@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>하네스와 루프 엔지니어링 완전정리 — 에이전틱 루프 4단계까지 — 멘토 김부장</title>
+<meta name="description" content="에이전틱 루프, 루프 엔지니어링, 하네스(Harness)를 ReAct부터 4단계 레벨까지 자세히 정리. AI가 스스로 반복하며 일하게 만드는 원리를 비개발자 눈높이로 깊이 있게 설명합니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="index.html#books">책</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트</span>
+    <h1>하네스와 루프 엔지니어링 완전정리<br>— <span style="color:#8b5cf6">에이전틱 루프 4단계</span>까지</h1>
+    <div class="meta">멘토 김부장 · 2026년 7월 · 에이전트 · 읽는 데 약 8분</div>
+  </div>
+
+  <div class="article-body">
+    <p>'루프 엔지니어링(Loop Engineering)', '하네스(Harness)' — 2026년 AI 개발 이야기에서 부쩍 자주 나오는 말입니다. 어렵게 들리지만 핵심은 하나예요. <strong>"AI에게 매번 시키지 말고, 스스로 목표까지 반복하게 만들자."</strong> 이 글에서는 그 뿌리인 ReAct부터, 에이전틱 루프의 <strong>4단계 레벨</strong>, 그리고 루프 엔지니어링과 하네스의 차이까지 단계적으로 깊이 파고들겠습니다.</p>
+
+    <h2>1. 에이전틱 루프 — '스스로 도는 AI'</h2>
+    <p>에이전틱 루프는 두 가지로 이뤄집니다: <strong>시작 신호(트리거)</strong> + <strong>확인 가능한 목표</strong>. 예를 들어 "테스트가 통과할 때까지"라는 목표를 주면, AI는 <strong>작업 → 확인 → (실패 시) 다시 작업</strong>을 목표 달성까지 알아서 반복합니다. 사람이 매번 "다음, 다음"을 누를 필요가 없어요.</p>
+    <div class="callout">🔁 <strong>비유:</strong> 로봇청소기와 같아요. "바닥이 깨끗해질 때까지"를 목표로 주면, 알아서 돌고 부딪히고 다시 돌며 청소를 끝냅니다. 사람은 시작 버튼만 눌렀을 뿐이죠.</div>
+
+    <h2>2. 뿌리가 되는 패턴 — ReAct</h2>
+    <p>이 반복의 고전 패턴이 <strong>ReAct</strong>입니다(2022년 등장). 아주 단순해요. <strong>생각하고(Reasoning) → 행동하고(Acting) → 그 결과를 보고 다시 생각</strong>하는 걸 반복합니다. 지금의 똑똑한 에이전트들도 근본은 이 리듬 위에 있어요.</p>
+    <div class="flow">
+      <div class="node">생각<br><span style="font-weight:400">Reasoning</span></div>
+      <div class="arr">→</div>
+      <div class="node">행동<br><span style="font-weight:400">Acting</span></div>
+      <div class="arr">→</div>
+      <div class="node">관찰<br><span style="font-weight:400">결과 보기</span></div>
+      <div class="arr">↺</div>
+      <div class="node">다시 생각</div>
+    </div>
+
+    <h2>3. 에이전틱 루프의 4단계 레벨</h2>
+    <p>여기서부터가 핵심입니다. 기본 루프 위에 <strong>피드백 장치를 한 겹씩 더하며</strong> 에이전트는 점점 똑똑해집니다. 레벨이 올라갈수록 <strong>신뢰성·자동화·자기개선</strong>이 좋아져요.</p>
+    <div class="steps">
+      <div class="step"><div class="sn">1</div><div><h4>에이전트 루프 — '스스로 실행'</h4><p>모델이 도구를 반복 호출하며 작업을 끝낼 때까지 순환합니다. 예: 문서화 에이전트가 저장소를 훑고 → 파일을 읽고 → 문서를 쓰고 → 제출까지. '답만 하던' AI가 '실제로 행동하는 워커'가 됩니다.</p></div></div>
+      <div class="step"><div class="sn">2</div><div><h4>검증 루프 — '스스로 채점'</h4><p>결과를 채점자(grader)가 기준에 따라 검토하고, 실패하면 피드백을 돌려 다시 시도합니다. 예: 테스트를 돌려 "요청한 부분만 바뀌었는지" 자동 확인. 품질이 오르지만 시간·비용은 늘어납니다.</p></div></div>
+      <div class="step"><div class="sn">3</div><div><h4>이벤트 구동 루프 — '스스로 시작'</h4><p>파일 도착·스케줄·웹훅 같은 사건이 생기면 에이전트가 자동 실행됩니다. 예: 슬랙에 메시지가 오면 알아서 동작. 사람이 부르지 않아도 도니, '장난감'에서 '상시 인프라'로 진화합니다.</p></div></div>
+      <div class="step"><div class="sn">4</div><div><h4>힐 클라이밍 루프 — '스스로 개선'</h4><p>실행 기록(trace)을 분석해 반복되는 실패 패턴을 찾고, 프롬프트·도구·채점 기준을 스스로 고칩니다. '자동화'를 넘어 '지속적 자기개선'에 도달하는 단계예요.</p></div></div>
+    </div>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>레벨</th><th>핵심 능력</th><th>얻는 것</th></tr></thead>
+        <tbody>
+          <tr><td>1. 에이전트 루프</td><td>스스로 실행</td><td>행동하는 워커</td></tr>
+          <tr><td>2. 검증 루프</td><td>스스로 채점·재시도</td><td>품질·신뢰성</td></tr>
+          <tr><td>3. 이벤트 루프</td><td>스스로 시작</td><td>상시 자동화</td></tr>
+          <tr><td>4. 힐 클라이밍</td><td>스스로 개선</td><td>지속적 자기개선</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>4. 루프 엔지니어링 — 루프를 '잘 설계하는' 기술</h2>
+    <p>그런데 루프를 그냥 돌리면 위험합니다. AI가 <strong>끝없이 반복하며 비용(토큰)을 무한정 태우거나</strong>, 엉뚱한 방향으로 계속 갈 수 있어요. 그래서 루프를 <strong>안전하고 효율적으로 설계</strong>하는 기술이 필요한데, 이게 루프 엔지니어링입니다. 핵심 활동은 —</p>
+    <ul>
+      <li>목표를 <strong>명확하고 '확인 가능하게'</strong> 정하기 (성공 여부를 눈으로 볼 수 있게)</li>
+      <li>언제 시작할지(트리거) 정하기</li>
+      <li><strong>무한 반복을 막는 울타리</strong>(최대 횟수)와 비용 상한 두기</li>
+      <li>실패했을 때 어떻게 되돌릴지 정하기</li>
+    </ul>
+    <blockquote>"이제 당신은 AI에게 매번 명령하지 않습니다. 대신 루프를 설계해, 그 루프가 AI에게 명령하게 만듭니다."</blockquote>
+
+    <h2>5. 하네스 — 그 설계를 '실제로 굴리는' 인프라</h2>
+    <p>루프 엔지니어링이 '설계도'라면, <strong>하네스(Harness)는 그 설계를 실제로 돌아가게 하는 시스템</strong>입니다. AI를 감시하고, 기억(메모리)을 관리하고, 비용을 통제하고, 사고가 나지 않게 붙잡아주는 안전 골격이에요.</p>
+    <div class="pc">
+      <div class="col pro"><h4>🗺️ 루프 엔지니어링</h4><ul><li>= 어떻게 설계할지의 <b>방법론</b></li><li>목표·트리거·안전장치를 '정하는' 일</li><li>비유: 건축 설계도</li></ul></div>
+      <div class="col con" style="background:#eef0ff;border-color:#dcd9ff"><h4>🏗️ 하네스</h4><ul><li>= 그 설계를 실행하는 <b>실제 시스템</b></li><li>오케스트레이션·메모리·비용·감시 담당</li><li>비유: 실제로 짓고 관리하는 건설사</li></ul></div>
+    </div>
+
+    <h2>6. 무엇이 달라졌나</h2>
+    <div class="tbl">
+      <table>
+        <thead><tr><th>구분</th><th>예전 (프롬프트 방식)</th><th>지금 (루프 엔지니어링)</th></tr></thead>
+        <tbody>
+          <tr><td><b>작업 방식</b></td><td>매번 사람이 명령</td><td>루프가 스스로 반복</td></tr>
+          <tr><td><b>사람의 역할</b></td><td>명령하는 사람</td><td>판을 설계하는 사람</td></tr>
+          <tr><td><b>효율</b></td><td>지시한 만큼만</td><td>목표까지 자동 진행</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2>7. 비개발자가 알아야 할 이유</h2>
+    <p>당장 하네스를 직접 만들 일은 없을 수 있어요. 하지만 이 개념을 알면 <strong>AI를 훨씬 잘 부릴 수</strong> 있습니다. "한 번에 다 시키기"보다 "작은 목표를 정하고, 확인하며, 반복하기"가 왜 강력한지 이해하게 되거든요. 사실 제가 책에서 강조한 <strong>"작게 쪼개서, 확인하며, 되묻기"</strong>가 바로 루프 엔지니어링의 생활형 버전입니다. 원리를 알면, 도구를 대하는 눈이 달라집니다.</p>
+
+    <div class="buybox">
+      <div><b>AI를 '제대로 반복시켜' 앱을 완성하는 법</b><span>「코딩 몰라도 AI로 사주앱 만들기」 · 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <p style="font-size:14px;color:#8a90a6;margin-top:24px">※ 에이전트·루프·하네스는 빠르게 발전하는 분야로 용어 정의가 조금씩 다를 수 있습니다. (2026년 7월 기준 작성)</p>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+</body>
+</html>
