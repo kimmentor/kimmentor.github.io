@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>데이터베이스(RDS) 만들기 — 데이터를 안전하게 맡기다 — 멘토 김부장</title>
+<meta name="description" content="AWS RDS로 관리형 데이터베이스를 만들어 앱 데이터를 안전하게 보관한 과정. 자동 백업·보안 그룹·엔드포인트를 비개발자 눈높이로 정리.">
+<meta property="og:title" content="데이터베이스(RDS) 만들기 — 데이터를 안전하게 맡기다 — 멘토 김부장">
+<meta property="og:description" content="AWS RDS로 관리형 데이터베이스를 만들어 앱 데이터를 안전하게 보관한 과정. 자동 백업·보안 그룹·엔드포인트를 비개발자 눈높이로 정리.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">클라우드</span>
+    <h1>데이터베이스(RDS) 만들기<br>— 데이터를<br>안전하게 맡기다</h1>
+    <div class="meta">멘토 김부장 · 2026년 7월 · 클라우드</div>
+  </div>
+
+  <div class="article-body">
+    <p>앱이 기억해야 하는 것들 — 회원 정보, 저장된 사주 결과, 글마다의 기록 — 은 어딘가에 보관되어야 합니다. 그 "창고"가 바로 데이터베이스고, AWS에서는 <strong>RDS</strong>를 썼습니다.</p>
+
+    <h2>왜 직접 깔지 않고 RDS였나</h2>
+    <p>EC2 안에 데이터베이스를 직접 설치할 수도 있지만, 초보자에게는 위험합니다. 백업을 깜빡하면 데이터를 통째로 잃을 수도 있거든요. <strong>RDS는 관리형</strong>이라, 자동 백업·보안 패치·장애 복구 같은 귀찮은 일을 AWS가 대신 해줍니다. 코딩 몰라도 안심하고 맡길 수 있었어요.</p>
+
+    <h2>고른 것들</h2>
+    <ul>
+      <li><strong>엔진 종류</strong> — <strong>MySQL</strong>이나 <strong>PostgreSQL</strong>이 자료가 많아 초보자에게 무난합니다.</li>
+      <li><strong>크기</strong> — 연습이라면 가장 작은 급(db.t3.micro 등)으로 충분합니다.</li>
+      <li><strong>아이디·비밀번호</strong> — 데이터베이스 관리자 계정입니다. 절대 까먹으면 안 돼요.</li>
+    </ul>
+    <div class="callout">💡 <strong>가장 중요한 보안 포인트:</strong> 데이터베이스는 외부 인터넷에 직접 열지 마세요. 보안 그룹을 "내 EC2에서 오는 접속만 허용"으로 잡으면, 외부에선 보이지 않고 내 앱만 데이터에 접근합니다.</div>
+
+    <h2>연결하는 법</h2>
+    <p>RDS를 만들면 <strong>엔드포인트(endpoint)</strong>라는 주소가 나옵니다. 내 앱의 설정에 이 주소와 아이디·비밀번호를 넣어주면, 앱이 데이터베이스와 대화하기 시작해요. 이 연결이 되는 순간, "이제 진짜 서비스다" 싶은 느낌이 들었습니다.</p>
+    <p>다음 편은 주소창에 자물쇠를 달아주는 <strong>SSL 인증서</strong> 이야기입니다.</p>
+
+    <div class="buybox">
+      <div><b>「코딩 몰라도 AI로 사주앱 만들기」</b><span>기획부터 AWS 배포·도메인 연결까지 손잡고 가는 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+
+</body>
+</html>

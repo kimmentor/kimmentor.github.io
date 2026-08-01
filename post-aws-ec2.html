@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EC2 서버 만들기 — 내 앱이 처음 인터넷에 떠오른 순간 — 멘토 김부장</title>
+<meta name="description" content="AWS EC2로 가상 서버를 만들어 내 앱을 인터넷에 올린 과정. 리전·우분투·인스턴스 타입·키페어·보안그룹까지 비개발자 눈높이로.">
+<meta property="og:title" content="EC2 서버 만들기 — 내 앱이 처음 인터넷에 떠오른 순간 — 멘토 김부장">
+<meta property="og:description" content="AWS EC2로 가상 서버를 만들어 내 앱을 인터넷에 올린 과정. 리전·우분투·인스턴스 타입·키페어·보안그룹까지 비개발자 눈높이로.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">클라우드</span>
+    <h1>EC2 서버 만들기<br>— 내 앱이 처음<br>인터넷에 떠오른 순간</h1>
+    <div class="meta">멘토 김부장 · 2026년 7월 · 클라우드</div>
+  </div>
+
+  <div class="article-body">
+    <p>배포의 첫 단추는 <strong>EC2</strong>였습니다. 이름은 거창하지만, 쉽게 말하면 <strong>인터넷 어딘가에 있는 내 컴퓨터 한 대를 빌리는 것</strong>입니다. 이 컴퓨터가 내 앱을 24시간 켜둔 채로 손님을 맞아요.</p>
+
+    <h2>리전부터 고르고 시작</h2>
+    <p>EC2를 만들 때 가장 먼저 정하는 건 <strong>리전(Region)</strong>, 즉 서버가 놓일 동네입니다. 한국 사용자가 대부분이라면 <strong>서울(ap-northeast-2)</strong>을 고르면 응답이 빨라집니다. 가까울수록 빠르다 — 딱 그 느낌이에요.</p>
+
+    <h2>서버 사양 고르기</h2>
+    <p>다음은 몇 가지를 고릅니다. 처음엔 어려워 보이지만 의외로 간단해요.</p>
+    <ul>
+      <li><strong>AMI(운영체제)</strong> — 저는 무난하고 자료 많은 <strong>우분투(Ubuntu)</strong>를 골랐어요.</li>
+      <li><strong>인스턴스 타입</strong> — 서버의 "급". 연습이라면 작고 저렴한 <strong>t3.micro</strong> 급이면 충분합니다.</li>
+      <li><strong>키 페어(열쇠)</strong> — 서버에 접속할 때 쓰는 열쇠 파일(.pem). 다운로드해서 꼭 보관해야 해요 — 잃으면 재발급이 번거롭습니다.</li>
+    </ul>
+
+    <h2>보안 그룹 — 어떤 문을 열지</h2>
+    <p>제가 가장 헷갈렸던 게 <strong>보안 그룹(Security Group)</strong>입니다. 서버로 들어오는 "문"을 어느 것만 열지 정하는 설정이에요.</p>
+    <div class="callout">💡 보통 웹 서버라면 <strong>80번(http)·443번(https)</strong>을 열고, 관리 접속용 <strong>22번(SSH)</strong>은 가능하면 내 IP에만 열어두는 게 안전합니다. 22번을 모두에게 열어두면 자동 공격 시도가 금방 들어와요.</div>
+
+    <h2>떠오른 순간</h2>
+    <p>생성 버튼을 누르고 1–2분 뒤, 서버가 받은 <strong>공인 IP 주소</strong>를 브라우저에 쳤더니 — 내 앱이 떴습니다. 별거 아닌 것 같은데, 코딩 모르던 사람이 자기 서버를 직접 올린 경험은 꽤 짜릿했습니다.</p>
+    <p>다음 편엔 이 서버 앞에 <strong>로드밸런서</strong>를 두어, 손님이 많아져도 끊기지 않게 만든 이야기를 적겠습니다.</p>
+
+    <div class="buybox">
+      <div><b>「코딩 몰라도 AI로 사주앱 만들기」</b><span>기획부터 AWS 배포·도메인 연결까지 손잡고 가는 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+
+</body>
+</html>

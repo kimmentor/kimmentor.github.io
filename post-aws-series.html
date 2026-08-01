@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>비개발자가 AWS로 앱을 직접 배포한 이야기 — 클라우드 사용기 시작 — 멘토 김부장</title>
+<meta name="description" content="코딩 몰라도 AI로 만든 앱을 내 손으로 AWS에 올렸습니다. EC2·로드밸런서·RDS·SSL·Route 53까지, 비개발자의 클라우드 배포 사용기 전체 지도.">
+<meta property="og:title" content="비개발자가 AWS로 앱을 직접 배포한 이야기 — 클라우드 사용기 시작 — 멘토 김부장">
+<meta property="og:description" content="코딩 몰라도 AI로 만든 앱을 내 손으로 AWS에 올렸습니다. EC2·로드밸런서·RDS·SSL·Route 53까지, 비개발자의 클라우드 배포 사용기 전체 지도.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">클라우드</span>
+    <h1>비개발자가 AWS로 앱을<br>직접 배포한 이야기<br>— 클라우드 사용기 시작</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 클라우드</div>
+  </div>
+
+  <div class="article-body">
+    <p>AI와 함께 사주앱을 만들고 나니, 마지막 산이 남았습니다. 바로 <strong>"내 컴퓨터가 꺼져도 누구나 접속할 수 있게 인터넷에 올리기"</strong> — 즉 배포(deploy)입니다. 만드는 건 AI가 도와줘도, 서버는 정말 어렵게 느껴졌어요.</p>
+    <p>그래서 결심했습니다. 개발자가 아닌 제가, 세계에서 가장 많이 쓰는 클라우드인 <strong>AWS(아마존 웹서비스)</strong>에 직접 배포해보기로요. 이 시리즈는 그 과정을 그대로 담은 <strong>사용기</strong>입니다.</p>
+
+    <blockquote>전문 용어는 최대한 걷어내고, "이게 왜 필요하고, 어떤 순서로 하는가"만 남기려 했습니다.</blockquote>
+
+    <h2>전체 그림부터 — 가게 차리기에 비유하면</h2>
+    <p>클라우드 배포를 처음 보면 용어가 많아 기가 죽습니다. 그래서 저는 이렇게 이해했어요.</p>
+    <ul>
+      <li><strong>EC2</strong> — 앱이 살 "땅", 즉 서버 한 대</li>
+      <li><strong>로드밸런서</strong> — 손님을 여러 창구로 나눠주는 "문지기"</li>
+      <li><strong>데이터베이스(RDS)</strong> — 회원·기록 같은 자료를 보관하는 "창고"</li>
+      <li><strong>SSL 인증서</strong> — 문에 다는 "자물쇠(https)"</li>
+      <li><strong>Route 53</strong> — 간판에 적는 "주소(도메인)"</li>
+    </ul>
+    <div class="callout">💡 <strong>초보자 꿀팁:</strong> 새 AWS 계정은 2025년 7월 개편 후, 가입 시 약 $100 크레딧(조건 충족 시 최대 $200)을 주고 6개월간 체험할 수 있어요. 연습은 이 범위 안에서 충분합니다. 다만 크레딧이 떨어지거나 6개월이 지나면 과금되니, 쓰지 않는 자원은 꺼두는 습관이 중요해요.</div>
+
+    <h2>이 순서대로 했습니다</h2>
+    <p>아래 순서대로 하나씩 글을 올립니다. 처음이라면 위에서부터 차례대로 따라오시면 돼요.</p>
+    <ul>
+      <li>1편. <strong>EC2 서버 만들기</strong> — 내 앱이 처음 인터넷에 떠오른 순간</li>
+      <li>2편. <strong>로드밸런서(ALB) 구축하기</strong> — 트래픽을 나눠주는 문지기</li>
+      <li>3편. <strong>데이터베이스(RDS) 만들기</strong> — 데이터를 안전하게 맡기다</li>
+      <li>4편. <strong>SSL 인증서 발급받기(ACM)</strong> — 자물쇠(https) 다는 법</li>
+      <li>5편. <strong>Route 53 도메인 신청하기</strong> — 내 주소를 갖다</li>
+    </ul>
+    <p>개발자만 하던 일이라고 생각했던 배포를, 코딩 몰라도 끝까지 해냈습니다. 같이 가보시죠.</p>
+
+    <div class="buybox">
+      <div><b>「코딩 몰라도 AI로 사주앱 만들기」</b><span>기획부터 AWS 배포·도메인 연결까지 손잡고 가는 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+
+</body>
+</html>

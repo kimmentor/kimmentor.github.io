@@ -67,9 +67,64 @@
       <button class="chip" data-f="making">제작기</button>
       <button class="chip" data-f="guide">가이드</button>
       <button class="chip" data-f="review">출간후기</button>
+      <button class="chip" data-f="cloud">클라우드</button>
     </div>
 
     <div class="posts-grid" id="postsGrid">
+      <a class="post-card" data-cat="cloud" href="post-aws-series.html">
+        <div class="thumb"><img src="assets/thumbs/aws-series.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">클라우드</span>
+          <h3>비개발자가 AWS로 앱을 직접 배포한 이야기 — 클라우드 사용기 시작</h3>
+          <p>코딩 몰라도 만든 앱을 내 손으로 AWS에 올린 전체 여정. EC2부터 도메인까지 한눈에 보는 지도.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="cloud" href="post-aws-ec2.html">
+        <div class="thumb"><img src="assets/thumbs/aws-ec2.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">클라우드</span>
+          <h3>EC2 서버 만들기 — 내 앱이 처음 인터넷에 떠오른 순간</h3>
+          <p>인터넷 어딘가에 내 컴퓨터 한 대 빌리기. 리전·우분투·인스턴스 타입·키페어·보안그룹을 쉽게 풀었습니다.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="cloud" href="post-aws-loadbalancer.html">
+        <div class="thumb"><img src="assets/thumbs/aws-loadbalancer.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">클라우드</span>
+          <h3>로드밸런서(ALB) 구축하기 — 트래픽을 나눠주는 문지기</h3>
+          <p>트래픽을 여러 서버로 나누고 고장난 서버를 걸러내는 ALB. 대상 그룹·헬스체크·리스너를 정리했습니다.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="cloud" href="post-aws-rds.html">
+        <div class="thumb"><img src="assets/thumbs/aws-rds.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">클라우드</span>
+          <h3>데이터베이스(RDS) 만들기 — 데이터를 안전하게 맡기다</h3>
+          <p>관리형 DB로 데이터를 안전하게 보관하기. 자동 백업·보안 그룹·엔드포인트를 쉽게 설명합니다.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="cloud" href="post-aws-ssl.html">
+        <div class="thumb"><img src="assets/thumbs/aws-ssl.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">클라우드</span>
+          <h3>SSL 인증서 발급받기(ACM) — 자물쇠(https) 다는 법</h3>
+          <p>무료 SSL 인증서(ACM)로 주소창에 https 자물쇠 달기. DNS 검증과 자동 갱신까지.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="cloud" href="post-aws-route53.html">
+        <div class="thumb"><img src="assets/thumbs/aws-route53.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">클라우드</span>
+          <h3>Route 53 도메인 신청하기 — 내 주소를 갖다</h3>
+          <p>도메인을 사고 로드밸런서에 연결해 내 주소 완성. 호스팅 영역·레코드·비용을 정리했습니다.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
       <a class="post-card" data-cat="tech" href="post-ai-coding-tools.html">
         <div class="thumb g8"><img src="assets/thumbs/ai-coding-tools.svg" alt=""></div>
         <div class="body">
@@ -251,8 +306,8 @@
   })();
 </script>
 
-
 <!-- 방문자 카운터 -->
 <script src="visitor-counter.js" defer></script>
+
 </body>
 </html>

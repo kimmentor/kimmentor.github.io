@@ -44,14 +44,70 @@
     <button class="tcat" data-f="agent">에이전트</button>
     <button class="tcat" data-f="trend">트렌드</button>
     <button class="tcat" data-f="safe">보안·실전</button>
+    <button class="tcat" data-f="cloud">클라우드</button>
   </div>
 </div>
 
 <!-- 글 목록 -->
 <main class="tlist">
-  <p class="tcount"><b id="tnum">7</b>개의 글</p>
+  <p class="tcount"><b id="tnum">13</b>개의 글</p>
 
   <div id="trows">
+
+    <article class="trow" data-cat="cloud" data-kw="aws 클라우드 cloud 배포 deploy ec2 rds route53 ssl 개요 시리즈">
+      <a class="tthumb tt-cloud" href="post-aws-series.html"><img src="assets/thumbs/aws-series.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">클라우드</span>
+        <h2><a href="post-aws-series.html">비개발자가 AWS로 앱을 직접 배포한 이야기 — 클라우드 사용기 시작</a></h2>
+        <p>코딩 몰라도 만든 앱을 내 손으로 AWS에 올린 전체 여정. EC2부터 도메인까지 한눈에 보는 지도.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.01.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="cloud" data-kw="aws ec2 서버 server 인스턴스 우분투 ubuntu 보안그룹 리전 클라우드 배포">
+      <a class="tthumb tt-cloud" href="post-aws-ec2.html"><img src="assets/thumbs/aws-ec2.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">클라우드</span>
+        <h2><a href="post-aws-ec2.html">EC2 서버 만들기 — 내 앱이 처음 인터넷에 떠오른 순간</a></h2>
+        <p>인터넷 어딘가에 내 컴퓨터 한 대 빌리기. 리전·우분투·인스턴스 타입·키페어·보안그룹을 쉽게 풀었습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Jul.30.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="cloud" data-kw="aws 로드밸런서 load balancer alb 대상그룹 target 헬스체크 리스너 클라우드 배포">
+      <a class="tthumb tt-cloud" href="post-aws-loadbalancer.html"><img src="assets/thumbs/aws-loadbalancer.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">클라우드</span>
+        <h2><a href="post-aws-loadbalancer.html">로드밸런서(ALB) 구축하기 — 트래픽을 나눠주는 문지기</a></h2>
+        <p>트래픽을 여러 서버로 나누고 고장난 서버를 걸러내는 ALB. 대상 그룹·헬스체크·리스너를 정리했습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Jul.31.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="cloud" data-kw="aws rds 데이터베이스 database mysql postgresql 백업 엔드포인트 클라우드 배포">
+      <a class="tthumb tt-cloud" href="post-aws-rds.html"><img src="assets/thumbs/aws-rds.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">클라우드</span>
+        <h2><a href="post-aws-rds.html">데이터베이스(RDS) 만들기 — 데이터를 안전하게 맡기다</a></h2>
+        <p>관리형 DB로 데이터를 안전하게 보관하기. 자동 백업·보안 그룹·엔드포인트를 쉽게 설명합니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Jul.31.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="cloud" data-kw="aws ssl acm 인증서 certificate https 자물쇠 보안 dns 검증 클라우드 배포">
+      <a class="tthumb tt-cloud" href="post-aws-ssl.html"><img src="assets/thumbs/aws-ssl.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">클라우드</span>
+        <h2><a href="post-aws-ssl.html">SSL 인증서 발급받기(ACM) — 자물쇠(https) 다는 법</a></h2>
+        <p>무료 SSL 인증서(ACM)로 주소창에 https 자물쇠 달기. DNS 검증과 자동 갱신까지.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.01.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="cloud" data-kw="aws route53 route 53 도메인 domain dns 호스팅영역 레코드 alias 클라우드 배포">
+      <a class="tthumb tt-cloud" href="post-aws-route53.html"><img src="assets/thumbs/aws-route53.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">클라우드</span>
+        <h2><a href="post-aws-route53.html">Route 53 도메인 신청하기 — 내 주소를 갖다</a></h2>
+        <p>도메인을 사고 로드밸런서에 연결해 내 주소 완성. 호스팅 영역·레코드·비용을 정리했습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.01.2026</span></div>
+      </div>
+    </article>
 
     <!-- AI도구: 4대장 -->
     <article class="trow" data-cat="tool" data-kw="chatgpt claude copilot codex 도구 tool 모델 openai anthropic github 4대장 비교">
@@ -151,6 +207,14 @@
     <span class="ttag">#노코드</span>
     <span class="ttag">#사이드프로젝트</span>
     <span class="ttag">#보안</span>
+    <span class="ttag">#AWS</span>
+    <span class="ttag">#EC2</span>
+    <span class="ttag">#로드밸런서</span>
+    <span class="ttag">#RDS</span>
+    <span class="ttag">#SSL</span>
+    <span class="ttag">#Route53</span>
+    <span class="ttag">#클라우드</span>
+    <span class="ttag">#배포</span>
   </div>
 </section>
 
@@ -204,8 +268,8 @@
   })();
 </script>
 
-
 <!-- 방문자 카운터 -->
 <script src="visitor-counter.js" defer></script>
+
 </body>
 </html>

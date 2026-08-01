@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SSL 인증서 발급받기(ACM) — 자물쇠(https) 다는 법 — 멘토 김부장</title>
+<meta name="description" content="AWS ACM으로 무료 SSL 인증서를 발급받아 로드밸런서에 붙이고 https 자물쇠를 단 과정. DNS 검증·자동 갱신까지 비개발자 눈높이로.">
+<meta property="og:title" content="SSL 인증서 발급받기(ACM) — 자물쇠(https) 다는 법 — 멘토 김부장">
+<meta property="og:description" content="AWS ACM으로 무료 SSL 인증서를 발급받아 로드밸런서에 붙이고 https 자물쇠를 단 과정. DNS 검증·자동 갱신까지 비개발자 눈높이로.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">클라우드</span>
+    <h1>SSL 인증서 발급받기(ACM)<br>— 자물쇠(https)<br>다는 법</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 클라우드</div>
+  </div>
+
+  <div class="article-body">
+    <p>사이트 주소 앞에 붙는 <strong>자물쇠 표시(https)</strong>. 이게 없으면 브라우저가 "주의 요함"이라고 경고를 띄워서, 사람들이 금방 나가버립니다. 그 자물쇠를 달아주는 게 <strong>SSL 인증서</strong>예요.</p>
+
+    <blockquote>좋은 소식: AWS에선 이 인증서를 <strong>무료</strong>로 발급해줍니다. 바로 <strong>ACM(AWS Certificate Manager)</strong>입니다.</blockquote>
+
+    <h2>발급은 의외로 쉬웠다</h2>
+    <p>ACM에서 내 도메인을 적고 인증서를 요청하면, AWS가 "이 도메인이 정말 당신 것인지" 확인합니다. 이때 <strong>DNS 검증</strong> 방식을 고르면, 다음 편에 나올 Route 53와 연동돼 있어 <strong>버튼 한 번으로 검증 레코드가 자동 등록</strong>됩니다. 몇 분 뒤 상태가 "발급됨"으로 바뀝니다.</p>
+
+    <h2>몇 가지 주의점</h2>
+    <ul>
+      <li><strong>붙이는 위치</strong> — ACM 인증서는 EC2에 직접 못 붙이고, 앞서 만든 <strong>로드밸런서(ALB)</strong>나 CloudFront에 붙입니다. 2편에서 로드밸런서를 먼저 둔 이유가 여기에 있어요.</li>
+      <li><strong>리전</strong> — ALB용 인증서는 ALB가 있는 리전과 같은 곳에서 발급받아야 합니다.</li>
+      <li><strong>자동 갱신</strong> — ACM 인증서는 만료 전에 알아서 갱신돼서, 한 번 달아두면 신경 쓸 일이 없어요.</li>
+    </ul>
+    <div class="callout">💡 마지막으로 로드밸런서의 리스너를 <strong>80번(http)으로 온 손님을 443(https)으로 자동 이동</strong>시키도록 설정하면, 누가 어떻게 들어와도 항상 자물쇠 걸린 주소로 연결됩니다.</div>
+
+    <h2>이제 주소만 남았다</h2>
+    <p>자물쇠까지 달았으니, 마지막은 사람들이 기억할 수 있는 <strong>내 주소(도메인)</strong>입니다. 다음 편, Route 53에서 마무리합니다.</p>
+
+    <div class="buybox">
+      <div><b>「코딩 몰라도 AI로 사주앱 만들기」</b><span>기획부터 AWS 배포·도메인 연결까지 손잡고 가는 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+
+</body>
+</html>

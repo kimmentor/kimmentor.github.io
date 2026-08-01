@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Route 53 도메인 신청하기 — 내 주소를 갖다 — 멘토 김부장</title>
+<meta name="description" content="AWS Route 53으로 도메인을 사고 로드밸런서에 연결해 내 주소를 완성한 과정. 호스팅 영역·A/ALIAS 레코드·비용까지 비개발자 눈높이로.">
+<meta property="og:title" content="Route 53 도메인 신청하기 — 내 주소를 갖다 — 멘토 김부장">
+<meta property="og:description" content="AWS Route 53으로 도메인을 사고 로드밸런서에 연결해 내 주소를 완성한 과정. 호스팅 영역·A/ALIAS 레코드·비용까지 비개발자 눈높이로.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">클라우드</span>
+    <h1>Route 53 도메인 신청하기<br>— 내 주소를 갖다</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 클라우드</div>
+  </div>
+
+  <div class="article-body">
+    <p>여기까지 오면 서버도, 자물쇠도 준비됐습니다. 하지만 주소가 숫자 덩어리(IP)라면 아무도 기억 못 해요. 사람이 외울 수 있는 <strong>도메인(예: myapp.com)</strong>이 필요합니다. AWS에서는 <strong>Route 53</strong>이 그 역할을 합니다.</p>
+
+    <h2>도메인 사기</h2>
+    <p>Route 53에서 원하는 이름을 검색해 비어 있으면 바로 등록할 수 있습니다. <strong>.com 도메인은 보통 연 14달러 안팎</strong>(끝자리 TLD마다 다름)이에요. 결제하면 몇 분–몇 시간 안에 내 이름으로 된 주소가 생깁니다.</p>
+
+    <h2>서버와 연결하기</h2>
+    <p>도메인을 사면 <strong>호스팅 영역(Hosted Zone)</strong>이 같이 생깁니다. 여기에 "이 주소로 오면 어디로 보낼지"를 적는 <strong>레코드(record)</strong>를 추가해요.</p>
+    <ul>
+      <li><strong>ALIAS(별칭) 레코드</strong> — 도메인을 앞서 만든 <strong>로드밸런서(ALB)</strong>에 연결할 때 쓰는, AWS 전용의 편리한 레코드입니다.</li>
+      <li><strong>A 레코드</strong> — 도메인을 특정 IP 주소에 직접 연결할 때 쓰는 기본 레코드예요.</li>
+    </ul>
+    <div class="callout">💡 호스팅 영역은 <strong>월 $0.50가량</strong>으로 유지되고, DNS 조회량에 따라 아주 소액이 더 붙습니다. 개인 사이트 수준엔 부담이 큰 금액은 아니에요.</div>
+
+    <h2>마침표 — 내 손으로 올린 서비스</h2>
+    <p>그 주소를 브라우저에 치자 자물쇠 걸린 내 앱이 떠올랐을 때, 묘한 기분이 들었습니다. 코딩을 몰라도, EC2부터 로드밸런서·데이터베이스·SSL·도메인까지 내 손으로 연결해 하나의 서비스를 완성한 거예요.</p>
+    <p>이 과정 전체를 사주앱이라는 실제 예제로, 처음부터 끝까지 손을 잡고 따라가는 것이 제 책입니다. 클라우드가 막막했다면, 거기서부터 시작해 보세요.</p>
+
+    <div class="buybox">
+      <div><b>「코딩 몰라도 AI로 사주앱 만들기」</b><span>기획부터 AWS 배포·도메인 연결까지 손잡고 가는 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+
+</body>
+</html>

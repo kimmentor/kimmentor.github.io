@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로드밸런서(ALB) 구축하기 — 트래픽을 나눠주는 문지기 — 멘토 김부장</title>
+<meta name="description" content="AWS 로드밸런서(ALB)로 트래픽을 여러 서버로 나누고 고장난 서버를 걸러내는 법. 대상 그룹·헬스체크·리스너를 비개발자 눈높이로 정리.">
+<meta property="og:title" content="로드밸런서(ALB) 구축하기 — 트래픽을 나눠주는 문지기 — 멘토 김부장">
+<meta property="og:description" content="AWS 로드밸런서(ALB)로 트래픽을 여러 서버로 나누고 고장난 서버를 걸러내는 법. 대상 그룹·헬스체크·리스너를 비개발자 눈높이로 정리.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">클라우드</span>
+    <h1>로드밸런서(ALB) 구축하기<br>— 트래픽을 나눠주는<br>문지기</h1>
+    <div class="meta">멘토 김부장 · 2026년 7월 · 클라우드</div>
+  </div>
+
+  <div class="article-body">
+    <p>서버 한 대만 있으면, 손님이 몰릴 때 느려지거나 그 서버가 멈추면 사이트 전체가 멈춥니다. 그래서 다음으로 둔 게 <strong>로드밸런서(Load Balancer)</strong>예요.</p>
+
+    <blockquote>손님이 줄 서면 빈 창구로 나눠 안내하는 마트의 "문지기" — 딱 그 역할입니다.</blockquote>
+
+    <h2>왜 필요했나</h2>
+    <p>이유는 두 가지였습니다. 첫째, 서버를 여러 대 두고 <strong>트래픽을 골고루 나누기</strong> 위해서. 둘째, 서버 하나가 고장 나면 <strong>자동으로 멀쩡한 서버로만 손님을 보내주기</strong> 위해서예요. AWS에서 웹사이트용으로 흔히 쓰는 건 <strong>ALB(Application Load Balancer)</strong>입니다.</p>
+
+    <h2>핵심 용어 세 가지만</h2>
+    <ul>
+      <li><strong>대상 그룹(Target Group)</strong> — "트래픽을 받을 서버들의 명단"입니다. 앞서 만든 EC2를 여기에 등록해요.</li>
+      <li><strong>헬스 체크(Health Check)</strong> — 로드밸런서가 주기적으로 "너 살아있니?" 물어보고, 답이 없는 서버엔 손님을 안 보냅니다.</li>
+      <li><strong>리스너(Listener)</strong> — "몇 번 문으로 들어오는 손님을 받을지" 정하는 규칙. 보통 80번으로 들어온 사람을 443(https)으로 보내줍니다.</li>
+    </ul>
+    <div class="callout">💡 로드밸런서는 편리한 만큼 공짜는 아닙니다. 시간당 요금 + 사용량(LCU) 요금이 붙어 대략 월 2만 원대부터 나올 수 있으니, 개인 토이 프로젝트라면 초기엔 생략했다가 트래픽이 늘면 도입해도 됩니다.</div>
+
+    <h2>느껴본 점</h2>
+    <p>사실 1인 프로젝트에서는 반드시 필요한 건 아닙니다. 하지만 로드밸런서를 두면 다음 편의 <strong>SSL 인증서</strong>를 깔끔하게 붙일 수 있어서, 저는 "자물쇠(https)"를 제대로 달기 위해서라도 두길 잘했다고 생각합니다. 그 이야기는 4편에서 이어갑니다.</p>
+
+    <div class="buybox">
+      <div><b>「코딩 몰라도 AI로 사주앱 만들기」</b><span>기획부터 AWS 배포·도메인 연결까지 손잡고 가는 237쪽 실전 가이드</span></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
+        <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+      </div>
+    </div>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+
+</body>
+</html>
