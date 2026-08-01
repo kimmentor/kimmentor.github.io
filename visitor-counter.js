@@ -3,7 +3,7 @@
    - 누적(전체) 방문자 + 오늘 방문자를 표시
    - 페이지 "상단(네비 아래)"과 "하단(푸터)" 양쪽에 표시
    - 무료 카운터 API(Abacus) 사용, 별도 서버/계정 불필요
-   - 같은 방문자가 여러 페이지를 봐도 방문 1회로 집계(세션 기준)
+   - 같은 브라우저는 "하루 1회"만 집계 (localStorage, 한국시간 기준)
    ========================================================= */
 (function () {
   "use strict";
@@ -22,10 +22,17 @@
     }
   }
 
-  function firstInSession(flag) {
+  // 같은 브라우저에서 "오늘" 아직 집계 안 했으면 true(→ 증가), 이미 했으면 false(→ 조회만)
+  // localStorage에 오늘 날짜를 기록해 하루 1회만 집계. (브라우저 껐다 켜도 같은 날은 재집계 안 함)
+  function firstToday(date) {
+    var key = "vc_counted_" + date;
     try {
-      if (sessionStorage.getItem(flag)) return false;
-      sessionStorage.setItem(flag, "1");
+      if (localStorage.getItem(key)) return false;
+      for (var i = localStorage.length - 1; i >= 0; i--) {
+        var k = localStorage.key(i);
+        if (k && k.indexOf("vc_counted_") === 0 && k !== key) localStorage.removeItem(k);
+      }
+      localStorage.setItem(key, "1");
       return true;
     } catch (e) {
       return true;
@@ -108,15 +115,13 @@
   function run() {
     buildUI();
     var today = kstDate();
-    var totalHit = firstInSession("vc_total_hit");
-    var todayFlag = "vc_today_hit_" + today;
-    var todayHit = firstInSession(todayFlag);
+    var isNewToday = firstToday(today); // 같은 브라우저는 하루 1회만 증가
 
-    ask("total", totalHit)
+    ask("total", isNewToday)
       .then(function (v) { setAll(".vc-total", fmt(v)); })
       .catch(function () { setAll(".vc-total", "–"); });
 
-    ask("d-" + today, todayHit)
+    ask("d-" + today, isNewToday)
       .then(function (v) { setAll(".vc-today", fmt(v)); })
       .catch(function () { setAll(".vc-today", "–"); });
   }
