@@ -1,6 +1,7 @@
 /* =========================================================
    멘토 김부장 블로그 — 방문자 카운터
    - 누적(전체) 방문자 + 오늘 방문자를 표시
+   - 페이지 "상단(네비 아래)"과 "하단(푸터)" 양쪽에 표시
    - 무료 카운터 API(Abacus) 사용, 별도 서버/계정 불필요
    - 같은 방문자가 여러 페이지를 봐도 방문 1회로 집계(세션 기준)
    ========================================================= */
@@ -8,10 +9,8 @@
   "use strict";
 
   var BASE = "https://abacus.jasoncameron.dev";
-  // 이 블로그 전용 고유 네임스페이스 (다른 사이트와 숫자가 섞이지 않도록 고유값 사용)
   var NS = "kimmentor-github-io-9k2";
 
-  // 오늘 날짜(한국 시간 기준) → 예: "2026-08-01"
   function kstDate() {
     try {
       return new Intl.DateTimeFormat("en-CA", {
@@ -23,21 +22,20 @@
     }
   }
 
-  // 이번 브라우저 세션에서 아직 집계 안 했으면 true(→ 증가), 이미 했으면 false(→ 조회만)
   function firstInSession(flag) {
     try {
       if (sessionStorage.getItem(flag)) return false;
       sessionStorage.setItem(flag, "1");
       return true;
     } catch (e) {
-      return true; // 저장 불가 환경이면 그냥 증가 처리
+      return true;
     }
   }
 
   function ask(key, doHit) {
     var url = BASE + (doHit ? "/hit/" : "/get/") + NS + "/" + key;
     return fetch(url, { cache: "no-store" }).then(function (r) {
-      if (r.status === 404) return { value: 0 }; // 아직 만들어지지 않은 카운터
+      if (r.status === 404) return { value: 0 };
       if (!r.ok) throw new Error("counter " + r.status);
       return r.json();
     }).then(function (j) {
@@ -50,59 +48,77 @@
     catch (e) { return String(n); }
   }
 
-  // 카운터 UI 만들기
-  function buildUI() {
+  function setAll(sel, text) {
+    var list = document.querySelectorAll(sel);
+    for (var i = 0; i < list.length; i++) list[i].textContent = text;
+  }
+
+  function makeBar(place) {
     var box = document.createElement("div");
-    box.id = "visitor-counter";
+    box.id = place === "top" ? "vc-top" : "vc-foot";
+    box.className = "vc-bar";
     box.setAttribute("aria-label", "방문자 수");
     box.innerHTML =
       '<span class="vc-item"><span class="vc-label">누적 방문</span>' +
-      '<span class="vc-num" id="vc-total">–</span></span>' +
+      '<span class="vc-num vc-total">–</span></span>' +
       '<span class="vc-sep">·</span>' +
       '<span class="vc-item"><span class="vc-label">오늘</span>' +
-      '<span class="vc-num" id="vc-today">–</span></span>';
+      '<span class="vc-num vc-today">–</span></span>';
+    return box;
+  }
 
-    var style = document.createElement("style");
-    style.textContent =
-      "#visitor-counter{width:100%;display:flex;justify-content:center;align-items:center;" +
-      "gap:10px;flex-wrap:wrap;margin:0 0 18px;padding:10px 16px;" +
-      "font-size:13.5px;color:#9aa0c4;font-weight:600;" +
+  function injectStyle() {
+    var css =
+      ".vc-bar{width:100%;display:flex;justify-content:center;align-items:center;" +
+      "gap:10px;flex-wrap:wrap;font-weight:600;box-sizing:border-box}" +
+      ".vc-bar .vc-item{display:inline-flex;align-items:center;gap:7px}" +
+      ".vc-bar .vc-num{font-weight:800;font-variant-numeric:tabular-nums;" +
+      "min-width:1.4em;text-align:right;color:#e8b64c}" +
+      "#vc-top{padding:7px 16px;font-size:12.5px;color:#c9cde6;" +
+      "background:#0e1230;border-bottom:1px solid rgba(255,255,255,.08)}" +
+      "#vc-top .vc-sep{color:rgba(255,255,255,.3)}" +
+      "#vc-foot{padding:10px 16px;margin:0 0 18px;font-size:13.5px;color:#9aa0c4;" +
       "border-bottom:1px solid rgba(255,255,255,.08)}" +
-      "#visitor-counter .vc-item{display:inline-flex;align-items:center;gap:7px}" +
-      "#visitor-counter .vc-label{color:#9aa0c4}" +
-      "#visitor-counter .vc-num{color:#e8b64c;font-weight:800;font-variant-numeric:tabular-nums;" +
-      "min-width:1.5em;text-align:right}" +
-      "#visitor-counter .vc-sep{color:rgba(255,255,255,.25)}";
-    document.head.appendChild(style);
+      "#vc-foot .vc-label{color:#9aa0c4}" +
+      "#vc-foot .vc-sep{color:rgba(255,255,255,.25)}";
+    var s = document.createElement("style");
+    s.textContent = css;
+    document.head.appendChild(s);
+  }
 
-    // 푸터가 있으면 푸터 안 맨 위에, 없으면 body 끝에 붙임
+  function buildUI() {
+    injectStyle();
+    var nav = document.querySelector("nav.nav") || document.querySelector("nav");
+    var top = makeBar("top");
+    if (nav && nav.parentNode) {
+      nav.insertAdjacentElement("afterend", top);
+    } else {
+      document.body.insertBefore(top, document.body.firstChild);
+    }
     var footer = document.querySelector("footer");
+    var foot = makeBar("foot");
     if (footer) {
       var wrap = footer.querySelector(".wrap") || footer;
-      wrap.insertBefore(box, wrap.firstChild);
+      wrap.insertBefore(foot, wrap.firstChild);
     } else {
-      document.body.appendChild(box);
+      document.body.appendChild(foot);
     }
-    return box;
   }
 
   function run() {
     buildUI();
-    var elTotal = document.getElementById("vc-total");
-    var elToday = document.getElementById("vc-today");
-
     var today = kstDate();
     var totalHit = firstInSession("vc_total_hit");
     var todayFlag = "vc_today_hit_" + today;
     var todayHit = firstInSession(todayFlag);
 
     ask("total", totalHit)
-      .then(function (v) { if (elTotal) elTotal.textContent = fmt(v); })
-      .catch(function () { if (elTotal) elTotal.textContent = "–"; });
+      .then(function (v) { setAll(".vc-total", fmt(v)); })
+      .catch(function () { setAll(".vc-total", "–"); });
 
     ask("d-" + today, todayHit)
-      .then(function (v) { if (elToday) elToday.textContent = fmt(v); })
-      .catch(function () { if (elToday) elToday.textContent = "–"; });
+      .then(function (v) { setAll(".vc-today", fmt(v)); })
+      .catch(function () { setAll(".vc-today", "–"); });
   }
 
   if (document.readyState === "loading") {
