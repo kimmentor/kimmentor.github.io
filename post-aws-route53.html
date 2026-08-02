@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Route 53 도메인 신청하기 — 내 주소를 갖다 — 멘토 김부장</title>
-<meta name="description" content="AWS Route 53으로 도메인을 사고 로드밸런서에 연결해 내 주소를 완성한 과정. 호스팅 영역·A/ALIAS 레코드·비용까지 비개발자 눈높이로.">
+<meta name="description" content="AWS Route 53으로 도메인을 사고 로드밸런서(ALB)에 ALIAS로 연결해 '내 주소'를 완성한 전 과정. DNS 원리·호스팅 영역·레코드 종류·비용·전파(propagation)까지 비개발자 눈높이로 정리한 AWS 배포 시리즈 마지막 편.">
 <meta property="og:title" content="Route 53 도메인 신청하기 — 내 주소를 갖다 — 멘토 김부장">
 <meta property="og:description" content="AWS Route 53으로 도메인을 사고 로드밸런서에 연결해 내 주소를 완성한 과정. 호스팅 영역·A/ALIAS 레코드·비용까지 비개발자 눈높이로.">
 <link rel="stylesheet" href="style.css">
@@ -27,26 +27,227 @@
   <div class="article-head">
     <span class="tag">클라우드</span>
     <h1>Route 53 도메인 신청하기<br>— 내 주소를 갖다</h1>
-    <div class="meta">멘토 김부장 · 2026년 8월 · 클라우드</div>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 클라우드 · 읽는 데 약 15분</div>
   </div>
 
   <div class="article-body">
-    <p>여기까지 오면 서버도, 자물쇠도 준비됐습니다. 하지만 주소가 숫자 덩어리(IP)라면 아무도 기억 못 해요. 사람이 외울 수 있는 <strong>도메인(예: myapp.com)</strong>이 필요합니다. AWS에서는 <strong>Route 53</strong>이 그 역할을 합니다.</p>
+    <p>드디어 마지막 편입니다. 여기까지 오면 서버(EC2)도, 여러 서버 앞에서 교통정리를 하는 로드밸런서(ALB)도, 자물쇠(SSL 인증서)도 다 준비가 됐어요. 그런데 딱 하나가 비어 있습니다. 바로 <strong>주소</strong>예요. 지금 내 서비스에 접속하려면 <code>13.125.xxx.xxx</code> 같은 숫자 덩어리(IP)나, 아니면 <code>my-alb-1234567890.ap-northeast-2.elb.amazonaws.com</code> 같은 외계어 주소를 외워야 합니다. 이걸 누가 기억하나요? 저도 못 외웁니다.</p>
 
-    <h2>도메인 사기</h2>
-    <p>Route 53에서 원하는 이름을 검색해 비어 있으면 바로 등록할 수 있습니다. <strong>.com 도메인은 보통 연 14달러 안팎</strong>(끝자리 TLD마다 다름)이에요. 결제하면 몇 분–몇 시간 안에 내 이름으로 된 주소가 생깁니다.</p>
+    <p>그래서 사람이 외울 수 있는 <strong>도메인(예: myapp.com)</strong>이 필요합니다. AWS에서는 <strong>Route 53</strong>이라는 서비스가 그 역할을 합니다. 이름부터 재미있는데요, DNS의 표준 포트 번호가 <code>53</code>번이라서 "길을 안내한다(Route)"는 뜻을 붙여 Route 53이라고 지었다고 해요. 오늘은 이 마지막 퍼즐 조각을 맞춰서, 정말 '내 주소를 가진' 서비스를 완성해 보겠습니다.</p>
 
-    <h2>서버와 연결하기</h2>
-    <p>도메인을 사면 <strong>호스팅 영역(Hosted Zone)</strong>이 같이 생깁니다. 여기에 "이 주소로 오면 어디로 보낼지"를 적는 <strong>레코드(record)</strong>를 추가해요.</p>
+    <blockquote>서버를 올리는 것이 '집을 짓는 일'이었다면, 도메인을 연결하는 것은 그 집에 '문패와 도로명 주소를 붙이는 일'입니다. 주소가 있어야 손님이 찾아옵니다.</blockquote>
+
+    <div class="callout">💡 이 글은 <strong>AWS 배포 시리즈의 마지막 편</strong>입니다. EC2로 서버를 켜고, ALB로 트래픽을 나누고, 데이터베이스와 SSL까지 붙여 온 여정의 종착지예요. 앞 단계가 아직 안 잡히셨다면 시리즈를 순서대로 보시길 권합니다. 오늘 편만 봐도 '도메인이 뭔지'는 충분히 이해되도록 처음부터 풀어 설명하겠습니다.</div>
+
+    <h2>도메인과 DNS, 대체 뭔가요? — 인터넷의 전화번호부</h2>
+    <p>가장 먼저 겁부터 빼고 갑시다. 도메인과 DNS는 어렵게 느껴지지만, 원리는 우리가 매일 쓰는 <strong>휴대폰 전화번호부</strong>와 똑같습니다.</p>
+
+    <p>여러분, 친구에게 전화 걸 때 <code>010-1234-5678</code>이라는 번호를 외워서 누르시나요? 아니죠. 연락처에서 "엄마", "김부장"이라고 <strong>이름</strong>을 찾아서 누릅니다. 그러면 휴대폰이 알아서 그 이름에 저장된 <strong>번호</strong>로 전화를 걸어줍니다. 즉 '사람이 기억하기 쉬운 이름'과 '기계가 실제로 쓰는 번호'를 이어주는 장부가 바로 전화번호부예요.</p>
+
+    <p>인터넷도 완전히 똑같습니다. 모든 서버(컴퓨터)에는 <strong>IP 주소</strong>라는 숫자 번호가 붙어 있어요. <code>13.125.100.200</code> 같은 식입니다. 컴퓨터끼리는 이 숫자로만 서로를 찾습니다. 하지만 사람이 <code>13.125.100.200</code>을 외우고 다닐 수는 없죠. 그래서 <code>naver.com</code>, <code>myapp.com</code> 같은 <strong>사람이 외우기 쉬운 이름(도메인)</strong>을 붙여 두고, "이 이름은 실제로 어떤 IP 번호야?"를 대신 찾아주는 장부를 만들었습니다.</p>
+
+    <blockquote>DNS(Domain Name System)는 한마디로 <strong>'인터넷의 전화번호부'</strong>입니다. 도메인 이름(myapp.com)을 IP 주소(13.125.100.200)로 바꿔주는 거대한 번호 안내 시스템이에요.</blockquote>
+
+    <p>정리하면 이렇습니다. 우리는 브라우저 주소창에 <code>myapp.com</code>이라고 <strong>이름</strong>을 칩니다. 그러면 인터넷 어딘가의 DNS가 "아, 그 이름은 <code>13.125.100.200</code>이라는 번호로 가면 돼"라고 번호를 알려주고, 브라우저는 그 번호로 찾아가서 우리 서비스를 화면에 띄웁니다. 이 모든 게 눈 깜짝할 사이(보통 0.1초 미만)에 일어나기 때문에 우리는 그 과정을 느끼지도 못하는 거예요.</p>
+
+    <div class="callout">🧭 용어 한 번에 정리 — <strong>도메인(Domain)</strong>은 우리가 사는 '이름'(myapp.com)이고, <strong>DNS</strong>는 그 이름을 번호로 바꿔주는 '전화번호부 시스템'이며, <strong>Route 53</strong>은 AWS가 운영하는 '전화번호부 관리 사무소'입니다. 우리는 오늘 이 사무소에서 이름을 하나 사고, 그 이름에 우리 서버 번호를 등록하는 일을 합니다.</div>
+
+    <h3>왜 IP를 직접 안 쓰고 도메인을 쓰나요?</h3>
+    <p>초보분들이 자주 하는 질문입니다. "그냥 IP 주소 알려주면 안 되나요?" 세 가지 이유가 있어요.</p>
     <ul>
-      <li><strong>ALIAS(별칭) 레코드</strong> — 도메인을 앞서 만든 <strong>로드밸런서(ALB)</strong>에 연결할 때 쓰는, AWS 전용의 편리한 레코드입니다.</li>
-      <li><strong>A 레코드</strong> — 도메인을 특정 IP 주소에 직접 연결할 때 쓰는 기본 레코드예요.</li>
+      <li><strong>외우기 쉬워요.</strong> <code>myapp.com</code>과 <code>13.125.100.200</code> 중 뭐가 기억하기 좋나요? 당연히 이름이죠.</li>
+      <li><strong>번호가 바뀌어도 이름은 그대로예요.</strong> 서버를 옮기거나 IP가 바뀌어도, 전화번호부(도메인)의 번호만 새로 고쳐주면 손님은 아무 변화도 못 느낍니다. 이사 가도 이름(문패)은 안 바뀌는 것과 같아요.</li>
+      <li><strong>신뢰와 브랜드가 됩니다.</strong> 명함에 IP 숫자를 적을 순 없잖아요. 사람이 읽을 수 있는 주소는 그 자체로 브랜드입니다.</li>
     </ul>
-    <div class="callout">💡 호스팅 영역은 <strong>월 $0.50가량</strong>으로 유지되고, DNS 조회량에 따라 아주 소액이 더 붙습니다. 개인 사이트 수준엔 부담이 큰 금액은 아니에요.</div>
+
+    <h2>클릭 한 번이 서버까지 가는 길 — DNS 동작 흐름</h2>
+    <p>말로만 하면 감이 안 오니, 여러분이 주소창에 <code>myapp.com</code>을 치고 엔터를 누른 그 순간부터 무슨 일이 벌어지는지 흐름으로 그려보겠습니다.</p>
+
+    <div class="flow">
+      <div class="node">주소 입력<br><span style="font-weight:400">사용자가<br>myapp.com 입력</span></div>
+      <div class="arr">→</div>
+      <div class="node">DNS 조회<br><span style="font-weight:400">"이 이름의<br>번호가 뭐야?"</span></div>
+      <div class="arr">→</div>
+      <div class="node">Route 53 응답<br><span style="font-weight:400">"ALB로 가!"<br>IP를 알려줌</span></div>
+      <div class="arr">→</div>
+      <div class="node">ALB 도착<br><span style="font-weight:400">로드밸런서가<br>서버로 분배</span></div>
+      <div class="arr">→</div>
+      <div class="node">화면 표시<br><span style="font-weight:400">내 앱이<br>브라우저에 뜸</span></div>
+    </div>
+
+    <p>단계별로 풀어볼게요. 어렵지 않습니다.</p>
+    <ol>
+      <li><strong>주소 입력</strong> — 손님이 <code>myapp.com</code>을 주소창에 칩니다.</li>
+      <li><strong>DNS 조회</strong> — 브라우저는 "이 이름의 진짜 번호가 뭐지?" 하고 전화번호부에 물어봅니다. 이때 여러 단계의 DNS 서버를 거쳐 결국 우리 도메인을 관리하는 <strong>Route 53</strong>까지 질문이 도착해요.</li>
+      <li><strong>Route 53 응답</strong> — Route 53이 우리가 등록해 둔 레코드를 보고 "이 이름은 이 로드밸런서(ALB)로 가면 돼"라고 실제 주소를 알려줍니다.</li>
+      <li><strong>ALB 도착</strong> — 브라우저는 그 주소로 찾아가고, 앞 편에서 만든 로드밸런서가 트래픽을 받아 뒤에 있는 서버(EC2)들에게 골고루 나눠줍니다.</li>
+      <li><strong>화면 표시</strong> — 서버가 응답한 내용이 브라우저에 그려지고, 손님은 우리 앱을 봅니다. 끝!</li>
+    </ol>
+
+    <div class="callout">💡 여기서 핵심은, 우리가 오늘 손볼 부분은 딱 <strong>3번(Route 53에 "어디로 보낼지" 등록하기)</strong>뿐이라는 거예요. 나머지는 인터넷이 알아서 해줍니다. 그러니 겁먹지 마세요.</div>
+
+    <h2>Route 53에서 도메인 사기 — 단계별 실전 가이드</h2>
+    <p>이제 실제로 화면에서 무엇을 누르는지 하나씩 따라가 봅시다. 저는 실제로 이 순서 그대로 <code>.com</code> 도메인을 샀고, 몇 분 만에 '내 이름'을 가졌어요.</p>
+
+    <div class="steps">
+      <div class="step"><div class="sn">1</div><div><h4>Route 53 콘솔에 들어가 이름 검색하기</h4><p>AWS 콘솔 검색창에 'Route 53'을 치고 들어갑니다. 왼쪽 메뉴에서 <strong>Registered domains(등록된 도메인)</strong> → <strong>Register domains(도메인 등록)</strong>을 누르고, 갖고 싶은 이름(예: myapp.com)을 검색해요. 초록색 <strong>Available(사용 가능)</strong>이 뜨면 아무도 안 쓰는 이름이라 살 수 있다는 뜻입니다.</p></div></div>
+      <div class="step"><div class="sn">2</div><div><h4>장바구니에 담고 결제 정보 입력하기</h4><p>원하는 이름을 <strong>Add to cart(장바구니 담기)</strong>. 그다음 소유자 연락처(이름·이메일·주소)를 입력합니다. 이건 도메인 소유자 등록에 필요한 국제 규칙이라 꼭 넣어야 해요. 개인정보 노출이 걱정되면 <strong>Privacy protection(개인정보 보호)</strong> 옵션을 켜두면 됩니다(대부분 무료 제공).</p></div></div>
+      <div class="step"><div class="sn">3</div><div><h4>자동 갱신 확인하고 결제하기</h4><p><code>.com</code> 도메인은 <strong>보통 연 14달러 안팎</strong>입니다(끝자리 TLD마다 다르니 결제 화면의 실제 금액을 꼭 확인하세요). <strong>Auto-renew(자동 갱신)</strong>는 켜두길 권합니다. 깜빡하고 갱신을 놓쳐 애써 키운 도메인을 남에게 뺏기는 사고가 은근히 많거든요. 결제하면 등록 요청이 접수됩니다.</p></div></div>
+      <div class="step"><div class="sn">4</div><div><h4>호스팅 영역이 자동으로 생기는 걸 확인하기</h4><p>Route 53에서 도메인을 사면, 그 이름의 전화번호부인 <strong>호스팅 영역(Hosted Zone)</strong>이 자동으로 함께 만들어집니다. 왼쪽 메뉴 <strong>Hosted zones</strong>에 내 도메인이 보이면 성공이에요. 우리는 이 장부 안에 "이 주소로 오면 어디로 보내라"는 안내문을 적을 겁니다.</p></div></div>
+      <div class="step"><div class="sn">5</div><div><h4>레코드 추가 — ALIAS로 ALB에 연결하기</h4><p>호스팅 영역을 열고 <strong>Create record(레코드 생성)</strong>를 누릅니다. 레코드 이름은 비워두면 <code>myapp.com</code> 자체, <code>www</code>를 넣으면 <code>www.myapp.com</code>이 됩니다. 타입은 <strong>A</strong>를 고르고, <strong>Alias(별칭) 토글을 켠 뒤</strong> 연결 대상으로 앞 편에서 만든 <strong>로드밸런서(ALB)</strong>를 목록에서 선택합니다. 저장!</p></div></div>
+      <div class="step"><div class="sn">6</div><div><h4>전파(propagation)를 기다리고 접속 확인하기</h4><p>저장했다고 세상 모든 전화번호부가 즉시 바뀌진 않아요. 전 세계로 정보가 퍼지는 <strong>전파(propagation)</strong>에 보통 몇 분~수십 분(길면 최대 48시간)이 걸립니다. 조금 기다린 뒤 브라우저에 <code>https://myapp.com</code>을 쳐서 자물쇠 걸린 내 앱이 뜨면 완성입니다. 🎉</p></div></div>
+    </div>
+
+    <div class="callout">💡 <strong>www도 되게 하고 싶다면?</strong> 대부분의 사람은 <code>www.myapp.com</code>과 <code>myapp.com</code> 둘 다 되길 원합니다. 방법은 간단해요. 5번을 한 번 더 반복하되, 이번엔 이름 칸에 <code>www</code>를 넣고 똑같이 ALB에 ALIAS로 연결하면 됩니다. 두 주소 모두 같은 서비스로 도착합니다.</div>
+
+    <h2>레코드 종류 — 어떤 걸 언제 쓰나요?</h2>
+    <p>호스팅 영역(전화번호부)에는 안내문을 여러 종류로 적을 수 있는데, 이걸 <strong>레코드(record)</strong>라고 부릅니다. 종류가 많아 보여도, 개인 서비스에서 실제로 자주 쓰는 건 몇 개 안 돼요. 겁먹지 말고 표로 보시죠.</p>
+
+    <div class="tbl">
+    <table>
+      <thead><tr><th>레코드 타입</th><th>역할(쉽게)</th><th>언제 쓰나</th></tr></thead>
+      <tbody>
+        <tr><td><b>A</b></td><td>이름 → <b>IP 주소(숫자)</b>로 직접 연결</td><td>고정 IP를 가진 서버에 바로 붙일 때</td></tr>
+        <tr><td><b>ALIAS</b><br>(별칭)</td><td>이름 → <b>AWS 자원(ALB·CloudFront 등)</b>으로 연결. AWS 전용 편의 기능</td><td><b>ALB에 연결할 때(우리 경우!)</b></td></tr>
+        <tr><td><b>CNAME</b></td><td>이름 → <b>다른 이름</b>으로 연결(별명의 별명)</td><td>서브도메인을 다른 도메인으로 넘길 때</td></tr>
+        <tr><td><b>MX</b></td><td>이 도메인의 <b>메일</b>을 어느 서버로 보낼지 지정</td><td>도메인으로 이메일을 받을 때</td></tr>
+        <tr><td><b>TXT</b></td><td>임의의 <b>텍스트 메모</b>. 소유권 증명 등에 사용</td><td>도메인 인증·SPF 설정 등</td></tr>
+        <tr><td><b>NS</b></td><td>이 도메인을 <b>어느 DNS 서버</b>가 관리하는지</td><td>보통 자동 생성(건드릴 일 적음)</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <h3>왜 ALB에는 ALIAS를 쓰나요? — A와 ALIAS의 차이</h3>
+    <p>여기가 초보분들이 가장 헷갈려하는 지점이라 콕 집어 설명할게요. 우리 로드밸런서(ALB)는 <strong>고정된 IP 번호가 없습니다.</strong> AWS가 트래픽 상황에 따라 뒤에서 IP를 바꿔가며 운영하거든요. 그래서 A 레코드로 "이 IP로 가!"라고 숫자를 박아버리면, 내일 그 IP가 바뀌는 순간 우리 사이트는 접속 불가가 됩니다.</p>
+
+    <p>반면 <strong>ALIAS</strong>는 숫자를 박는 게 아니라 "저 <strong>ALB라는 이름표</strong>로 가"라고 가리키기만 합니다. 그래서 AWS가 뒤에서 IP를 아무리 바꿔도, 우리는 손 하나 댈 필요가 없어요. 항상 최신 번호로 자동 연결됩니다. 게다가 ALIAS는 조회 요금도 안 붙어서 더 저렴해요.</p>
+
+    <div class="pc">
+      <div class="col pro"><h4>👍 ALIAS로 ALB 연결 (권장)</h4><ul>
+        <li>ALB의 IP가 바뀌어도 자동으로 따라감 — 손 볼 일 없음</li>
+        <li>루트 도메인(<code>myapp.com</code>)에도 바로 사용 가능</li>
+        <li>ALIAS 조회는 <strong>추가 요금 없음</strong></li>
+        <li>AWS 자원끼리라 설정이 목록 선택으로 간단</li>
+      </ul></div>
+      <div class="col con"><h4>👎 A 레코드로 IP 직접 연결</h4><ul>
+        <li>ALB는 IP가 수시로 바뀌어 <strong>곧 접속 불가</strong> 위험</li>
+        <li>IP가 바뀔 때마다 수동으로 고쳐야 함</li>
+        <li>관리 부담·장애 위험이 큼</li>
+        <li>고정 IP를 가진 단일 서버에나 적합</li>
+      </ul></div>
+    </div>
+
+    <blockquote>한 줄 요약: <strong>ALB에 붙일 땐 무조건 ALIAS.</strong> "IP 숫자를 박지 말고, ALB라는 이름표를 가리켜라." 이 한 문장만 기억하시면 됩니다.</blockquote>
+
+    <h2>비용 이야기 — 도메인은 얼마나 드나요?</h2>
+    <p>돈 이야기를 빼놓을 수 없죠. 클라우드에서 제일 무서운 건 '나도 모르게 새는 요금'이니까요. Route 53 도메인 관련 비용은 다행히 단순하고 예측 가능한 편입니다.</p>
+
+    <div class="tbl">
+    <table>
+      <thead><tr><th>항목</th><th>대략 비용</th><th>설명</th></tr></thead>
+      <tbody>
+        <tr><td><b>도메인 등록비</b></td><td><b>.com 연 14달러 안팎</b></td><td>1년에 한 번 내는 이름 사용료. TLD(.com/.io/.dev 등)마다 다름</td></tr>
+        <tr><td><b>호스팅 영역</b></td><td><b>월 $0.50 가량</b></td><td>전화번호부 한 권을 유지하는 기본료. 도메인당 부과</td></tr>
+        <tr><td><b>DNS 조회 요금</b></td><td>아주 소액</td><td>조회 건수에 따라 조금씩. 개인 사이트 수준이면 거의 무시할 정도</td></tr>
+      </tbody>
+    </table>
+    </div>
+
+    <p>즉 개인 서비스라면 <strong>1년에 도메인값 약 14달러 + 매달 0.50달러 남짓</strong>이 사실상 전부입니다. 커피 몇 잔 값으로 '내 주소'를 갖는 셈이죠. 앞서 배운 것처럼 <strong>ALIAS 레코드 조회는 추가 요금이 없어서</strong> 여기서도 아낄 수 있습니다.</p>
+
+    <div class="callout">⚠️ 요금은 언제든 바뀔 수 있고 TLD·지역에 따라 다릅니다. 위 숫자는 원고 작성 시점의 대략치이니, <strong>결제 전 반드시 AWS Route 53 공식 요금 페이지에서 실제 금액을 확인</strong>하세요. 특히 <code>.io</code>, <code>.ai</code> 같은 인기 TLD는 <code>.com</code>보다 몇 배 비쌀 수 있습니다.</div>
+
+    <h2>전파(propagation) — "왜 아직 안 떠요?"</h2>
+    <p>레코드를 저장하자마자 브라우저에 주소를 쳤는데 안 뜬다고 당황하는 분이 정말 많습니다. 저도 처음엔 "뭘 잘못 눌렀나?" 하고 30분 동안 설정을 뒤졌어요. 알고 보니 아무 문제가 없었습니다. 그냥 <strong>전파를 기다리면</strong> 되는 거였어요.</p>
+
+    <p>전파(propagation)가 뭐냐면, 우리가 Route 53 장부를 고쳐도 그 정보가 <strong>전 세계 곳곳의 DNS 서버로 퍼지는 데 시간이 걸리는 현상</strong>입니다. 전화번호부가 한 권만 있는 게 아니라 세계 각지에 사본이 있고, 각 사본은 "이 번호는 몇 시간 동안은 안 바뀌겠지" 하고 잠시 기억(캐시)해 두기 때문이에요. 이 기억이 만료되어야 새 정보를 다시 읽어옵니다.</p>
+
+    <blockquote>비유하자면, 새 명함을 만들었다고 이미 남들이 지갑에 넣어둔 옛 명함이 즉시 사라지진 않는 것과 같아요. 옛 명함을 버리고 새 명함으로 바꾸는 데 시간이 걸립니다.</blockquote>
+
+    <ul>
+      <li>보통 <strong>몇 분~수십 분</strong>이면 대부분 반영됩니다.</li>
+      <li>드물게 <strong>최대 48시간</strong>까지 걸릴 수 있다고 안내되지만, 요즘은 대개 훨씬 빨라요.</li>
+      <li>내 컴퓨터에만 안 뜬다면, 휴대폰 데이터(다른 네트워크)로 접속해 보세요. 되면 전파가 진행 중이라는 뜻입니다.</li>
+    </ul>
+
+    <div class="callout">💡 급할 땐 확인 팁 — 스마트폰의 Wi-Fi를 끄고 <strong>모바일 데이터</strong>로 접속해 보세요. PC에서는 안 되는데 폰에서는 된다면, 설정은 정상이고 내 PC/공유기가 옛 정보를 잠시 기억 중인 것뿐입니다. 조금만 더 기다리면 됩니다.</div>
+
+    <h2>자주 묻는 질문(FAQ)</h2>
+
+    <p><strong>Q. 도메인은 꼭 Route 53에서 사야 하나요? 다른 데서 산 도메인도 되나요?</strong><br>
+    A. 됩니다. 가비아·후이즈·GoDaddy 같은 다른 업체에서 산 도메인도 AWS에 연결할 수 있어요. 다만 그 경우엔 '어느 전화번호부(네임서버)를 쓸지'를 그 업체 화면에서 Route 53 쪽으로 바꿔줘야 해서 한 단계가 더 늘어납니다. 처음이라 헷갈린다면 Route 53에서 사고 관리까지 한곳에서 하는 게 제일 편해요.</p>
+
+    <p><strong>Q. 도메인을 사면 바로 사이트가 뜨나요?</strong><br>
+    A. 아니요. 도메인은 '이름'을 산 것뿐이고, 그 이름을 우리 서버(ALB)로 연결하는 <strong>레코드 추가(5단계)</strong>를 해야 합니다. 이름만 사고 연결을 안 하면 아무 데도 도착하지 않아요.</p>
+
+    <p><strong>Q. 자물쇠(https)는 어떻게 되나요?</strong><br>
+    A. SSL 인증서는 앞 편에서 ALB에 붙여뒀죠. 도메인을 ALB에 ALIAS로 연결하면, 그 자물쇠가 우리 새 도메인에도 그대로 적용됩니다. 단, 인증서를 발급할 때 <strong>우리 도메인 이름이 인증서에 포함</strong>돼 있어야 <code>https://myapp.com</code>에서 자물쇠가 정상으로 보입니다.</p>
+
+    <p><strong>Q. 도메인을 안 쓰게 되면 요금이 계속 나가나요?</strong><br>
+    A. 호스팅 영역이 남아 있으면 <strong>월 $0.50가량</strong>이 계속 부과됩니다. 완전히 정리하려면 호스팅 영역을 삭제하세요. 도메인 등록 자체는 1년 단위라, 자동 갱신을 꺼두면 만료 후 더는 청구되지 않습니다.</p>
+
+    <p><strong>Q. 이름을 잘못 정했어요. 나중에 바꿀 수 있나요?</strong><br>
+    A. 이미 산 도메인의 '철자'는 바꿀 수 없어요(그건 새로 사는 겁니다). 하지만 그 도메인이 <strong>어디로 연결되는지</strong>는 레코드만 고치면 언제든 바꿀 수 있습니다. 이름은 고정, 목적지는 자유롭게.</p>
+
+    <h2>초보가 흔히 하는 실수 & 해결법</h2>
+    <p>제가 직접 겪었거나, 수강생분들에게 가장 많이 받은 질문을 모았습니다. 미리 알면 30분 삽질을 아낄 수 있어요.</p>
+
+    <div class="steps">
+      <div class="step"><div class="sn">✗</div><div><h4>실수 1 — 전파를 안 기다리고 "안 된다"고 판단</h4><p>저장하자마자 안 뜬다고 설정을 다 뒤엎는 경우가 1위입니다. 대부분 설정은 멀쩡하고 전파 대기 중일 뿐이에요. <strong>해결:</strong> 최소 10~30분 기다려 보고, 모바일 데이터로 교차 확인부터 하세요.</p></div></div>
+      <div class="step"><div class="sn">✗</div><div><h4>실수 2 — ALB인데 A 레코드에 IP를 직접 박음</h4><p>ALB는 IP가 바뀌므로 오늘 되더라도 내일 끊깁니다. <strong>해결:</strong> A 타입을 고르되 반드시 <strong>Alias 토글을 켜고</strong> 목록에서 ALB를 선택하세요. 숫자를 직접 입력하지 마세요.</p></div></div>
+      <div class="step"><div class="sn">✗</div><div><h4>실수 3 — 루트 도메인에 CNAME을 사용</h4><p><code>myapp.com</code>(맨 앞에 www 없는 루트)에는 표준상 CNAME을 못 씁니다. 모르고 CNAME으로 만들면 오류가 나요. <strong>해결:</strong> 루트에는 <strong>ALIAS</strong>를 쓰면 이 문제를 깔끔히 피할 수 있습니다.</p></div></div>
+      <div class="step"><div class="sn">✗</div><div><h4>실수 4 — www와 루트 중 하나만 연결</h4><p><code>myapp.com</code>은 되는데 <code>www.myapp.com</code>은 안 된다(또는 반대)는 문의가 많습니다. <strong>해결:</strong> 두 이름에 대해 레코드를 <strong>각각</strong> 만들어 주세요. 하나 만든다고 나머지가 자동으로 되지 않습니다.</p></div></div>
+      <div class="step"><div class="sn">✗</div><div><h4>실수 5 — 자동 갱신을 꺼두고 만료를 방치</h4><p>1년 뒤 갱신을 놓쳐 도메인을 잃고, 남이 채가는 사고가 있습니다. <strong>해결:</strong> <strong>Auto-renew를 켜두고</strong> 결제 카드가 유효한지 가끔 확인하세요. 애정을 쏟은 이름일수록 더 그렇습니다.</p></div></div>
+      <div class="step"><div class="sn">✗</div><div><h4>실수 6 — 인증서에 도메인이 빠져 자물쇠 경고</h4><p>연결은 됐는데 <code>https</code>에서 "안전하지 않음" 경고가 뜨는 경우입니다. <strong>해결:</strong> ALB에 붙인 SSL 인증서에 <strong>새 도메인 이름이 포함</strong>돼 있는지 확인하고, 없으면 인증서에 도메인을 추가해 재발급/적용하세요.</p></div></div>
+    </div>
+
+    <h2>마지막 점검 — 접속 전 체크리스트</h2>
+    <p>레코드를 다 만들었다면, 브라우저에 주소를 치기 전에 아래를 하나씩 확인해 보세요. 여기까지 전부 ✅면 거의 확실히 성공입니다.</p>
+    <ul>
+      <li>✅ Route 53에서 도메인을 <strong>등록(결제)</strong>했나요?</li>
+      <li>✅ <strong>호스팅 영역</strong>이 내 도메인 이름으로 생성돼 있나요?</li>
+      <li>✅ 레코드를 만들 때 타입을 <strong>A + Alias 토글 ON</strong>으로 하고 <strong>ALB</strong>를 선택했나요?</li>
+      <li>✅ <code>myapp.com</code>과 <code>www.myapp.com</code> <strong>둘 다</strong> 레코드를 만들었나요?</li>
+      <li>✅ ALB에 붙은 <strong>SSL 인증서에 내 도메인</strong>이 포함돼 있나요?</li>
+      <li>✅ <strong>전파 시간</strong>(몇 분~수십 분)을 기다렸나요?</li>
+      <li>✅ 안 될 때 <strong>모바일 데이터</strong>로 교차 확인해 봤나요?</li>
+      <li>✅ <strong>자동 갱신</strong>을 켜두었나요?</li>
+    </ul>
+
+    <h2>시리즈 대장정 완주 — EC2부터 도메인까지 한눈에</h2>
+    <p>축하합니다. 이 글로 AWS 배포 시리즈가 끝납니다. 처음엔 '클라우드'라는 단어만 들어도 막막했을 텐데, 지금 여러분은 서비스 한 채를 통째로 지어 올린 겁니다. 우리가 걸어온 길을 마지막으로 되짚어 볼게요.</p>
+
+    <div class="flow">
+      <div class="node">① EC2<br><span style="font-weight:400">서버 켜기</span></div>
+      <div class="arr">→</div>
+      <div class="node">② ALB<br><span style="font-weight:400">트래픽 분배</span></div>
+      <div class="arr">→</div>
+      <div class="node">③ DB<br><span style="font-weight:400">데이터 저장</span></div>
+      <div class="arr">→</div>
+      <div class="node">④ SSL<br><span style="font-weight:400">자물쇠(https)</span></div>
+      <div class="arr">→</div>
+      <div class="node">⑤ 도메인<br><span style="font-weight:400">내 주소 완성</span></div>
+    </div>
+
+    <p>전 과정을 완주했는지 마지막으로 도장을 찍어봅시다.</p>
+    <ul>
+      <li>✅ <strong>EC2</strong>로 나만의 서버 컴퓨터를 클라우드에 켰다</li>
+      <li>✅ <strong>로드밸런서(ALB)</strong>로 트래픽을 여러 서버에 나눠 안정성을 확보했다</li>
+      <li>✅ <strong>데이터베이스</strong>를 붙여 사용자 데이터를 안전하게 저장했다</li>
+      <li>✅ <strong>SSL 인증서</strong>로 자물쇠(https)를 걸어 통신을 암호화했다</li>
+      <li>✅ <strong>도메인</strong>을 사서 ALB에 연결해, 사람이 외우는 '내 주소'를 완성했다</li>
+    </ul>
 
     <h2>마침표 — 내 손으로 올린 서비스</h2>
-    <p>그 주소를 브라우저에 치자 자물쇠 걸린 내 앱이 떠올랐을 때, 묘한 기분이 들었습니다. 코딩을 몰라도, EC2부터 로드밸런서·데이터베이스·SSL·도메인까지 내 손으로 연결해 하나의 서비스를 완성한 거예요.</p>
-    <p>이 과정 전체를 사주앱이라는 실제 예제로, 처음부터 끝까지 손을 잡고 따라가는 것이 제 책입니다. 클라우드가 막막했다면, 거기서부터 시작해 보세요.</p>
+    <p>그 주소를 브라우저에 치자 자물쇠 걸린 내 앱이 떠올랐을 때, 묘한 기분이 들었습니다. 코딩을 몰라도, EC2부터 로드밸런서·데이터베이스·SSL·도메인까지 내 손으로 하나하나 연결해 <strong>하나의 서비스를 완성한</strong> 거예요. 화면에 뜬 그 주소는 이제 세상 누구에게나 보낼 수 있는, 온전히 내 것이 된 공간입니다.</p>
+
+    <p>처음 시리즈를 시작할 때만 해도 '서버', 'DNS', '레코드' 같은 단어가 외국어처럼 들렸을 겁니다. 그런데 지금 여러분은 그 단어들을 직접 다뤄봤어요. 그 차이는 생각보다 큽니다. 앞으로 어떤 클라우드 서비스를 만나도 "아, 이건 그때 그거랑 비슷하겠네" 하고 감이 올 거예요.</p>
+
+    <p>이 과정 전체를 사주앱이라는 실제 예제로, 기획부터 배포·도메인 연결까지 처음부터 끝까지 손을 잡고 따라가는 것이 제 책입니다. 오늘 이 시리즈로 감을 잡으셨다면, 책에서는 화면 캡처와 함께 훨씬 더 촘촘하게, 막히는 지점마다 손을 내밀어 드립니다. 클라우드가 막막했다면, 거기서부터 시작해 보세요. 여러분의 다음 서비스가 기대됩니다.</p>
+
+    <blockquote>코딩을 몰라도 괜찮습니다. 중요한 건 '내 손으로 끝까지 올려봤다'는 경험이에요. 그 경험 하나가 다음 도전의 자신감이 됩니다. — 멘토 김부장</blockquote>
+
+    <p style="color:var(--muted);font-size:14.5px">※ 본문의 요금·화면 구성은 2026년 8월 기준으로 작성했습니다. AWS 콘솔 UI와 요금은 수시로 바뀌니, 실제 결제·설정 전 공식 페이지에서 최신 정보를 꼭 확인하세요.</p>
 
     <div class="buybox">
       <div><b>「코딩 몰라도 AI로 사주앱 만들기」</b><span>기획부터 AWS 배포·도메인 연결까지 손잡고 가는 237쪽 실전 가이드</span></div>
