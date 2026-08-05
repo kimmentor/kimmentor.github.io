@@ -128,3 +128,10 @@
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",run); else run();
 })();
+
+/* 댓글(COMMENT) 모듈 로더 — 글 페이지에서만 */
+(function(){
+  if(!document.querySelector('article.article')) return;
+  var s=document.createElement('script'); s.src='comments.js'; s.defer=true;
+  document.head.appendChild(s);
+})();
