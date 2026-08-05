@@ -369,3 +369,34 @@ footer a{color:#c9cde6}
 .post-card .thumb img,.feat .fthumb img,.trow .tthumb img{width:100%;height:100%;object-fit:cover;display:block}
 
 .tt-cloud{background:linear-gradient(150deg,#0b2a3a,#1e5f9e)}
+.tt-devops{background:linear-gradient(150deg,#10233f,#1f8f8a)}
+.tt-ai{background:linear-gradient(150deg,#241a4d,#c9922a)}
+.tt-basic{background:linear-gradient(150deg,#13324a,#2a9d8f)}
+.tt-saju{background:linear-gradient(150deg,#2a1550,#c9922a)}
+.post-card .thumb.g9{background:linear-gradient(150deg,#10233f,#1f8f8a)}
+.post-card .thumb.g10{background:linear-gradient(150deg,#241a4d,#c9922a)}
+.post-card .thumb.g11{background:linear-gradient(150deg,#13324a,#2a9d8f)}
+
+/* 운세 페이지 히어로 — 골드 강조 */
+.fortune-hero .eyebrow{color:var(--gold)}
+.fortune-hero h1 .m{color:var(--gold)}
+
+/* ===== 목록 카드의 조회수·좋아요 배지 ===== */
+.le-badge{display:inline-flex;align-items:center;gap:12px;margin-top:10px;color:#8a90a8;
+  font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
+.le-badge .le-i{display:inline-flex;align-items:center;gap:5px}
+.le-badge svg{width:15px;height:15px}
+.le-badge .le-like svg{fill:#e8b64c;stroke:#e8b64c}
+.trow .tmeta .le-badge{margin-top:0}
+.trow .tmeta .le-badge .le-i{color:#8a90a8}
+
+/* ===== 상단 '블로그' 메뉴 숨김 (요청) ===== */
+.nav-links a[href="#posts"]:not(.nav-cta),
+.nav-links a[href="index.html#posts"]:not(.nav-cta){display:none}
+
+/* ===== 점성 썸네일 배경 ===== */
+.tt-classic{background:linear-gradient(150deg,#2a1550,#c9922a)}
+.tt-modern{background:linear-gradient(150deg,#1b1a4d,#6d5cf0)}
+
+/* ===== 홈 카드 작성일자 ===== */
+.post-card .body .le-date{display:inline-block;margin:6px 0 0;color:#9aa0b8;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}

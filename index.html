@@ -19,6 +19,7 @@
     <div class="nav-links">
       <a href="#posts">블로그</a>
       <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
       <a href="#books">책</a>
       <a href="#author">소개</a>
       <a class="nav-cta" href="#posts">최신 글 보기</a>
@@ -68,9 +69,147 @@
       <button class="chip" data-f="guide">가이드</button>
       <button class="chip" data-f="review">출간후기</button>
       <button class="chip" data-f="cloud">클라우드</button>
+      <button class="chip" data-f="devops">DevOps</button>
+      <button class="chip" data-f="ai">AI</button>
+      <button class="chip" data-f="basic">기초</button>
     </div>
 
     <div class="posts-grid" id="postsGrid">
+      <a class="post-card" data-cat="basic" href="post-basic-database.html">
+        <div class="thumb g11"><img src="assets/thumbs/basic-database.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">기초</span>
+          <h3>데이터베이스가 뭐길래 — 데이터를 '어디에 어떻게' 담을까</h3>
+          <p>앱은 결국 데이터를 저장하고 꺼내는 일. 엑셀과 뭐가 다른지, SQL·NoSQL을 쉽게 풀었습니다.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="basic" href="post-basic-api.html">
+        <div class="thumb g11"><img src="assets/thumbs/basic-api.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">기초</span>
+          <h3>API·REST가 뭐길래 — 프로그램끼리 주문받는 창구</h3>
+          <p>내 앱이 날씨·지도·결제를 어떻게 가져올까? 메뉴판 비유로 API와 REST를 쉽게.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="basic" href="post-basic-env-secrets.html">
+        <div class="thumb g11"><img src="assets/thumbs/basic-env-secrets.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">기초</span>
+          <h3>환경변수와 비밀 관리 — API 키를 코드에 넣으면 안 되는 이유</h3>
+          <p>키를 코드에 박는 건 현관 비번을 대문에 써 붙이는 것. 안전하게 보관하는 법.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="tech" href="post-safe-https-auth.html">
+        <div class="thumb g6"><img src="assets/thumbs/safe-https-auth.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">보안·실전</span>
+          <h3>HTTPS·인증·인가 — 로그인은 어떻게 나를 알아볼까</h3>
+          <p>자물쇠(https)의 원리와 '너 누구니(인증)/뭘 해도 되니(인가)'의 차이를 쉽게.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="ai" href="post-ai-prompt-engineering.html">
+        <div class="thumb g10"><img src="assets/thumbs/ai-prompt-engineering.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">AI</span>
+          <h3>프롬프트 엔지니어링 — AI에게 '제대로 시키는' 법</h3>
+          <p>같은 AI인데 결과가 다른 이유는 '어떻게 시키느냐'. 좋은 지시의 4요소를 예시로.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="ai" href="post-claude-code-guide.html">
+        <div class="thumb g10"><img src="assets/thumbs/claude-code-guide.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">AI</span>
+          <h3>Claude Code 사용방법 — 터미널에 앉은 AI 개발 파트너, 이렇게 씁니다</h3>
+          <p>챗봇에 묻고 복붙하던 시대는 끝. 내 프로젝트를 직접 읽고 고치는 AI 코딩 도구, 설치부터 첫 작업까지.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="ai" href="post-claude-code-cli.html">
+        <div class="thumb g10"><img src="assets/thumbs/claude-code-cli.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">AI</span>
+          <h3>Claude Code CLI 파헤치기 — 터미널 명령어와 옵션, 겁내지 않고 익히기</h3>
+          <p>검은 화면이 무섭다면 이 글부터. claude 명령·주요 플래그·슬래시 커맨드·자동화까지 한 번에.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-devops-series.html">
+        <div class="thumb g9"><img src="assets/thumbs/devops-series.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>DevOps가 뭐길래 — 코딩 몰라도 알아두면 좋은 '만들고 운영하기'의 큰 그림</h3>
+          <p>만드는 것과 잘 굴러가게 하는 것은 다른 일. CI/CD·깃허브·컨테이너·쿠버네티스로 이어지는 전체 지도를 한눈에.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-devops-cicd.html">
+        <div class="thumb g9"><img src="assets/thumbs/devops-cicd.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>CI/CD가 뭐길래 — 저장만 하면 알아서 배포되는 마법의 정체</h3>
+          <p>여러 명의 코드를 자주 합치고 자동으로 검사·배포하는 컨베이어. 손으로 하던 배포의 고통을 없애는 자동화.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-github-branch.html">
+        <div class="thumb g9"><img src="assets/thumbs/github-branch.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>깃허브 브랜치 전략 — 여러 갈래로 나눠 짓고, 안전하게 합치기</h3>
+          <p>코드의 평행세계 '브랜치'. Git Flow·GitHub Flow·트렁크 기반까지, 상황에 맞는 전략을 쉽게 골라봅니다.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-github-pr-review.html">
+        <div class="thumb g9"><img src="assets/thumbs/github-pr-review.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>PR과 코드 리뷰 — 합치기 전에 '한 번 봐줄래요?' 하는 문화</h3>
+          <p>변경점을 펼쳐 놓고 함께 검토하는 PR. 좋은 PR 만드는 법과 따뜻한 코드 리뷰 문화까지.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-github-actions.html">
+        <div class="thumb g9"><img src="assets/thumbs/github-actions.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>GitHub Actions — 내 저장소에 '자동화 로봇'을 두는 법</h3>
+          <p>이벤트가 생기면 알아서 테스트·배포. 워크플로·러너·시크릿을 비개발자 눈높이로 풀었습니다.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-github-agent.html">
+        <div class="thumb g9"><img src="assets/thumbs/github-agent.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>GitHub 코딩 에이전트 — 이슈만 맡기면 PR까지 만들어 오는 AI 동료</h3>
+          <p>이슈를 할당하면 임시 환경에서 코드를 고치고 PR을 열어오는 자율 AI. 잘 맞는 일과 한계까지.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-devops-container.html">
+        <div class="thumb g9"><img src="assets/thumbs/devops-container.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>컨테이너가 뭐길래 — '제 컴퓨터에선 되는데요…'를 끝내는 마법의 상자</h3>
+          <p>앱과 실행 환경을 통째로 담는 컨테이너와 도커. 이미지·도커파일·레지스트리를 비유로 쉽게.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
+      <a class="post-card" data-cat="devops" href="post-devops-k8s.html">
+        <div class="thumb g9"><img src="assets/thumbs/devops-k8s.svg" alt=""></div>
+        <div class="body">
+          <span class="tag">DevOps</span>
+          <h3>쿠버네티스가 뭐길래 — 컨테이너 수십 개를 대신 돌봐주는 지휘자</h3>
+          <p>죽으면 살리고 트래픽 따라 늘려주는 오케스트레이션. 언제 필요하고 언제 과한지까지 솔직하게.</p>
+          <span class="more">글 읽기 →</span>
+        </div>
+      </a>
       <a class="post-card" data-cat="cloud" href="post-aws-series.html">
         <div class="thumb"><img src="assets/thumbs/aws-series.svg" alt=""></div>
         <div class="body">
@@ -308,6 +447,8 @@
 
 <!-- 방문자 카운터 -->
 <script src="visitor-counter.js" defer></script>
+<!-- 목록 글별 조회수·좋아요 -->
+<script src="list-engagement.js" defer></script>
 
 </body>
 </html>

@@ -18,6 +18,7 @@
     <div class="nav-links">
       <a href="index.html#posts">블로그</a>
       <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
       <a href="index.html#books">책</a>
       <a class="nav-cta" href="index.html#books">책 보러가기</a>
     </div>
@@ -45,14 +46,158 @@
     <button class="tcat" data-f="trend">트렌드</button>
     <button class="tcat" data-f="safe">보안·실전</button>
     <button class="tcat" data-f="cloud">클라우드</button>
+    <button class="tcat" data-f="devops">DevOps</button>
+    <button class="tcat" data-f="ai">AI</button>
+    <button class="tcat" data-f="basic">기초</button>
   </div>
 </div>
 
 <!-- 글 목록 -->
 <main class="tlist">
-  <p class="tcount"><b id="tnum">13</b>개의 글</p>
+  <p class="tcount"><b id="tnum">28</b>개의 글</p>
 
   <div id="trows">
+
+    <!-- AI: Claude Code -->
+    <article class="trow" data-cat="ai" data-kw="claude code 클로드 코드 ai 코딩 도구 anthropic 터미널 cli 사용법 사용방법 설치 에이전트 vscode 데스크톱 mcp claude.md">
+      <a class="tthumb tt-ai" href="post-claude-code-guide.html"><img src="assets/thumbs/claude-code-guide.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">AI</span>
+        <h2><a href="post-claude-code-guide.html">Claude Code 사용방법 — 터미널에 앉은 AI 개발 파트너, 이렇게 씁니다</a></h2>
+        <p>챗봇에 묻고 복붙하던 시대는 끝. 내 프로젝트를 직접 읽고 고치는 AI 코딩 도구, 설치부터 첫 작업까지 비개발자 눈높이로.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="ai" data-kw="claude code cli 클로드 코드 터미널 command line 명령어 플래그 슬래시 커맨드 slash 헤드리스 자동화 파이프 anthropic claude">
+      <a class="tthumb tt-ai" href="post-claude-code-cli.html"><img src="assets/thumbs/claude-code-cli.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">AI</span>
+        <h2><a href="post-claude-code-cli.html">Claude Code CLI 파헤치기 — 터미널 명령어와 옵션, 겁내지 않고 익히기</a></h2>
+        <p>검은 화면이 무섭다면 이 글부터. claude 명령·주요 플래그·슬래시 커맨드·파이프 자동화까지 한 번에.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+
+    <!-- 기초 -->
+    <article class="trow" data-cat="basic" data-kw="데이터베이스 database sql nosql 디비 db mysql postgresql mongodb 데이터 저장 기초">
+      <a class="tthumb tt-basic" href="post-basic-database.html"><img src="assets/thumbs/basic-database.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">기초</span>
+        <h2><a href="post-basic-database.html">데이터베이스가 뭐길래 — 데이터를 '어디에 어떻게' 담을까</a></h2>
+        <p>앱은 결국 데이터를 저장하고 꺼내는 일. 엑셀과 뭐가 다른지, SQL·NoSQL을 비개발자 눈높이로.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="basic" data-kw="api rest 에이피아이 rest api 엔드포인트 json http get post 요청 응답 웹훅 기초">
+      <a class="tthumb tt-basic" href="post-basic-api.html"><img src="assets/thumbs/basic-api.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">기초</span>
+        <h2><a href="post-basic-api.html">API·REST가 뭐길래 — 프로그램끼리 주문받는 창구</a></h2>
+        <p>내 앱이 날씨·지도·결제를 어떻게 가져올까? 메뉴판 비유로 API와 REST를 쉽게 풀었습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="basic" data-kw="환경변수 environment variable 시크릿 secret api 키 비밀번호 .env gitignore 보안 기초">
+      <a class="tthumb tt-basic" href="post-basic-env-secrets.html"><img src="assets/thumbs/basic-env-secrets.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">기초</span>
+        <h2><a href="post-basic-env-secrets.html">환경변수와 비밀 관리 — API 키를 코드에 넣으면 안 되는 이유</a></h2>
+        <p>키를 코드에 박는 건 현관 비밀번호를 대문에 써 붙이는 것. 안전하게 보관하는 법을 정리했습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="safe" data-kw="https ssl 인증 인가 authentication authorization 로그인 세션 쿠키 토큰 jwt 해시 보안 실전">
+      <a class="tthumb tt-safe" href="post-safe-https-auth.html"><img src="assets/thumbs/safe-https-auth.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">보안·실전</span>
+        <h2><a href="post-safe-https-auth.html">HTTPS·인증·인가 — 로그인은 어떻게 나를 알아볼까</a></h2>
+        <p>자물쇠(https)의 원리와 '너 누구니(인증)/뭘 해도 되니(인가)'의 차이를 쉽게 풀었습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="ai" data-kw="프롬프트 엔지니어링 prompt engineering ai 지시 few-shot 역할 맥락 바이브코딩 claude gpt">
+      <a class="tthumb tt-ai" href="post-ai-prompt-engineering.html"><img src="assets/thumbs/ai-prompt-engineering.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">AI</span>
+        <h2><a href="post-ai-prompt-engineering.html">프롬프트 엔지니어링 — AI에게 '제대로 시키는' 법</a></h2>
+        <p>같은 AI인데 결과가 다른 이유는 '어떻게 시키느냐'. 좋은 지시의 4요소를 예시로 정리했습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+
+    <!-- DevOps -->
+    <article class="trow" data-cat="devops" data-kw="devops 데브옵스 개요 지도 시리즈 ci cd 깃허브 github 컨테이너 쿠버네티스 배포 운영 자동화">
+      <a class="tthumb tt-devops" href="post-devops-series.html"><img src="assets/thumbs/devops-series.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-devops-series.html">DevOps가 뭐길래 — 코딩 몰라도 알아두면 좋은 '만들고 운영하기'의 큰 그림</a></h2>
+        <p>만드는 것과 잘 굴러가게 하는 것은 다른 일. CI/CD·깃허브·컨테이너·쿠버네티스로 이어지는 전체 지도를 한눈에.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="devops" data-kw="ci cd 씨아이씨디 지속적통합 지속적배포 continuous integration delivery deployment 파이프라인 pipeline 자동배포 젠킨스 jenkins github actions devops 데브옵스">
+      <a class="tthumb tt-devops" href="post-devops-cicd.html"><img src="assets/thumbs/devops-cicd.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-devops-cicd.html">CI/CD가 뭐길래 — 저장만 하면 알아서 배포되는 마법의 정체</a></h2>
+        <p>여러 명의 코드를 자주 합치고 자동으로 검사·배포하는 컨베이어. 손으로 하던 배포의 고통을 없애는 자동화.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="devops" data-kw="브랜치 branch 전략 git flow github flow 트렁크 trunk 깃허브 github merge 머지 충돌 conflict 버전관리 devops 데브옵스">
+      <a class="tthumb tt-devops" href="post-github-branch.html"><img src="assets/thumbs/github-branch.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-github-branch.html">깃허브 브랜치 전략 — 여러 갈래로 나눠 짓고, 안전하게 합치기</a></h2>
+        <p>코드의 평행세계 '브랜치'. Git Flow·GitHub Flow·트렁크 기반까지, 상황에 맞는 전략을 쉽게 골라봅니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="devops" data-kw="pr pull request 풀리퀘스트 코드리뷰 code review 리뷰 merge diff 깃허브 github 협업 devops 데브옵스">
+      <a class="tthumb tt-devops" href="post-github-pr-review.html"><img src="assets/thumbs/github-pr-review.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-github-pr-review.html">PR과 코드 리뷰 — 합치기 전에 '한 번 봐줄래요?' 하는 문화</a></h2>
+        <p>변경점을 펼쳐 놓고 함께 검토하는 PR. 좋은 PR 만드는 법과 따뜻한 코드 리뷰 문화까지.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="devops" data-kw="github actions 깃허브 액션 워크플로 workflow 러너 runner 시크릿 secret 자동화 ci cd yml yaml cron devops 데브옵스">
+      <a class="tthumb tt-devops" href="post-github-actions.html"><img src="assets/thumbs/github-actions.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-github-actions.html">GitHub Actions — 내 저장소에 '자동화 로봇'을 두는 법</a></h2>
+        <p>이벤트가 생기면 알아서 테스트·배포. 워크플로·러너·시크릿을 비개발자 눈높이로 풀었습니다.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="devops" data-kw="github copilot 코딩 에이전트 coding agent cloud agent 깃허브 코파일럿 이슈 issue pr 자동 ai 자율 devops 데브옵스">
+      <a class="tthumb tt-devops" href="post-github-agent.html"><img src="assets/thumbs/github-agent.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-github-agent.html">GitHub 코딩 에이전트 — 이슈만 맡기면 PR까지 만들어 오는 AI 동료</a></h2>
+        <p>이슈를 할당하면 임시 환경에서 코드를 고치고 PR을 열어오는 자율 AI. 잘 맞는 일과 한계까지.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="devops" data-kw="컨테이너 container 도커 docker 이미지 image dockerfile 레지스트리 registry 가상머신 vm devops 데브옵스 배포">
+      <a class="tthumb tt-devops" href="post-devops-container.html"><img src="assets/thumbs/devops-container.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-devops-container.html">컨테이너가 뭐길래 — '제 컴퓨터에선 되는데요…'를 끝내는 마법의 상자</a></h2>
+        <p>앱과 실행 환경을 통째로 담는 컨테이너와 도커. 이미지·도커파일·레지스트리를 비유로 쉽게.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
+    <article class="trow" data-cat="devops" data-kw="쿠버네티스 kubernetes k8s 오케스트레이션 orchestration 파드 pod 노드 node 클러스터 cluster 오토스케일 배포 devops 데브옵스">
+      <a class="tthumb tt-devops" href="post-devops-k8s.html"><img src="assets/thumbs/devops-k8s.svg" alt=""></a>
+      <div class="tbody">
+        <span class="tcatlabel">DevOps</span>
+        <h2><a href="post-devops-k8s.html">쿠버네티스가 뭐길래 — 컨테이너 수십 개를 대신 돌봐주는 지휘자</a></h2>
+        <p>죽으면 살리고 트래픽 따라 늘려주는 오케스트레이션. 언제 필요하고 언제 과한지까지 솔직하게.</p>
+        <div class="tmeta"><span class="ava">☯</span><b>멘토 김부장</b><span class="dot"></span><span>Aug.04.2026</span></div>
+      </div>
+    </article>
 
     <article class="trow" data-cat="cloud" data-kw="aws 클라우드 cloud 배포 deploy ec2 rds route53 ssl 개요 시리즈">
       <a class="tthumb tt-cloud" href="post-aws-series.html"><img src="assets/thumbs/aws-series.svg" alt=""></a>
@@ -215,6 +360,26 @@
     <span class="ttag">#Route53</span>
     <span class="ttag">#클라우드</span>
     <span class="ttag">#배포</span>
+    <span class="ttag">#DevOps</span>
+    <span class="ttag">#CICD</span>
+    <span class="ttag">#GitHub</span>
+    <span class="ttag">#브랜치전략</span>
+    <span class="ttag">#PR</span>
+    <span class="ttag">#코드리뷰</span>
+    <span class="ttag">#GitHubActions</span>
+    <span class="ttag">#코딩에이전트</span>
+    <span class="ttag">#Docker</span>
+    <span class="ttag">#컨테이너</span>
+    <span class="ttag">#쿠버네티스</span>
+    <span class="ttag">#ClaudeCode</span>
+    <span class="ttag">#CLI</span>
+    <span class="ttag">#터미널</span>
+    <span class="ttag">#기초</span>
+    <span class="ttag">#데이터베이스</span>
+    <span class="ttag">#API</span>
+    <span class="ttag">#환경변수</span>
+    <span class="ttag">#HTTPS</span>
+    <span class="ttag">#프롬프트엔지니어링</span>
   </div>
 </section>
 
@@ -270,6 +435,8 @@
 
 <!-- 방문자 카운터 -->
 <script src="visitor-counter.js" defer></script>
+<!-- 목록 글별 조회수·좋아요 -->
+<script src="list-engagement.js" defer></script>
 
 </body>
 </html>
