@@ -354,7 +354,11 @@ footer a{color:#c9cde6}
   .toc-grid{grid-template-columns:1fr 1fr}
   .posts-grid{grid-template-columns:1fr}
   .who-list{grid-template-columns:1fr}
-  .nav-links a:not(.nav-cta){display:none}
+  .nav .wrap{height:auto;flex-wrap:wrap;gap:4px 0;padding-top:9px;padding-bottom:9px}
+  .nav-links{gap:6px 15px;flex-wrap:wrap;justify-content:center;width:100%}
+  .nav-links a:not(.nav-cta){display:inline-block;font-size:14px}
+  .nav-links .nav-cta{display:none}
+  .tcats{position:static;top:auto}
   .article-head h1{font-size:27px}
 }
 @media (max-width:520px){
