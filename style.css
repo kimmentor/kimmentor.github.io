@@ -354,11 +354,7 @@ footer a{color:#c9cde6}
   .toc-grid{grid-template-columns:1fr 1fr}
   .posts-grid{grid-template-columns:1fr}
   .who-list{grid-template-columns:1fr}
-  .nav .wrap{height:auto;flex-wrap:wrap;gap:4px 0;padding-top:9px;padding-bottom:9px}
-  .nav-links{gap:6px 15px;flex-wrap:wrap;justify-content:center;width:100%}
-  .nav-links a:not(.nav-cta){display:inline-block;font-size:14px}
-  .nav-links .nav-cta{display:none}
-  .tcats{position:static;top:auto}
+  .nav-links a:not(.nav-cta){display:none}
   .article-head h1{font-size:27px}
 }
 @media (max-width:520px){
@@ -404,3 +400,7 @@ footer a{color:#c9cde6}
 
 /* ===== 홈 카드 작성일자 ===== */
 .post-card .body .le-date{display:inline-block;margin:6px 0 0;color:#9aa0b8;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+
+/* ===== 수비학·자미두수 썸네일 배경 ===== */
+.tt-numerology{background:linear-gradient(150deg,#0f3d3a,#159e97)}
+.tt-zamidusu{background:linear-gradient(150deg,#2a1550,#8b46e0)}
