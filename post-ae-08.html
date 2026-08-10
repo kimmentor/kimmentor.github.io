@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>에이전트 평가와 관찰가능성 — 잘하고 있는지 어떻게 아나 — 멘토 김부장 기술블로그</title>
+<meta name="description" content="에이전트는 매번 다르게 답하는 비결정적 존재라 '평가(eval)'가 필수입니다. 성공 기준 정의, 테스트셋, 로그·트레이스로 관찰(observability), 반복 개선 루프까지. 시리즈를 마무리하며 전체를 회고합니다.">
+<meta property="og:title" content="에이전트 평가와 관찰가능성 — 잘하고 있는지 어떻게 아나 — 멘토 김부장">
+<meta property="og:description" content="에이전트는 매번 다르게 답하는 비결정적 존재라 '평가(eval)'가 필수입니다. 성공 기준 정의, 테스트셋, 로그·트레이스로 관찰(observability), 반복 개선 루프까지. 시리즈를 마무리하며 전체를 회고합니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
+      <a href="qna.html">커뮤니티</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트 엔지니어링</span>
+    <h1>에이전트 평가와 관찰가능성<br>잘하고 있는지 어떻게 아나</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 기술블로그 · 에이전트 · 읽는 데 약 8분</div>
+  </div>
+
+  <div class="article-body">
+
+    <p>안녕하세요, 멘토 김부장입니다. 드디어 이 심화 시리즈의 마지막 편입니다. <a href="post-ae-05.html">스킬 설계</a>로 AI에게 매뉴얼을 쥐여 주고, <a href="post-ae-06.html">하네스</a>로 작업대를 짜고, <a href="post-ae-07.html">멀티 에이전트</a>로 팀을 꾸리는 법까지 함께 걸어왔지요. 그런데 이 모든 걸 잘 만들었다 해도, 마지막에 반드시 남는 질문이 하나 있습니다. <strong>"그래서 이 에이전트, 정말 일을 잘하고 있는 건가요?"</strong></p>
+
+    <p>이 질문이 유독 어려운 이유가 있습니다. 보통의 프로그램은 같은 입력에 늘 같은 답을 냅니다. 하지만 AI 에이전트는 <strong>비결정적</strong>이에요. 같은 걸 물어도 표현이 조금씩 달라지고, 어떤 날은 훌륭하다가 어떤 날은 엉뚱합니다. 그래서 눈대중으로 "잘하네" 하고 넘길 수가 없습니다. 제대로 <strong>평가(eval)</strong>하는 장치가 반드시 필요하지요.</p>
+
+    <blockquote>측정하지 못하는 것은 개선할 수 없습니다. 에이전트가 잘하는지 '느낌'으로 아는 것과 '숫자'로 아는 것은 하늘과 땅 차이입니다.</blockquote>
+
+    <h2>먼저 '잘한다'가 뭔지 정한다</h2>
+
+    <p>평가의 첫걸음은 의외로 채점이 아니라 <strong>기준 세우기</strong>입니다. "잘한다"의 뜻을 미리 못 박지 않으면 무엇을 재야 할지조차 알 수 없거든요. 일을 시키기 전에, 성공의 모습을 구체적으로 적어 두는 것이 시작입니다.</p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>흐릿한 기준</th><th>또렷한 기준</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>"답을 잘한다"</td><td>"질문의 핵심을 정확히 짚고 사실 오류가 없다"</td></tr>
+          <tr><td>"빠르다"</td><td>"평균 10초 안에 끝낸다"</td></tr>
+          <tr><td>"형식이 좋다"</td><td>"정해진 표 양식을 100% 지킨다"</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>보시다시피 왼쪽은 사람마다 다르게 읽히지만, 오른쪽은 누가 봐도 합격·불합격을 가릴 수 있습니다. 좋은 기준은 이렇게 <strong>재고 따질 수 있어야</strong> 합니다.</p>
+
+    <h2>테스트셋 — 같은 문제로 반복 채점</h2>
+
+    <p>기준이 섰다면, 이제 <strong>테스트셋</strong>이 필요합니다. 학교 시험 문제은행을 떠올리시면 됩니다. 대표적인 상황들을 문제와 모범 답안 쌍으로 미리 모아 두는 것이지요. 에이전트를 고칠 때마다 이 같은 문제들을 다시 풀려 보면, 실력이 늘었는지 줄었는지 한눈에 보입니다.</p>
+
+    <div class="callout">💡 <strong>어려운 문제만 넣지 마세요.</strong> 흔한 상황, 까다로운 예외, 함정 같은 질문까지 골고루 섞어야 좋은 문제은행입니다. 특히 예전에 한 번 틀렸던 사례를 반드시 넣어 두세요. 같은 실수를 다시 하는지 자동으로 걸러 주는 안전망이 됩니다.</div>
+
+    <h2>관찰가능성 — 속을 들여다보는 창</h2>
+
+    <p>결과만 채점해서는 부족할 때가 많습니다. 틀렸다면 <strong>어디서, 왜 틀렸는지</strong>를 알아야 고치니까요. 그래서 필요한 것이 <strong>관찰가능성(observability)</strong>입니다. 어려운 말 같지만, 에이전트가 일하는 과정을 낱낱이 기록으로 남겨 들여다본다는 뜻입니다.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="sn">1</div>
+        <div><h4>로그</h4><p>무슨 일을 언제 했는지 적어 둔 일지입니다. 문제가 생겼을 때 되짚어 볼 발자국이지요.</p></div>
+      </div>
+      <div class="step">
+        <div class="sn">2</div>
+        <div><h4>트레이스</h4><p>한 작업이 시작부터 끝까지 어떤 단계를 거쳤는지 이어 붙인 흐름입니다. 어느 단계에서 삐끗했는지 콕 짚어 줍니다.</p></div>
+      </div>
+      <div class="step">
+        <div class="sn">3</div>
+        <div><h4>지표</h4><p>성공률·소요 시간·비용 같은 숫자입니다. 전체 상태를 한눈에 보는 계기판이에요.</p></div>
+      </div>
+    </div>
+
+    <p>병원의 검사와 같습니다. 환자가 아프다는 것만 알아서는 치료할 수 없지요. 어디가, 왜 아픈지 들여다봐야 합니다. 관찰가능성은 에이전트의 몸속을 비추는 그 검사 장비인 셈입니다.</p>
+
+    <h2>반복 개선 루프 — 재고, 고치고, 다시 잰다</h2>
+
+    <p>이제 이 조각들이 하나의 고리로 이어집니다. 평가는 한 번 하고 끝나는 시험이 아니라, <strong>계속 돌아가는 순환</strong>입니다. 이 고리를 부지런히 돌릴수록 에이전트가 조금씩 나아지지요.</p>
+
+    <div class="flow">
+      <div class="node">측정<br>테스트셋 채점</div>
+      <div class="arr">→</div>
+      <div class="node">진단<br>로그·트레이스 분석</div>
+      <div class="arr">→</div>
+      <div class="node">개선<br>스킬·하네스 손보기</div>
+      <div class="arr">→</div>
+      <div class="node">재측정</div>
+    </div>
+
+    <p>재고, 왜 틀렸는지 진단하고, 그 부분을 고친 뒤, 다시 같은 문제로 채점합니다. 이 루프가 건강하게 돌면 개선이 '감'이 아니라 '근거'로 이뤄집니다. 어제보다 오늘 성공률이 올랐다는 걸 숫자로 확인하며 나아가는 것이지요.</p>
+
+    <h2>프로덕션에서 조심할 것</h2>
+
+    <p>마지막으로, 실제 서비스에 올릴 때의 당부입니다. 테스트에서 잘했다고 현실에서도 잘하리란 보장은 없습니다. 진짜 사용자는 늘 예상 밖의 것을 던지거든요. 그래서 실전에서도 계속 지켜봐야 합니다.</p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>주의점</th><th>왜 중요한가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>실전 사례를 계속 수집</td><td>예상 못 한 입력이 새 테스트 문제가 됩니다</td></tr>
+          <tr><td>비용·속도도 함께 감시</td><td>정확해도 너무 느리거나 비싸면 못 씁니다</td></tr>
+          <tr><td>이상 징후 알림</td><td>성공률이 뚝 떨어지면 바로 알아채야 합니다</td></tr>
+          <tr><td>사람의 최종 점검 유지</td><td>중요한 판단은 끝까지 사람이 지킵니다</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>겁을 드리려는 게 아닙니다. 오히려 이렇게 지켜보는 장치가 있어야 안심하고 에이전트에게 일을 맡길 수 있습니다. 관찰과 평가는 통제가 아니라 <strong>신뢰의 근거</strong>거든요.</p>
+
+    <blockquote>잘 만든 에이전트가 아니라, 잘 지켜보는 에이전트가 오래 갑니다. 평가는 마지막 단계가 아니라 처음부터 함께 가는 동반자입니다.</blockquote>
+
+    <h2>시리즈를 마치며 — 전체 회고</h2>
+
+    <p>긴 여정이었습니다. 잠시 되돌아볼까요. 우리는 AI에게 <strong>매뉴얼(스킬)</strong>을 쥐여 주는 법에서 출발해, 그 AI를 감싸는 <strong>작업대(하네스)</strong>를 짜고, 여러 AI가 <strong>팀(멀티 에이전트)</strong>을 이루게 하고, 마지막으로 이 모두가 잘 굴러가는지 <strong>재고 지켜보는(평가·관찰)</strong> 법까지 왔습니다. 흩어져 보이던 개념들이 하나의 큰 그림으로 이어지지요.</p>
+
+    <p>관통하는 정신은 처음부터 한결같았습니다. AI 에이전트는 <strong>겁내거나 맹신할 대상이 아니라, 이해하고 잘 다루면 든든한 도구</strong>라는 것. 어떻게 시키고, 어떻게 감싸고, 어떻게 협업시키고, 어떻게 확인하는지를 알면, 비개발자도 충분히 이 흐름의 주인이 될 수 있습니다.</p>
+
+    <p>이 심화 시리즈가 처음이셨다면, 시리즈의 출발점인 <a href="post-ae-01.html">1편</a>부터 차근히 다시 읽어 보시길 권합니다. 기초 개념이 잡히면 오늘 이야기들이 훨씬 또렷하게 이어질 거예요. 여기까지 함께 걸어와 주셔서 진심으로 고맙습니다. 이제 배운 것을 작은 일부터 직접 시켜 보세요. 읽는 것과 만들어 보는 것 사이에는, 생각보다 큰 배움이 기다리고 있습니다.</p>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="fortune.html">운세 블로그</a> · <a href="tech.html">기술블로그</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+<!-- 글별 조회수·좋아요 -->
+<script src="post-engagement.js" defer></script>
+
+</body>
+</html>

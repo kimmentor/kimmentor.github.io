@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>질문 보기 — 커뮤니티 Q&A — 멘토 김부장</title>
+<meta name="description" content="멘토 김부장 커뮤니티 Q&A 질문과 답변.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
+      <a href="qna.html">커뮤니티</a>
+      <a href="index.html#books">책</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article qv-wrap">
+  <div id="qdetail">
+    <div id="qhead"></div>
+
+    <section class="qa-sec">
+      <h3 class="qa-h">답변 <span class="n" id="qacount">0</span></h3>
+      <div id="qanswers"></div>
+
+      <div id="qaform">
+        <div class="q-row">
+          <input class="qa-nick" type="text" maxlength="20" placeholder="닉네임 (필수)">
+          <input class="qa-pw" type="password" maxlength="30" placeholder="비밀번호 (필수·수정/삭제 시 사용)">
+        </div>
+        <textarea class="qa-body" maxlength="2000" placeholder="답변을 남겨주세요 :)"></textarea>
+        <div class="q-bar"><span class="qa-err"></span>
+          <button type="button" class="q-btn qa-submit">답변 등록</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <a class="back" href="qna.html">← 커뮤니티 목록으로</a>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="tech.html">기술블로그</a> · <a href="fortune.html">운세</a> · <a href="qna.html">커뮤니티</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+<!-- 커뮤니티 Q&A -->
+<script src="qna.js" defer></script>
+
+</body>
+</html>

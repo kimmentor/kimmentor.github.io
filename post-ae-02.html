@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>컨텍스트 엔지니어링 — AI에게 '무엇을 언제 보여줄까' — 멘토 김부장 기술블로그</title>
+<meta name="description" content="컨텍스트 윈도우란 AI의 '책상' 크기입니다. 무엇을 올리고 무엇을 치울지, RAG(검색 증강)는 어떻게 필요한 서류만 꺼내오는지, 과부하와 오염 문제는 왜 생기는지 비개발자 눈높이로 풀어드립니다.">
+<meta property="og:title" content="컨텍스트 엔지니어링 — AI에게 '무엇을 언제 보여줄까' — 멘토 김부장">
+<meta property="og:description" content="컨텍스트 윈도우란 AI의 '책상' 크기입니다. 무엇을 올리고 무엇을 치울지, RAG(검색 증강)는 어떻게 필요한 서류만 꺼내오는지, 과부하와 오염 문제는 왜 생기는지 비개발자 눈높이로 풀어드립니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
+      <a href="qna.html">커뮤니티</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트 엔지니어링</span>
+    <h1>컨텍스트 엔지니어링<br>AI에게 '무엇을 언제 보여줄까'</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 기술블로그 · 에이전트 · 읽는 데 약 8분</div>
+  </div>
+
+  <div class="article-body">
+
+    <p>안녕하세요, 멘토 김부장입니다. 지난 <a href="post-ae-01.html">1편</a>에서 에이전트를 이루는 여섯 조각을 지도처럼 그려봤지요. 오늘은 그중에서도 결과를 가장 크게 좌우하는 조각, <strong>컨텍스트</strong>를 다룹니다. 어려운 말 같지만, 컨텍스트 엔지니어링은 결국 <strong>'AI에게 무엇을, 언제 보여줄지 정하는 일'</strong>입니다.</p>
+
+    <p>비유를 하나 들게요. AI가 일하는 모습은 <strong>책상 위에서 서류를 보며 일하는 직원</strong>과 같습니다. 이 직원은 오직 <strong>책상에 올라온 서류만</strong> 볼 수 있어요. 캐비닛 깊숙이 든 자료는, 누가 꺼내 책상에 올려주기 전까지는 없는 것이나 마찬가지입니다. 그 책상이 바로 컨텍스트이고, 무엇을 올릴지 고르는 일이 오늘의 주제입니다.</p>
+
+    <blockquote>AI는 아는 게 많아서 답을 잘하는 게 아니라, '지금 책상에 올라온 것'을 보고 답합니다. 무엇을 올려두느냐가 답의 질을 결정합니다.</blockquote>
+
+    <h2>컨텍스트 윈도우 — AI의 책상 크기</h2>
+
+    <p>먼저 <code>컨텍스트 윈도우</code>라는 말부터 풀어볼게요. 이건 AI가 <strong>한 번에 올려놓고 볼 수 있는 서류의 최대 양</strong>, 즉 <strong>책상의 크기</strong>입니다. 책상이 아무리 넓어도 무한하지는 않아요. 서류를 너무 많이 쌓으면 책상 밖으로 밀려나 떨어지고, 그러면 AI는 그 내용을 잊어버립니다.</p>
+
+    <p>그래서 컨텍스트 설계의 핵심은 단순합니다. <strong>지금 이 일에 꼭 필요한 서류만 골라 올리고, 필요 없는 건 치우는 것.</strong> 아래는 책상에 흔히 올라가는 서류들입니다.</p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>서류 종류</th><th>역할</th><th>비유</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>시스템 프롬프트</strong></td><td>기본 지침·말투·역할</td><td>업무 매뉴얼</td></tr>
+          <tr><td><strong>예시</strong></td><td>"이런 식으로 해줘"의 견본</td><td>모범 답안</td></tr>
+          <tr><td><strong>검색 결과</strong></td><td>방금 찾아온 최신 자료</td><td>캐비닛에서 꺼낸 파일</td></tr>
+          <tr><td><strong>메모리</strong></td><td>이전 대화·과거 기록</td><td>업무 일지</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">💡 <strong>많이 넣는다고 좋은 게 아닙니다.</strong> 책상에 서류를 산더미처럼 쌓으면 오히려 정작 중요한 한 장을 못 찾습니다. 컨텍스트는 '많이'가 아니라 '알맞게'가 원칙입니다.</div>
+
+    <h2>RAG — 필요한 서류만 그때그때 꺼내오기</h2>
+
+    <p>여기서 자연스러운 질문이 생깁니다. "책상은 좁은데 참고할 자료는 산더미면 어쩌죠?" 그 해법이 바로 요즘 많이 들리는 <code>RAG</code>, 우리말로 <strong>검색 증강 생성</strong>입니다. 이름은 거창해도 원리는 도서관 사서와 똑같아요.</p>
+
+    <p>모든 책을 책상에 올려둘 수는 없지요. 대신 질문이 들어오면 <strong>사서가 관련된 책 몇 권만 서가에서 콕 집어 꺼내와 책상에 올려주고</strong>, AI는 그 자료를 보며 답합니다. 캐비닛(외부 자료)은 얼마든지 커도 되고, 책상(컨텍스트)에는 매번 <strong>지금 질문에 맞는 몇 장만</strong> 올라오는 거예요.</p>
+
+    <div class="flow">
+      <div class="node">질문 들어옴</div>
+      <div class="arr">→</div>
+      <div class="node">관련 자료 검색<br>사서가 서가에서</div>
+      <div class="arr">→</div>
+      <div class="node">책상에 올림<br>컨텍스트에 추가</div>
+      <div class="arr">→</div>
+      <div class="node">그 자료 보고 답변</div>
+    </div>
+
+    <p>RAG의 장점은 두 가지입니다. 첫째, 책상 크기의 한계를 넘어 <strong>방대한 자료</strong>를 다룰 수 있습니다. 둘째, AI가 원래 배우지 못한 <strong>최신 정보나 우리 회사만의 자료</strong>도 그때그때 꺼내와 답에 반영할 수 있어요. 그래서 사내 문서를 아는 챗봇, 최신 뉴스를 참고하는 비서 같은 서비스가 대부분 이 방식을 씁니다.</p>
+
+    <h2>과부하와 오염 — 책상이 망가지는 두 가지 방식</h2>
+
+    <p>컨텍스트 설계를 소홀히 하면 크게 두 가지 문제가 생깁니다. 둘 다 '책상' 비유로 쉽게 이해됩니다.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="sn">1</div>
+        <div>
+          <h4>과부하 — 서류가 너무 많다</h4>
+          <p>책상에 서류를 지나치게 쌓으면 AI가 핵심을 놓칩니다. 특히 긴 자료의 <strong>가운데 부분</strong>은 주의가 흐려지기 쉬워요. 사람도 100쪽짜리 문서의 중간은 대충 넘기게 되는 것과 비슷합니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="sn">2</div>
+        <div>
+          <h4>오염 — 틀린 서류가 섞인다</h4>
+          <p>책상에 낡거나 잘못된 서류가 한 장 끼면, AI는 그걸 사실로 믿고 엉뚱한 답을 냅니다. 앞선 실수가 다음 단계로 계속 옮겨붙는 경우도 있어, <strong>무엇을 올리느냐</strong>만큼 <strong>무엇을 치우느냐</strong>도 중요합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>그래서 잘 설계된 에이전트는 오래된 대화를 <strong>요약해 압축</strong>하거나, 쓸모를 다한 자료를 책상에서 <strong>덜어내며</strong> 일합니다. 사람으로 치면 회의가 길어질 때 "지금까지 결론만 정리하면" 하고 요약해 두는 습관과 같아요. 이 '치우고 요약하는' 리듬이 곧 일의 흐름, 즉 루프와도 맞닿아 있습니다.</p>
+
+    <blockquote>컨텍스트 엔지니어링의 절반은 '무엇을 올릴까'이고, 나머지 절반은 '무엇을 치울까'입니다.</blockquote>
+
+    <h2>정리 — 좋은 책상을 차려주는 감각</h2>
+
+    <p>오늘 이야기를 한 문장으로 줄이면 이렇습니다. <strong>AI는 책상에 올라온 것만 보고 일하니, 그 책상을 알맞게 차려주는 것이 사람의 몫이다.</strong> 필요한 서류만 골라 올리고(선별), 방대한 자료는 사서에게 맡기고(RAG), 낡은 건 치우는(정리) 감각. 이 세 가지가 컨텍스트 엔지니어링의 전부라 해도 지나치지 않습니다.</p>
+
+    <p>그런데 책상에 자료를 올리려면, 애초에 그 자료를 <strong>어디선가 가져올 능력</strong>이 있어야겠지요. 검색을 하고, 계산을 하고, 외부에 무언가를 물어보는 능력 말입니다. 그 '손발'을 AI에게 달아주는 이야기가 다음 편의 주제입니다. <a href="post-ae-03.html">3편 — 도구와 함수 호출</a>에서 이어가겠습니다. 오늘도 한 조각을 손에 넣으신 걸 축하드립니다.</p>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="fortune.html">운세 블로그</a> · <a href="tech.html">기술블로그</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+<!-- 글별 조회수·좋아요 -->
+<script src="post-engagement.js" defer></script>
+
+</body>
+</html>

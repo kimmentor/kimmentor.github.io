@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MCP 심화 — AI와 세상을 잇는 표준 커넥터 — 멘토 김부장 기술블로그</title>
+<meta name="description" content="MCP(Model Context Protocol)는 AI와 도구·데이터를 잇는 '표준 플러그'입니다. USB-C 비유로 왜 표준이 중요한지, 서버와 클라이언트가 무엇인지, 스킬·도구와는 어떻게 다른지 비개발자 눈높이로 풀어드립니다.">
+<meta property="og:title" content="MCP 심화 — AI와 세상을 잇는 표준 커넥터 — 멘토 김부장">
+<meta property="og:description" content="MCP(Model Context Protocol)는 AI와 도구·데이터를 잇는 '표준 플러그'입니다. USB-C 비유로 왜 표준이 중요한지, 서버와 클라이언트가 무엇인지, 스킬·도구와는 어떻게 다른지 비개발자 눈높이로 풀어드립니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
+      <a href="qna.html">커뮤니티</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트 엔지니어링</span>
+    <h1>MCP 심화<br>AI와 세상을 잇는 표준 커넥터</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 기술블로그 · 에이전트 · 읽는 데 약 8분</div>
+  </div>
+
+  <div class="article-body">
+
+    <p>안녕하세요, 멘토 김부장입니다. 지난 <a href="post-ae-03.html">3편</a>에서 AI에게 도구라는 손발을 달아주는 이야기를 했지요. 그런데 도구가 하나둘 늘어나면 문제가 생깁니다. 검색 도구, 캘린더 도구, 회사 데이터베이스… 이 많은 걸 <strong>제각각 다른 방식으로 연결</strong>하려니 여간 번거로운 게 아니에요. 오늘의 주인공 <strong>MCP</strong>는 바로 이 골칫거리를 해결하는 <strong>표준 커넥터</strong>입니다.</p>
+
+    <p>MCP는 <code>Model Context Protocol</code>의 줄임말입니다. 풀어 쓰면 '모델(AI)에게 컨텍스트(정보·도구)를 전달하는 약속'이에요. 여기서 <strong>프로토콜</strong>이란 '서로 이렇게 주고받자'고 정해둔 <strong>공통 규격</strong>을 뜻합니다. 어렵게 느껴지시면, 딱 하나의 단어만 기억하세요. MCP는 AI 세계의 <strong>표준 플러그</strong>입니다.</p>
+
+    <blockquote>MCP는 AI가 온갖 도구와 데이터에 '똑같은 방식으로' 연결되도록 정해둔 공통 약속, 즉 표준 커넥터입니다.</blockquote>
+
+    <h2>USB-C 비유 — 왜 표준이 그렇게 중요한가</h2>
+
+    <p>제가 제일 좋아하는 비유는 <strong>USB-C 충전기</strong>입니다. 예전을 떠올려 보세요. 휴대폰마다 충전 단자가 다 달라서, 기기 하나에 전용 케이블 하나씩 서랍에 뒤엉켜 있었지요. 새 기기를 사면 또 새 케이블을 챙겨야 했고요. 얼마나 불편했습니까.</p>
+
+    <p>그런데 USB-C라는 <strong>표준 단자</strong>가 자리 잡자 세상이 편해졌습니다. 케이블 하나로 폰도, 노트북도, 이어폰도 충전하지요. <strong>MCP가 AI 세계에서 하는 일이 정확히 이겁니다.</strong> 예전엔 도구마다 연결 방식이 제각각이라, 새 도구를 붙일 때마다 전용 배선을 새로 짜야 했어요. MCP라는 표준 플러그가 생기면서, <strong>한 번 규격을 맞춰두면 어떤 도구든 척척 꽂아</strong> 쓸 수 있게 된 겁니다.</p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>구분</th><th>표준이 없을 때</th><th>MCP(표준)가 있을 때</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>새 도구 연결</td><td>매번 전용 배선을 새로 제작</td><td>표준 플러그에 꽂기만</td></tr>
+          <tr><td>도구 교체</td><td>배선을 통째로 다시</td><td>플러그만 갈아 끼움</td></tr>
+          <tr><td>만드는 사람</td><td>AI마다 따로 대응</td><td>한 번 만들면 어디서나</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">💡 <strong>표준의 진짜 힘은 '생태계'입니다.</strong> 규격이 하나로 통일되면, 누군가 만든 도구를 전 세계가 그대로 가져다 쓸 수 있습니다. 도구 하나하나가 재사용 가능한 부품이 되는 것, 그게 표준이 가져오는 가장 큰 선물입니다.</div>
+
+    <h2>서버와 클라이언트 — 콘센트와 플러그</h2>
+
+    <p>MCP를 이야기하면 <code>서버</code>와 <code>클라이언트</code>라는 말이 꼭 나옵니다. 낯설지만 전기 비유로 보면 아주 쉽습니다.</p>
+
+    <div class="flow">
+      <div class="node">MCP 서버<br>도구·데이터 쪽</div>
+      <div class="arr">→</div>
+      <div class="node">표준 규격<br>MCP</div>
+      <div class="arr">→</div>
+      <div class="node">MCP 클라이언트<br>AI 앱 쪽</div>
+    </div>
+
+    <p><strong>MCP 서버</strong>는 <strong>벽에 붙은 콘센트</strong>입니다. 날씨 정보, 회사 문서, 캘린더 같은 <strong>기능이나 데이터를 표준 규격으로 제공</strong>하는 쪽이에요. "나는 이런 도구를 이런 방식으로 내어줄게" 하고 준비해 둔 벽면 콘센트라고 보시면 됩니다.</p>
+
+    <p>반대로 <strong>MCP 클라이언트</strong>는 <strong>플러그를 꽂는 기기</strong>, 즉 AI가 들어 있는 앱 쪽입니다. AI 비서가 날씨를 알고 싶으면, 날씨 콘센트(서버)에 플러그(클라이언트)를 꽂아 정보를 끌어옵니다. 둘 다 같은 MCP 규격을 따르니 <strong>서로 누가 만들었든 상관없이</strong> 연결되지요. 이 '누가 만들었든 통한다'가 표준의 핵심 미덕입니다.</p>
+
+    <h2>도구·스킬과는 어떻게 다를까</h2>
+
+    <p>여기서 헷갈리기 쉬운 지점을 정리하고 갈게요. 앞 편에서 배운 <strong>도구</strong>, 그리고 예전에 다룬 <a href="post-agent-skills.html">스킬</a>과 MCP는 무엇이 다를까요? 층위가 다르다고 보시면 깔끔합니다.</p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>개념</th><th>한마디로</th><th>비유</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>도구</strong></td><td>AI가 쓰는 개별 기능 하나</td><td>연장 한 개</td></tr>
+          <tr><td><strong>스킬</strong></td><td>특정 일을 잘하도록 묶은 지침·능력 꾸러미</td><td>업무 매뉴얼</td></tr>
+          <tr><td><strong>MCP</strong></td><td>도구·데이터를 잇는 표준 연결 규격</td><td>콘센트 규격</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>정리하면, <strong>도구</strong>는 손에 쥐는 연장 자체이고, <strong>스킬</strong>은 그 연장으로 특정 일을 해내는 요령과 지침의 묶음입니다. 그리고 <strong>MCP</strong>는 그 도구들을 <strong>어떤 방식으로 연결해 가져올지</strong>를 정한 배선 규격이에요. 서로 경쟁하는 개념이 아니라, 층층이 쌓이며 함께 작동하는 사이입니다. 스킬 이야기가 더 궁금하시면 <a href="post-agent-skills.html">에이전트 스킬</a> 글을 함께 보시면 좋습니다.</p>
+
+    <blockquote>도구는 연장, 스킬은 매뉴얼, MCP는 그것들을 꽂아 쓰는 콘센트 규격입니다. 서로 다른 층에서 함께 일합니다.</blockquote>
+
+    <h2>정리 — 표준이 여는 에이전트의 세계</h2>
+
+    <p>오늘 이야기를 한 문장으로 줄이면 이렇습니다. <strong>MCP는 AI와 세상의 온갖 도구·데이터를 '똑같은 방식으로' 잇는 표준 플러그다.</strong> USB-C가 케이블 서랍을 정리했듯, MCP는 AI가 새 도구를 붙일 때마다 배선을 새로 짜던 수고를 덜어줍니다. 서버(콘센트)와 클라이언트(플러그)가 같은 규격으로 만나기에, 누가 만든 도구든 곧바로 통하지요.</p>
+
+    <p>이 시리즈는 에이전트를 이루는 여섯 조각 중 모델·컨텍스트·도구, 그리고 그것을 잇는 MCP까지 걸어왔습니다. 앞으로 이어질 편들에서는 이 조각들이 실제로 <strong>반복하며 일하는 리듬(루프)</strong>, 그리고 <strong>잘했는지 채점하는 평가</strong>로 넓혀갈 예정입니다. 처음 지도를 펼친 <a href="post-ae-01.html">1편</a>을 다시 보시면, 오늘 배운 조각이 어디에 놓이는지 한눈에 들어올 거예요. 오늘도 든든한 한 조각을 손에 넣으신 걸 축하드립니다.</p>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="fortune.html">운세 블로그</a> · <a href="tech.html">기술블로그</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+<!-- 글별 조회수·좋아요 -->
+<script src="post-engagement.js" defer></script>
+
+</body>
+</html>

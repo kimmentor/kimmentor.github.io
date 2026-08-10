@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>에이전트 엔지니어링이란 — 'AI에게 일 시키기'를 설계하다 — 멘토 김부장 기술블로그</title>
+<meta name="description" content="프롬프트 한 번 던지기에서, 목표를 주면 스스로 도구를 쓰고 반복하는 AI를 '설계'하는 분야로. 모델·컨텍스트·도구·하네스·루프·평가라는 여섯 조각을 비개발자 눈높이로 지도처럼 그려드립니다.">
+<meta property="og:title" content="에이전트 엔지니어링이란 — 'AI에게 일 시키기'를 설계하다 — 멘토 김부장">
+<meta property="og:description" content="프롬프트 한 번 던지기에서, 목표를 주면 스스로 도구를 쓰고 반복하는 AI를 '설계'하는 분야로. 모델·컨텍스트·도구·하네스·루프·평가라는 여섯 조각을 비개발자 눈높이로 지도처럼 그려드립니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
+      <a href="qna.html">커뮤니티</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트 엔지니어링</span>
+    <h1>에이전트 엔지니어링이란<br>'AI에게 일 시키기'를 설계하다</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 기술블로그 · 에이전트 · 읽는 데 약 8분</div>
+  </div>
+
+  <div class="article-body">
+
+    <p>안녕하세요, 멘토 김부장입니다. 요즘 뉴스에 <strong>'AI 에이전트'</strong>라는 말이 부쩍 자주 나오지요. 예전에는 "AI에게 질문하면 답을 준다"였는데, 이제는 "AI에게 일을 맡기면 알아서 처리한다"로 이야기가 바뀌고 있습니다. 오늘부터 이어질 이 시리즈는 바로 그 변화의 이름, <strong>에이전트 엔지니어링</strong>이 무엇인지 비개발자 눈높이에서 천천히 풀어가는 여정입니다.</p>
+
+    <p>어렵게 들리지만 뜻은 의외로 단순합니다. 에이전트 엔지니어링은 한마디로 <strong>'AI에게 일을 잘 시키도록 판을 설계하는 일'</strong>입니다. 좋은 지시 한 줄을 고민하던 데서 한 걸음 더 나아가, AI가 스스로 도구를 집어 들고, 결과를 확인하고, 필요하면 다시 시도하도록 <strong>작업 환경 전체를 설계</strong>하는 분야이지요.</p>
+
+    <blockquote>프롬프트 엔지니어링이 '좋은 질문 한 줄'을 다듬는 일이라면, 에이전트 엔지니어링은 'AI가 일하는 작업실 전체'를 설계하는 일입니다.</blockquote>
+
+    <h2>프롬프트에서 에이전트로 — 무엇이 달라졌나</h2>
+
+    <p>비유를 하나 들어볼게요. 예전 방식은 <strong>자판기</strong>에 가깝습니다. 버튼(프롬프트)을 누르면 정해진 음료(답)가 한 번 나오고 끝이지요. 잘 나오게 하려면 버튼을 정확히 누르는 요령, 즉 질문을 잘 던지는 기술이 중요했습니다. 이것이 <strong>프롬프트 엔지니어링</strong>이었어요.</p>
+
+    <p>반면 에이전트는 <strong>신입 직원</strong>에 가깝습니다. "이번 달 매출 정리해서 보고서 만들어 줘"라는 <strong>목표</strong>만 주면, 스스로 자료를 찾고, 계산하고, 초안을 쓰고, 어색한 곳을 고쳐 다시 씁니다. 한 번의 답이 아니라 <strong>여러 단계를 스스로 반복</strong>하며 목표에 다가가지요. 그래서 에이전트를 잘 다루려면 질문 한 줄만이 아니라, 이 신입이 일할 <strong>책상·연장·업무 매뉴얼</strong>까지 챙겨줘야 합니다. 그 챙김의 기술이 바로 에이전트 엔지니어링입니다.</p>
+
+    <div class="flow">
+      <div class="node">목표<br>사람이 준다</div>
+      <div class="arr">→</div>
+      <div class="node">계획·도구 사용<br>AI가 스스로</div>
+      <div class="arr">→</div>
+      <div class="node">결과 확인·수정<br>반복</div>
+      <div class="arr">→</div>
+      <div class="node">완성<br>사람에게 보고</div>
+    </div>
+
+    <h2>에이전트를 이루는 여섯 조각 — 전체 지도</h2>
+
+    <p>에이전트라는 신입 직원을 제대로 세우려면 여섯 가지를 갖춰줘야 합니다. 이 여섯 조각이 이 시리즈 전체의 <strong>지도</strong>이니, 지금은 이름과 역할만 눈에 익혀두시면 충분합니다.</p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>조각</th><th>쉬운 비유</th><th>하는 일</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>모델</strong></td><td>직원의 두뇌</td><td>생각하고 판단하는 AI 본체</td></tr>
+          <tr><td><strong>컨텍스트</strong></td><td>책상 위 서류</td><td>지금 참고할 정보를 보여줌</td></tr>
+          <tr><td><strong>도구</strong></td><td>연장·전화기</td><td>검색·계산·외부 조작 능력</td></tr>
+          <tr><td><strong>하네스</strong></td><td>작업 환경·규칙</td><td>도구를 실제로 연결·실행하는 틀</td></tr>
+          <tr><td><strong>루프</strong></td><td>일하는 리듬</td><td>시도→확인→재시도의 반복</td></tr>
+          <tr><td><strong>평가</strong></td><td>인사 고과</td><td>잘했는지 점수 매기고 개선</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>여기서 <code>하네스</code>(harness)라는 낯선 말이 나오는데, '말에 씌우는 마구(馬具)'에서 온 표현입니다. 두뇌인 모델이 혼자서는 세상에 손을 뻗을 수 없으니, 도구를 연결하고 결과를 되돌려주는 <strong>연결 장치이자 작업 틀</strong>이 필요하지요. 그게 하네스입니다. 그리고 이 모든 조각이 <strong>루프</strong> 위에서 돌아갑니다. 루프에 대해서는 예전에 쓴 <a href="post-loop-engineering.html">루프 엔지니어링</a> 글에서 더 깊이 다뤘으니, 함께 읽으시면 그림이 또렷해질 겁니다.</p>
+
+    <div class="callout">💡 <strong>한 줄 정리.</strong> 모델은 두뇌, 컨텍스트는 서류, 도구는 연장, 하네스는 작업실, 루프는 일하는 리듬, 평가는 고과입니다. 에이전트 엔지니어링은 이 여섯을 <strong>조화롭게 설계</strong>하는 일입니다.</div>
+
+    <h2>왜 지금 '설계'가 중요해졌을까</h2>
+
+    <p>모델의 두뇌가 아무리 똑똑해도, 책상에 엉뚱한 서류가 쌓여 있거나 연장이 부실하면 일을 그르칩니다. 실제로 에이전트가 실수하는 대부분의 원인은 두뇌의 부족이 아니라 <strong>주변 설계의 허술함</strong>인 경우가 많아요. 무엇을 보여줄지(컨텍스트), 어떤 연장을 쥐여줄지(도구), 어떻게 확인시킬지(루프)를 사람이 잘 짜줄수록 결과가 눈에 띄게 좋아집니다.</p>
+
+    <p>그래서 요즘 현장에서는 "더 똑똑한 모델을 기다리자"가 아니라 <strong>"지금 모델을 잘 쓰도록 판을 짜자"</strong>는 흐름이 커지고 있습니다. 이 판 짜기가 바로 에이전트 엔지니어링이고, 개발자만의 일이 아니라 일을 맡기는 모든 사람이 알아두면 좋은 감각이 되어가고 있지요. 에이전트라는 개념 자체가 처음이라면, 먼저 <a href="post-ai-agent.html">AI 에이전트란 무엇인가</a> 글부터 가볍게 보고 오셔도 좋습니다.</p>
+
+    <blockquote>좋은 에이전트는 '더 똑똑한 두뇌'가 아니라 '더 잘 설계된 작업 환경'에서 나옵니다.</blockquote>
+
+    <h2>이 시리즈에서 함께 걸어갈 길</h2>
+
+    <p>오늘은 지도의 표지를 펼쳐봤습니다. 앞으로 여섯 조각을 한 편씩 뜯어보며, 결국 여러분이 "AI에게 일을 잘 시킨다는 게 이런 거구나" 하고 손에 잡히도록 안내하려 합니다. 큰 흐름을 미리 소개할게요.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="sn">2</div>
+        <div>
+          <h4>컨텍스트 엔지니어링</h4>
+          <p><a href="post-ae-02.html">2편</a>에서 'AI에게 무엇을 언제 보여줄까'를 다룹니다. 책상 정리의 기술이지요.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="sn">3</div>
+        <div>
+          <h4>도구와 함수 호출</h4>
+          <p><a href="post-ae-03.html">3편</a>에서 AI에게 손발, 즉 도구를 달아주는 원리를 봅니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="sn">4</div>
+        <div>
+          <h4>MCP 심화</h4>
+          <p><a href="post-ae-04.html">4편</a>에서 AI와 세상을 잇는 표준 커넥터 MCP를 파헤칩니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>그리고 이어질 5편부터 8편에서는 하네스·루프·평가, 그리고 여러 에이전트가 협업하는 구조까지 차근차근 넓혀갈 예정입니다. 조급해하지 마세요. 저도 처음엔 이 용어들이 뒤죽박죽이었지만, 여섯 조각이라는 지도 하나만 손에 쥐면 나머지는 그 위에 자연스럽게 얹힙니다. 그럼 다음 편, <a href="post-ae-02.html">컨텍스트 엔지니어링</a>에서 이어가겠습니다. 오늘도 새로운 한 걸음을 내디디신 걸 축하드립니다.</p>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="fortune.html">운세 블로그</a> · <a href="tech.html">기술블로그</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+<!-- 글별 조회수·좋아요 -->
+<script src="post-engagement.js" defer></script>
+
+</body>
+</html>

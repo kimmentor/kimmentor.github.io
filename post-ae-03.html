@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>도구와 함수 호출 — AI에게 손발을 달아주기 — 멘토 김부장 기술블로그</title>
+<meta name="description" content="AI가 '이 함수를 불러 달라'고 요청하면 시스템이 대신 실행하고 결과를 돌려줍니다. 툴 유즈·함수 호출의 원리, 도구 설명(description)이 왜 중요한지, 좋은 도구를 설계하는 원칙을 비개발자 눈높이로 풀어드립니다.">
+<meta property="og:title" content="도구와 함수 호출 — AI에게 손발을 달아주기 — 멘토 김부장">
+<meta property="og:description" content="AI가 '이 함수를 불러 달라'고 요청하면 시스템이 대신 실행하고 결과를 돌려줍니다. 툴 유즈·함수 호출의 원리, 도구 설명(description)이 왜 중요한지, 좋은 도구를 설계하는 원칙을 비개발자 눈높이로 풀어드립니다.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세</a>
+      <a href="qna.html">커뮤니티</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<article class="article">
+  <div class="article-head">
+    <span class="tag">에이전트 엔지니어링</span>
+    <h1>도구와 함수 호출<br>AI에게 손발을 달아주기</h1>
+    <div class="meta">멘토 김부장 · 2026년 8월 · 기술블로그 · 에이전트 · 읽는 데 약 8분</div>
+  </div>
+
+  <div class="article-body">
+
+    <p>안녕하세요, 멘토 김부장입니다. 지난 <a href="post-ae-02.html">2편</a>에서 AI의 책상에 무엇을 올릴지 이야기했지요. 그런데 그 자료를 <strong>어디선가 가져오려면</strong>, AI에게 검색하고 계산하고 조작할 능력이 있어야 합니다. 오늘은 바로 그 능력, <strong>도구(tool)</strong>와 <strong>함수 호출(function calling)</strong>을 다룹니다. 한마디로 <strong>AI에게 손발을 달아주는 일</strong>입니다.</p>
+
+    <p>왜 손발이 필요할까요? AI 모델은 본래 <strong>글로 생각하고 글로 답하는 두뇌</strong>일 뿐입니다. 아무리 똑똑해도 스스로 인터넷을 켜거나, 계산기를 두드리거나, 이메일을 보낼 수는 없어요. 마치 아주 박식하지만 <strong>팔다리가 없는 사람</strong> 같지요. 도구는 이 두뇌에게 붙여주는 손과 발입니다.</p>
+
+    <blockquote>AI 모델은 생각은 하지만 움직이지는 못합니다. 도구는 그 생각을 세상에 닿게 해주는 손발입니다.</blockquote>
+
+    <h2>함수 호출 — AI가 '이거 대신 해주세요' 하고 부탁하기</h2>
+
+    <p>여기서 많은 분이 오해하시는데, <strong>AI가 직접 도구를 실행하는 게 아닙니다.</strong> 실제 동작은 이렇습니다. AI는 그저 <strong>"지금 날씨 함수를 불러 주세요, 지역은 서울로요"라고 말(요청)</strong>할 뿐이에요. 그러면 곁에 있는 <strong>시스템</strong>이 그 요청을 받아 진짜로 날씨를 조회하고, 결과를 다시 AI의 책상에 올려줍니다. AI는 그 결과를 보고 답을 잇지요.</p>
+
+    <div class="flow">
+      <div class="node">사용자 질문<br>"서울 날씨?"</div>
+      <div class="arr">→</div>
+      <div class="node">AI가 요청<br>"날씨 함수 불러줘"</div>
+      <div class="arr">→</div>
+      <div class="node">시스템이 실행<br>진짜로 조회</div>
+      <div class="arr">→</div>
+      <div class="node">결과 전달<br>AI가 답 완성</div>
+    </div>
+
+    <p>비유하자면 AI는 <strong>주방장</strong>이고, 함수 호출은 주방장이 "당근 3개 가져다주세요" 하고 주문서를 내미는 것과 같습니다. 실제로 창고에 가서 당근을 꺼내오는 건 <strong>보조 직원(시스템)</strong>이에요. 주방장은 요리(판단)에 집중하고, 재료 심부름(실행)은 손발이 맡는 거지요. 이 역할 분담이 함수 호출의 핵심입니다.</p>
+
+    <div class="callout">💡 <strong>안전장치이기도 합니다.</strong> AI가 직접 아무거나 실행하지 않고 '요청'만 하기 때문에, 시스템이 중간에서 위험한 작업을 걸러내거나 사람에게 확인을 받을 수 있습니다. "정말 이 파일을 지울까요?" 같은 확인이 여기서 끼어듭니다.</div>
+
+    <h2>도구 설명(description)이 왜 그렇게 중요한가</h2>
+
+    <p>AI가 여러 도구 중에서 <strong>어떤 도구를 언제 쓸지</strong>는 어떻게 알까요? 바로 각 도구에 붙은 <code>설명(description)</code>을 읽고 판단합니다. 이 설명이 곧 도구의 <strong>사용 설명서이자 이름표</strong>예요. 설명이 부실하면, 아무리 좋은 도구라도 AI가 엉뚱하게 쓰거나 아예 안 씁니다.</p>
+
+    <p>실제로 이 대목이 도구 설계의 절반이라 해도 지나치지 않습니다. 잘 쓴 설명과 못 쓴 설명을 비교해볼게요.</p>
+
+    <div class="tbl">
+      <table>
+        <thead>
+          <tr><th>도구</th><th>아쉬운 설명</th><th>좋은 설명</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>검색</td><td>"검색한다"</td><td>"최신 뉴스·사실 확인이 필요할 때 웹에서 정보를 찾는다. 오래된 정보엔 쓰지 말 것"</td></tr>
+          <tr><td>계산기</td><td>"계산"</td><td>"숫자 사칙연산·비율 계산에 사용. 직접 암산하지 말고 반드시 이 도구를 쓸 것"</td></tr>
+          <tr><td>메일 발송</td><td>"메일 보냄"</td><td>"작성이 끝난 메일을 실제로 발송한다. 되돌릴 수 없으므로 내용 확인 후에만 호출"</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p>보이시나요? 좋은 설명은 <strong>언제 써야 하는지</strong>, 그리고 <strong>언제 쓰면 안 되는지</strong>까지 알려줍니다. 사람 신입에게 연장을 건네며 "이건 이럴 때 쓰고, 저럴 땐 절대 쓰지 마"라고 일러주는 것과 똑같아요. AI에게는 이 한 줄 설명이 그 교육 전부입니다.</p>
+
+    <h2>좋은 도구를 설계하는 원칙</h2>
+
+    <p>제가 현장에서 느낀, 도구를 잘 만드는 몇 가지 원칙을 정리해 드립니다. 어렵지 않아요, 대부분 <strong>사람에게 일을 잘 시키는 상식</strong>과 통합니다.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="sn">1</div>
+        <div>
+          <h4>하나의 도구는 한 가지 일만</h4>
+          <p>'검색도 하고 저장도 하고 삭제도 하는' 만능 도구는 AI를 헷갈리게 합니다. 연장은 용도별로 나눠야 잘 집어 듭니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="sn">2</div>
+        <div>
+          <h4>이름과 설명을 명확하게</h4>
+          <p>도구 이름과 설명만 봐도 무슨 일을 하는지 바로 알 수 있어야 합니다. 애매한 이름은 오용을 부릅니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="sn">3</div>
+        <div>
+          <h4>결과를 알아보기 쉽게 돌려주기</h4>
+          <p>도구가 뱉는 결과가 지저분하면 AI도 헤맵니다. 핵심만 깔끔히 정리해 돌려줄수록 다음 판단이 정확해집니다.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="sn">4</div>
+        <div>
+          <h4>실수해도 안전하게</h4>
+          <p>되돌릴 수 없는 위험한 도구는 확인 단계를 두거나 권한을 제한합니다. 손발이 강할수록 안전장치가 중요합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <p>검색·계산기·외부 서비스 조회처럼 도구는 종류가 무궁무진합니다. 이 도구들을 하나씩 손으로 연결하는 대신 <strong>표준 규격</strong>으로 척척 끼워 쓰는 방법도 있는데, 그게 바로 요즘 화제인 MCP입니다.</p>
+
+    <blockquote>도구를 잘 만든다는 것은 결국, AI가 헷갈리지 않도록 '연장의 이름표와 사용법'을 또렷이 써두는 일입니다.</blockquote>
+
+    <h2>정리 — 손발을 달되, 잘 달아주기</h2>
+
+    <p>오늘 이야기를 줄이면 이렇습니다. AI는 생각하는 두뇌일 뿐이니, <strong>도구라는 손발</strong>을 달아줘야 세상과 상호작용합니다. 그 방식이 <strong>함수 호출</strong>이고, AI는 직접 실행하는 대신 '요청'하며, 시스템이 대신 실행해 결과를 돌려줍니다. 이때 <strong>설명을 또렷이 쓰고, 도구를 잘게 나누고, 안전장치를 두는 것</strong>이 사람의 몫이지요.</p>
+
+    <p>그럼 이 도구들을 매번 새로 연결하지 않고, 표준 플러그처럼 꽂아 쓰는 방법은 없을까요? 다음 편에서 그 이야기를 합니다. <a href="post-ae-04.html">4편 — MCP 심화</a>에서 이어가겠습니다. 오늘도 한 걸음 나아가신 걸 축하드립니다.</p>
+
+    <a class="back" href="tech.html">← 기술 블로그 목록으로</a>
+  </div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="fortune.html">운세 블로그</a> · <a href="tech.html">기술블로그</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+<!-- 글별 조회수·좋아요 -->
+<script src="post-engagement.js" defer></script>
+
+</body>
+</html>
