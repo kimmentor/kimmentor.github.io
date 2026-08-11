@@ -1,0 +1,26 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 댓글 (기존)
+    match /comments/{doc} {
+      allow read, write: if true;
+    }
+
+    // 커뮤니티 공개글 — Q&A · 자유게시판 · 공개 운세상담
+    match /qna_questions/{doc} {
+      allow read, write: if true;
+    }
+    match /qna_answers/{doc} {
+      allow read, write: if true;
+    }
+
+    // 운세상담 '비밀글' — 등록은 누구나, 열람·수정·삭제는 운영진(지정 구글 계정)만
+    // 다른 계정으로 운영하려면 아래 이메일과 firebase-config.js 의 ADMIN_EMAIL 을 같이 바꾸세요.
+    match /qna_secret/{doc} {
+      allow create: if true;
+      allow read, update, delete: if request.auth != null
+        && request.auth.token.email == "dongsik2026@gmail.com";
+    }
+  }
+}

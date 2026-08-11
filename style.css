@@ -520,3 +520,8 @@ footer a{color:#c9cde6}
   .nav .nav-links a[href="#posts"]:not(.nav-cta),
   .nav .nav-links a[href="index.html#posts"]:not(.nav-cta){display:none}
 }
+
+.tt-iching{background:linear-gradient(150deg,#141a44,#7c9bff)}
+.tt-gwansang{background:linear-gradient(150deg,#2a1636,#e88aa0)}
+.tt-name{background:linear-gradient(150deg,#123a34,#4fc9a6)}
+.tt-pungsu{background:linear-gradient(150deg,#0f2e40,#5cc0dd)}
