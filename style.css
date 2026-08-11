@@ -488,3 +488,35 @@ footer a{color:#c9cde6}
 #qaform .q-row{display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap}
 #qaform .q-row input{flex:1;min-width:140px}
 #qaform textarea{min-height:90px;resize:vertical;line-height:1.7}
+
+/* ===== 모바일 삼점(케밥) 메뉴 ===== */
+.nav-kebab{display:none;background:none;border:0;cursor:pointer;padding:8px;
+  width:42px;height:42px;border-radius:10px;align-items:center;justify-content:center;
+  flex-direction:column;flex:0 0 auto}
+.nav-kebab span{display:block;width:5px;height:5px;border-radius:50%;
+  background:#fff;margin:2.5px 0}
+.nav-kebab:hover{background:rgba(255,255,255,.12)}
+.nav-kebab:active{transform:scale(.94)}
+
+@media (max-width:860px){
+  .nav-kebab{display:flex}
+  .nav .wrap{position:relative}
+  /* 인라인 메뉴 → 오른쪽 상단 드롭다운 패널 */
+  .nav .nav-links{
+    position:absolute;top:calc(100% + 8px);right:0;margin:0;
+    flex-direction:column;align-items:stretch;gap:2px;
+    background:rgba(20,24,52,.98);backdrop-filter:saturate(140%) blur(12px);
+    border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:8px;
+    min-width:210px;box-shadow:0 20px 54px rgba(0,0,0,.42);
+    opacity:0;visibility:hidden;transform:translateY(-8px);
+    transition:opacity .18s ease,transform .18s ease,visibility .18s;z-index:60}
+  .nav.nav-open .nav-links{opacity:1;visibility:visible;transform:none}
+  /* 드롭다운 안에서는 메뉴 항목 다시 보이게(인라인 숨김 규칙 무효화) */
+  .nav .nav-links a:not(.nav-cta){display:block;padding:12px 14px;border-radius:10px;
+    font-size:15.5px;color:#c9cde6}
+  .nav .nav-links a:not(.nav-cta):hover{background:rgba(255,255,255,.08);color:#fff}
+  .nav .nav-links .nav-cta{display:block;text-align:center;margin:6px 6px 4px}
+  /* '블로그'(#posts) 항목은 기존 요청대로 계속 숨김 유지 */
+  .nav .nav-links a[href="#posts"]:not(.nav-cta),
+  .nav .nav-links a[href="index.html#posts"]:not(.nav-cta){display:none}
+}

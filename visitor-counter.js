@@ -132,3 +132,54 @@
     run();
   }
 })();
+
+/* =========================================================
+   멘토 김부장 블로그 — 모바일 상단 삼점(케밥) 메뉴
+   - 모바일(≤860px)에서 숨겨지는 GNB 메뉴를 오른쪽 상단 케밥으로 열기
+   - 모든 페이지 공통(visitor-counter.js가 전 페이지에 로드됨)
+   ========================================================= */
+(function () {
+  "use strict";
+  function initNavMenu() {
+    var nav = document.querySelector("nav.nav") || document.querySelector("nav");
+    if (!nav) return;
+    var wrap = nav.querySelector(".wrap") || nav;
+    var links = nav.querySelector(".nav-links");
+    if (!links || nav.querySelector(".nav-kebab")) return; // 메뉴 없거나 이미 생성됨
+
+    var btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "nav-kebab";
+    btn.setAttribute("aria-label", "메뉴 열기");
+    btn.setAttribute("aria-expanded", "false");
+    btn.innerHTML = "<span></span><span></span><span></span>";
+    wrap.appendChild(btn);
+
+    function setOpen(open) {
+      nav.classList.toggle("nav-open", open);
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+      btn.setAttribute("aria-label", open ? "메뉴 닫기" : "메뉴 열기");
+    }
+    btn.addEventListener("click", function (e) {
+      e.stopPropagation();
+      setOpen(!nav.classList.contains("nav-open"));
+    });
+    // 메뉴 밖 클릭 시 닫기
+    document.addEventListener("click", function (e) {
+      if (nav.classList.contains("nav-open") && !nav.contains(e.target)) setOpen(false);
+    });
+    // 메뉴 항목 클릭 시 닫기
+    links.addEventListener("click", function (e) {
+      if (e.target && e.target.closest && e.target.closest("a")) setOpen(false);
+    });
+    // ESC로 닫기
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape") setOpen(false);
+    });
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initNavMenu);
+  } else {
+    initNavMenu();
+  }
+})();
