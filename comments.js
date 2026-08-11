@@ -43,6 +43,80 @@
     });
   }
   function nl2br(s) { return esc(s).replace(/\n/g, "<br>"); }
+  /* ---------- 예쁜 모달(팝업) — 시스템 창 대체 ---------- */
+  function mkModalStyle() {
+    if (document.getElementById("mk-modal-style")) return;
+    var css =
+      "@keyframes mkFade{from{opacity:0}to{opacity:1}}" +
+      "@keyframes mkPop{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}" +
+      ".mk-ov{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(20,24,60,.45);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);animation:mkFade .16s ease}" +
+      ".mk-dg{width:100%;max-width:360px;background:#fff;border-radius:18px;padding:26px 24px 20px;box-shadow:0 24px 70px rgba(20,24,60,.28);animation:mkPop .2s cubic-bezier(.2,.8,.3,1);box-sizing:border-box}" +
+      ".mk-ic{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:23px;margin:0 auto 14px;background:#f0edff}" +
+      ".mk-ic.dg{background:#fdeced}" +
+      ".mk-tt{font-size:17px;font-weight:800;color:#1c2033;text-align:center;margin:0 0 7px}" +
+      ".mk-ms{font-size:14px;line-height:1.65;color:#5b6478;text-align:center;margin:0;word-break:break-word}" +
+      ".mk-in{width:100%;border:1.5px solid #e7e9f2;border-radius:11px;padding:12px 14px;font-family:inherit;font-size:15px;color:#1c2033;background:#faf9ff;outline:none;box-sizing:border-box;margin-top:16px}" +
+      ".mk-in:focus{border-color:#6d5cf0;background:#fff}" +
+      ".mk-er{color:#d64550;font-size:12.5px;font-weight:600;min-height:1.1em;text-align:center;margin:7px 0 0}" +
+      ".mk-bs{display:flex;gap:10px;margin-top:20px}" +
+      ".mk-bt{flex:1;border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:14.5px;padding:12px 10px;border-radius:999px;transition:.15s all}" +
+      ".mk-bt.gh{background:#f1f2f7;color:#5b6478}" +
+      ".mk-bt.gh:hover{background:#e7e9f2}" +
+      ".mk-bt.pr{background:linear-gradient(145deg,#6d5cf0,#4a3ad1);color:#fff}" +
+      ".mk-bt.pr:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(109,92,240,.32)}" +
+      ".mk-bt.dg{background:linear-gradient(145deg,#e5606b,#d64550);color:#fff}" +
+      ".mk-bt.dg:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(214,69,80,.3)}";
+    var s = document.createElement("style"); s.id = "mk-modal-style"; s.textContent = css;
+    document.head.appendChild(s);
+  }
+  function mkModal(opt) {
+    mkModalStyle();
+    return new Promise(function (resolve) {
+      var dg = !!opt.danger, isIn = !!opt.input;
+      var icon = opt.icon || (dg ? "🗑️" : (isIn ? "🔒" : "⚠️"));
+      var ov = document.createElement("div"); ov.className = "mk-ov";
+      var h = '<div class="mk-dg" role="dialog" aria-modal="true">' +
+        '<div class="mk-ic' + (dg ? " dg" : "") + '">' + icon + '</div>' +
+        (opt.title ? '<div class="mk-tt">' + esc(opt.title) + '</div>' : '') +
+        (opt.message ? '<div class="mk-ms">' + esc(opt.message) + '</div>' : '');
+      if (isIn) h += '<input type="password" class="mk-in" maxlength="30" placeholder="' + esc(opt.placeholder || "비밀번호") + '"><div class="mk-er"></div>';
+      h += '<div class="mk-bs">';
+      if (opt.cancelText !== null) h += '<button type="button" class="mk-bt gh mk-c">' + esc(opt.cancelText || "취소") + '</button>';
+      h += '<button type="button" class="mk-bt ' + (dg ? "dg" : "pr") + ' mk-o">' + esc(opt.okText || "확인") + '</button></div></div>';
+      ov.innerHTML = h;
+      document.body.appendChild(ov);
+      var inp = ov.querySelector(".mk-in"), ob = ov.querySelector(".mk-o"), cb = ov.querySelector(".mk-c");
+      var done = false;
+      function close(v) {
+        if (done) return; done = true;
+        ov.style.animation = "mkFade .12s ease reverse";
+        document.removeEventListener("keydown", onKey);
+        setTimeout(function () { if (ov.parentNode) ov.parentNode.removeChild(ov); }, 120);
+        resolve(v);
+      }
+      function ok() {
+        if (isIn) {
+          var v = inp.value || "";
+          if (!v) { ov.querySelector(".mk-er").textContent = "비밀번호를 입력해 주세요."; inp.focus(); return; }
+          close(v);
+        } else close(true);
+      }
+      function cancel() { close(isIn ? null : false); }
+      ob.addEventListener("click", ok);
+      if (cb) cb.addEventListener("click", cancel);
+      ov.addEventListener("mousedown", function (e) { if (e.target === ov) cancel(); });
+      function onKey(e) {
+        if (e.key === "Escape") { e.preventDefault(); cancel(); }
+        else if (e.key === "Enter") { e.preventDefault(); ok(); }
+      }
+      document.addEventListener("keydown", onKey);
+      setTimeout(function () { (inp || ob).focus(); }, 40);
+    });
+  }
+  function mkPrompt(title, message, placeholder) { return mkModal({ title: title, message: message, input: true, placeholder: placeholder, okText: "확인", cancelText: "취소" }); }
+  function mkAlert(title, message, icon) { return mkModal({ title: title, message: message, icon: icon, cancelText: null, okText: "확인" }); }
+  function mkConfirm(title, message) { return mkModal({ title: title, message: message, okText: "삭제", cancelText: "취소", danger: true }); }
+
   function fmtTime(ts) {
     try {
       var d = ts && ts.toDate ? ts.toDate() : (ts ? new Date(ts) : new Date());
@@ -239,9 +313,10 @@
   }
 
   function verifyPw(c) {
-    var pw = window.prompt("비밀번호를 입력하세요");
-    if (pw == null) return Promise.resolve(false);
-    return sha256(pw).then(function (h) { return h === c.pw; });
+    return mkPrompt("비밀번호 확인", "댓글 작성 시 입력한 비밀번호를 입력하세요.", "비밀번호").then(function (pw) {
+      if (pw == null) return null;
+      return sha256(pw).then(function (h) { return h === c.pw; });
+    });
   }
 
   function doEdit(c, textEl) {
@@ -266,20 +341,21 @@
   function doDelete(c) {
     verifyPw(c).then(function (ok) {
       if (!ok) { if (ok === false) alertOnce("비밀번호가 일치하지 않습니다."); return; }
-      if (!window.confirm("이 댓글을 삭제할까요?")) return;
-      var p = col().doc(c.id).delete();
-      // 대댓글도 함께 삭제
-      p.then(function () {
-        return col().where("parentId", "==", c.id).get().then(function (snap) {
-          var dels = []; snap.forEach(function (d) { dels.push(d.ref.delete()); });
-          return Promise.all(dels);
-        });
-      }).then(reload).catch(function (e) { console.error(e); alertOnce("삭제에 실패했어요."); });
+      mkConfirm("댓글 삭제", "이 댓글을 삭제할까요? 삭제하면 되돌릴 수 없어요.").then(function (yes) {
+        if (!yes) return;
+        var p = col().doc(c.id).delete();
+        // 대댓글도 함께 삭제
+        p.then(function () {
+          return col().where("parentId", "==", c.id).get().then(function (snap) {
+            var dels = []; snap.forEach(function (d) { dels.push(d.ref.delete()); });
+            return Promise.all(dels);
+          });
+        }).then(reload).catch(function (e) { console.error(e); alertOnce("삭제에 실패했어요."); });
+      });
     });
   }
 
-  var _alerted = false;
-  function alertOnce(msg) { window.alert(msg); }
+  function alertOnce(msg) { mkAlert("알림", msg); }
 
   function init() {
     try { if (!firebase.apps.length) firebase.initializeApp(window.FIREBASE_CONFIG); } catch (e) { console.error(e); return; }
