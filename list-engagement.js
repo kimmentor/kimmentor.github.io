@@ -57,6 +57,7 @@
   function collect(){
     var items=[];
     document.querySelectorAll("a.post-card[href]").forEach(function(card){
+      if(card.closest && card.closest("#postsGrid")) return; // 홈 최신 피드(동적)는 제외
       var slug=slugFromHref(card.getAttribute("href")); if(!slug)return;
       var body=card.querySelector(".body"); if(!body)return;
       if(DATES[slug] && !body.querySelector(".le-date")){

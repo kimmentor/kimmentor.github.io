@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>후원하기 — 멘토 김부장</title>
+<meta name="description" content="멘토 김부장 블로그가 도움이 되셨다면 커피 한 잔으로 응원해 주세요. 받은 후원금의 10%는 기부합니다.">
+<meta property="og:title" content="후원하기 — 멘토 김부장">
+<meta property="og:description" content="자발적 후원으로 블로그를 응원해 주세요. 후원금의 10%는 기부합니다.">
+<link rel="stylesheet" href="style.css">
+<!--
+  ============================================================
+  ▼ 가입 후 이 3가지만 바꾸면 됩니다 ▼
+  1) 투네이션 주소  : 아래 id="toonUrl" 의 href 를 내 투네이션 후원페이지 주소로
+  2) Ko-fi 주소     : 아래 id="kofiUrl" 의 href 를 내 Ko-fi 주소로 (예: https://ko-fi.com/내아이디)
+  3) 기부처 이름     : 아래 "○○(기부처)" 두 곳을 실제 기부처 이름으로
+  ============================================================
+-->
+<style>
+  .sup-wrap{max-width:640px;margin:0 auto;padding:0 22px}
+  .sup-card{background:#fff;border:1px solid #eceaf6;border-radius:20px;padding:34px 30px;
+    box-shadow:0 18px 50px rgba(20,24,60,.08);margin:26px auto 10px}
+  .sup-card p{color:#3a4056;font-size:15.5px;line-height:1.85;margin:0 0 16px}
+  .sup-pledge{display:flex;gap:10px;align-items:flex-start;background:#fbf6ea;border:1px solid #f0e0b8;
+    border-radius:14px;padding:16px 18px;margin:22px 0;color:#8a6d1f;font-weight:700;font-size:15px;line-height:1.6}
+  .sup-pledge b{color:#c9922a}
+  .sup-btns{display:flex;flex-direction:column;gap:12px;margin:26px 0 8px}
+  .sup-btn{display:flex;align-items:center;justify-content:center;gap:9px;text-align:center;
+    font-weight:800;font-size:16px;padding:16px 20px;border-radius:14px;transition:.15s all;border:1.5px solid transparent}
+  .sup-btn.toon{background:linear-gradient(145deg,#6d5cf0,#4a3ad1);color:#fff}
+  .sup-btn.toon:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(109,92,240,.32)}
+  .sup-btn.kofi{background:#fff;color:#4a3ad1;border-color:#d9d3ff}
+  .sup-btn.kofi:hover{border-color:#6d5cf0;transform:translateY(-2px)}
+  .sup-note{color:#9aa0b8;font-size:13px;text-align:center;margin:14px 0 0;line-height:1.7}
+  .sup-mini{color:#b9bccb;font-size:12px;text-align:center;margin-top:22px}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><span class="dot">☯</span> 멘토 김부장</a>
+    <div class="nav-links">
+      <a href="index.html#books">책</a>
+      <a href="index.html#posts">블로그</a>
+      <a href="tech.html">기술블로그</a>
+      <a href="fortune.html">운세블로그</a>
+      <a href="qna.html">커뮤니티</a>
+      <a href="support.html">후원</a>
+      <a class="nav-cta" href="index.html#books">책 보러가기</a>
+    </div>
+  </div>
+</nav>
+
+<header class="tblog-hero fortune-hero">
+  <div class="wrap">
+    <div class="eyebrow">SUPPORT</div>
+    <h1>이 블로그가 도움이 되셨다면 <span class="m">☕</span></h1>
+    <p>사주·타로부터 IT·AI까지, 모든 글은 앞으로도 계속 무료입니다. 커피 한 잔의 마음으로 응원해 주시면 더 좋은 글로 보답할게요.</p>
+  </div>
+</header>
+
+<main class="sup-wrap">
+  <div class="sup-card">
+    <p>안녕하세요, 멘토 김부장입니다. 이 블로그는 <strong>누구나 부담 없이 배우도록 무료로 운영</strong>하고 있어요. 글이 조금이나마 도움이 되셨다면, 아래 버튼으로 <strong>자발적인 후원(원하는 만큼)</strong>을 남겨 주실 수 있습니다. 후원은 순수한 응원일 뿐, 하지 않으셔도 모든 콘텐츠는 변함없이 무료로 열려 있어요.</p>
+
+    <div class="sup-pledge">
+      <span>💛</span>
+      <span>받은 후원금의 <b>10%</b>는 <b>○○(기부처)</b>에 기부합니다. 여러분의 응원이 저를 넘어 더 필요한 곳까지 닿도록 하겠습니다.</span>
+    </div>
+
+    <div class="sup-btns">
+      <a class="sup-btn toon" id="toonUrl" href="https://toon.at/donate/멘토김부장" target="_blank" rel="noopener">☕ 투네이션으로 후원하기</a>
+      <a class="sup-btn kofi" id="kofiUrl" href="https://ko-fi.com/멘토김부장" target="_blank" rel="noopener">🌷 Ko-fi로 후원하기</a>
+    </div>
+
+    <p class="sup-note">투네이션·Ko-fi에서는 <strong>활동명(멘토 김부장)</strong>으로 후원을 받아, 후원해 주시는 분께 제 실명이 노출되지 않습니다.<br>소중한 마음, 진심으로 감사합니다. 🙏</p>
+    <p class="sup-mini">※ 후원금은 블로그 운영(도메인·이미지·자료 조사)과 기부에 쓰입니다.</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div><a href="index.html">← 멘토 김부장 홈</a></div>
+    <div><a href="fortune.html">운세블로그</a> · <a href="tech.html">기술블로그</a> · <a href="qna.html">커뮤니티</a></div>
+  </div>
+</footer>
+
+<!-- 방문자 카운터 -->
+<script src="visitor-counter.js" defer></script>
+
+</body>
+</html>
