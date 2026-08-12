@@ -10,10 +10,10 @@
 <link rel="stylesheet" href="style.css">
 <!--
   ============================================================
-  ▼ 가입 후 이 3가지만 바꾸면 됩니다 ▼
-  1) 투네이션 주소  : 아래 id="toonUrl" 의 href 를 내 투네이션 후원페이지 주소로
-  2) Ko-fi 주소     : 아래 id="kofiUrl" 의 href 를 내 Ko-fi 주소로 (예: https://ko-fi.com/내아이디)
-  3) 기부처 이름     : 아래 "○○(기부처)" 두 곳을 실제 기부처 이름으로
+  후원 링크 상태
+  - 투네이션: 연결됨 → https://toon.at/donate/kimmentor
+  - Ko-fi   : 미연결(버튼 숨김). 준비되면 아래 주석 처리된 버튼을 살리고 href 교체.
+  - 기부처   : 체리(Cherry) '저소득층 아동 IT 교육비 지원' 연결됨 (캠페인 링크 포함).
   ============================================================
 -->
 <style>
@@ -66,15 +66,17 @@
 
     <div class="sup-pledge">
       <span>💛</span>
-      <span>받은 후원금의 <b>10%</b>는 <b>○○(기부처)</b>에 기부합니다. 여러분의 응원이 저를 넘어 더 필요한 곳까지 닿도록 하겠습니다.</span>
+      <span>받은 후원금의 <b>10%</b>는 <b>체리(Cherry)의 ‘저소득층 아동 IT 교육비 지원’</b>에 기부합니다. 제가 IT로 도움받은 만큼, 배우고 싶어도 형편이 어려운 아이들의 IT 교육에 보탬이 되도록 하겠습니다. <a href="https://cherry.charity/public/campaign/cmpgnDtlPage/13013" target="_blank" rel="noopener" style="color:#c9922a;font-weight:800;white-space:nowrap">기부처 보기 →</a></span>
     </div>
 
     <div class="sup-btns">
-      <a class="sup-btn toon" id="toonUrl" href="https://toon.at/donate/멘토김부장" target="_blank" rel="noopener">☕ 투네이션으로 후원하기</a>
-      <a class="sup-btn kofi" id="kofiUrl" href="https://ko-fi.com/멘토김부장" target="_blank" rel="noopener">🌷 Ko-fi로 후원하기</a>
+      <a class="sup-btn toon" id="toonUrl" href="https://toon.at/donate/kimmentor" target="_blank" rel="noopener">☕ 투네이션으로 후원하기</a>
+      <!-- Ko-fi 준비되면 아래 주석을 풀고 href 를 내 Ko-fi 주소로 바꾸세요
+      <a class="sup-btn kofi" id="kofiUrl" href="https://ko-fi.com/내아이디" target="_blank" rel="noopener">🌷 Ko-fi로 후원하기</a>
+      -->
     </div>
 
-    <p class="sup-note">투네이션·Ko-fi에서는 <strong>활동명(멘토 김부장)</strong>으로 후원을 받아, 후원해 주시는 분께 제 실명이 노출되지 않습니다.<br>소중한 마음, 진심으로 감사합니다. 🙏</p>
+    <p class="sup-note">투네이션에서는 <strong>활동명(멘토 김부장)</strong>으로 후원을 받아, 후원해 주시는 분께 제 실명이 노출되지 않습니다.<br>소중한 마음, 진심으로 감사합니다. 🙏</p>
     <p class="sup-mini">※ 후원금은 블로그 운영(도메인·이미지·자료 조사)과 기부에 쓰입니다.</p>
   </div>
 </main>
