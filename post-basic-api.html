@@ -37,7 +37,7 @@
 
     <p>API라는 단어를 처음 들으면 무슨 암호 같죠. 저도 그랬어요. 그런데 알고 보니 이건 우리가 매일 식당에서 하는 그 일과 똑같은 개념이더라고요. 오늘은 이 API라는 걸, 코드 한 줄 몰라도 완전히 이해할 수 있도록 <strong>식당 이야기</strong>로 풀어드릴게요. 겁먹지 마세요. 다 읽고 나면 "아, 이거였어?" 하실 겁니다.</p>
 
-    <blockquote>API = 식당의 <strong>메뉴판 + 주문 창구</strong>예요. 손님(내 앱)은 주방(서버) 안이 어떻게 생겼는지, 요리사가 몇 명인지, 불을 어떻게 쓰는지 전혀 몰라도 됩니다. 그냥 <strong>메뉴판에 적힌 대로 주문하면, 완성된 요리(결과)가 창구로 나온다.</strong> 이게 API의 전부예요.</p></blockquote>
+    <blockquote>API = 식당의 <strong>메뉴판 + 주문 창구</strong>예요. 손님(내 앱)은 주방(서버) 안이 어떻게 생겼는지, 요리사가 몇 명인지, 불을 어떻게 쓰는지 전혀 몰라도 됩니다. 그냥 <strong>메뉴판에 적힌 대로 주문하면, 완성된 요리(결과)가 창구로 나온다.</strong> 이게 API의 전부예요.</blockquote>
 
     <p>이 한 문장만 붙잡고 계셔도 오늘 글의 절반은 챙긴 겁니다. 이제 이 식당 비유를 하나씩 늘려가며, API가 뭔지, 요청과 응답이 뭔지, 요즘 다들 말하는 REST가 뭔지, 그리고 초보가 꼭 알아야 할 API 키와 보안까지 천천히 풀어볼게요.</p>
 
@@ -47,7 +47,7 @@
 
     <p>여기서 아주 중요한 점이 하나 있어요. 여러분은 <strong>주방 안에서 무슨 일이 벌어지는지 하나도 몰라도 됩니다.</strong> 요리사가 몇 명인지, 김치를 어디서 사 오는지, 불 세기를 어떻게 조절하는지 전혀 신경 쓸 필요가 없어요. 그냥 "메뉴판에 있는 것을, 정해진 방식으로 주문하면, 결과가 나온다"는 약속만 지키면 됩니다. 이 <strong>약속된 창구</strong>가 바로 API예요.</p>
 
-    <div class="callout">💡 <strong>정식 용어로 정리</strong> — API는 Application Programming Interface(애플리케이션 프로그래밍 인터페이스)의 약자예요. 어렵게 들리지만 뜻은 간단합니다. <strong>"프로그램(Application)끼리 서로 대화할 때 쓰는, 미리 정해둔 약속(Interface)"</strong>이라는 뜻이에요. 식당으로 치면 메뉴판과 주문 창구, 즉 "이렇게 주문하면 이런 게 나온다"는 규칙표인 셈이죠.</p></div>
+    <div class="callout">💡 <strong>정식 용어로 정리</strong> — API는 Application Programming Interface(애플리케이션 프로그래밍 인터페이스)의 약자예요. 어렵게 들리지만 뜻은 간단합니다. <strong>"프로그램(Application)끼리 서로 대화할 때 쓰는, 미리 정해둔 약속(Interface)"</strong>이라는 뜻이에요. 식당으로 치면 메뉴판과 주문 창구, 즉 "이렇게 주문하면 이런 게 나온다"는 규칙표인 셈이죠.</div>
 
     <p>왜 이런 창구가 필요할까요? 만약 창구가 없다면 어떻게 될지 상상해보세요. 손님이 저마다 주방에 마음대로 들어와서 "나 김치찌개 끓일게" 하고 냄비를 집어 든다면 주방은 아수라장이 될 거예요. 위생도 엉망이 되고, 요리사끼리 부딪히고, 누가 뭘 가져갔는지도 모르게 되죠. 그래서 식당은 "주문은 창구로만 받습니다"라고 벽을 세워둔 겁니다. 그 덕분에 주방은 안전하게 자기 일에만 집중할 수 있고, 손님은 복잡한 주방 사정을 몰라도 편하게 밥을 먹을 수 있어요.</p>
 
@@ -87,7 +87,7 @@
 
     <p>보세요, 전혀 무섭지 않죠? <code>"도시"</code>라는 이름표에 <code>"서울"</code>이라는 값이 붙어 있고, <code>"기온"</code>이라는 이름표에 <code>28</code>이라는 값이 붙어 있어요. 내 앱은 이 상자를 받아서 "아, 기온 칸을 보니 28이구나. 그럼 화면에 28도라고 크게 띄워야지" 하고 꺼내 쓰는 거예요. 이렇게 이름표가 딱딱 붙어 있으니 컴퓨터가 헷갈리지 않고 원하는 값을 쏙쏙 골라 쓸 수 있는 거죠.</p>
 
-    <div class="callout">💡 <strong>JSON, 이것만 기억하세요</strong> — JSON은 프로그램끼리 데이터를 주고받을 때 쓰는 <strong>정리된 상자 포맷</strong>이에요. "이름표: 값"이 짝을 이루고, 여러 개가 있으면 쉼표로 나란히 놓여요. 요즘 거의 모든 API가 이 JSON으로 응답을 줍니다. 그러니 낯선 중괄호 <code>{ }</code>가 보여도 "아, 정리된 상자구나" 하고 편하게 보시면 돼요.</p></div>
+    <div class="callout">💡 <strong>JSON, 이것만 기억하세요</strong> — JSON은 프로그램끼리 데이터를 주고받을 때 쓰는 <strong>정리된 상자 포맷</strong>이에요. "이름표: 값"이 짝을 이루고, 여러 개가 있으면 쉼표로 나란히 놓여요. 요즘 거의 모든 API가 이 JSON으로 응답을 줍니다. 그러니 낯선 중괄호 <code>{ }</code>가 보여도 "아, 정리된 상자구나" 하고 편하게 보시면 돼요.</div>
 
     <h2>HTTP 메서드 — 창구에서 하는 네 가지 부탁</h2>
 
@@ -133,7 +133,7 @@
 
     <p>보세요, 얼마나 깔끔해요. <strong>주소는 "무엇을(자원)", 메서드는 "어떻게(행동)"</strong>를 나타내요. 주소만 봐도 "아, 회원을 다루는구나", 메서드만 봐도 "아, 목록을 보는구나(GET)"를 알 수 있죠. 이렇게 규칙이 일관되면 처음 보는 API라도 금방 감을 잡을 수 있어요. 그래서 전 세계 개발자들이 이 REST 스타일을 표준처럼 쓰는 거예요.</p>
 
-    <div class="callout">💡 <strong>REST, 겁먹지 마세요</strong> — REST는 대단한 신기술이 아니라 <strong>"API 창구를 이렇게 정리하면 서로 편하다"는 약속</strong>이에요. 자원(무엇)은 주소로, 행동(어떻게)은 메서드로 표현한다는 것만 기억하시면 충분합니다. "REST API"라는 말을 들으면 "아, 규칙 잘 지켜서 깔끔하게 만든 API구나" 하고 편하게 받아들이세요.</p></div>
+    <div class="callout">💡 <strong>REST, 겁먹지 마세요</strong> — REST는 대단한 신기술이 아니라 <strong>"API 창구를 이렇게 정리하면 서로 편하다"는 약속</strong>이에요. 자원(무엇)은 주소로, 행동(어떻게)은 메서드로 표현한다는 것만 기억하시면 충분합니다. "REST API"라는 말을 들으면 "아, 규칙 잘 지켜서 깔끔하게 만든 API구나" 하고 편하게 받아들이세요.</div>
 
     <h2>상태코드 — 주문이 어떻게 됐는지 알려주는 번호</h2>
 
@@ -196,7 +196,7 @@
 
     <p>그래서 반드시 지켜야 할 원칙이 있어요. <strong>API 키 같은 비밀 값은 코드 안에 직접 적지 말고, 코드 바깥의 안전한 곳에 따로 보관</strong>해야 해요. 이걸 "환경변수(환경 설정 값)"로 관리한다고 하는데, 쉽게 말하면 <strong>비밀은 비밀 서랍에 따로 넣어두고, 코드는 그 서랍을 열어보는 방식</strong>이에요. 코드에는 "비밀 서랍에서 키를 꺼내 쓴다"고만 적고, 정작 키 값 자체는 코드에 안 남기는 거죠.</p>
 
-    <div class="callout">🔑 <strong>이건 꼭 따로 공부하세요</strong> — API 키를 안전하게 숨기는 방법, 즉 환경변수와 비밀 관리는 정말 중요해서 따로 글을 준비했어요. <a href="post-basic-env-secrets.html">환경변수와 비밀 관리 이야기</a>에서 "코드에 비밀번호 적지 않는 법"을 손잡고 알려드릴게요. API를 쓰기 시작하면 반드시 마주칠 주제이니 꼭 함께 읽어보세요.</p></div>
+    <div class="callout">🔑 <strong>이건 꼭 따로 공부하세요</strong> — API 키를 안전하게 숨기는 방법, 즉 환경변수와 비밀 관리는 정말 중요해서 따로 글을 준비했어요. <a href="post-basic-env-secrets.html">환경변수와 비밀 관리 이야기</a>에서 "코드에 비밀번호 적지 않는 법"을 손잡고 알려드릴게요. API를 쓰기 시작하면 반드시 마주칠 주제이니 꼭 함께 읽어보세요.</div>
 
     <h2>웹훅 — 반대 방향의 알림</h2>
 
@@ -261,6 +261,9 @@
       <div style="display:flex;gap:10px;flex-wrap:wrap">
         <a class="btn btn-gold" href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 →</a>
         <a class="btn btn-gold" href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24 →</a>
+        <a class="btn btn-gold" href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=399796054" target="_blank" rel="noopener">알라딘 →</a>
+        <a class="btn btn-gold" href="https://ridibooks.com/books/5273014977" target="_blank" rel="noopener">리디북스 →</a>
+        <a class="btn btn-gold" href="https://www.bookcube.com/detail.asp?series_num=926058874" target="_blank" rel="noopener">북큐브 →</a>
       </div>
     </div>
 
@@ -271,7 +274,7 @@
 <footer>
   <div class="wrap">
     <div><a href="index.html">← 멘토 김부장 홈</a></div>
-    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a></div>
+    <div><a href="https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696" target="_blank" rel="noopener">교보 eBook</a> · <a href="https://www.yes24.com/product/goods/194527043" target="_blank" rel="noopener">YES24</a> · <a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=399796054" target="_blank" rel="noopener">알라딘</a> · <a href="https://ridibooks.com/books/5273014977" target="_blank" rel="noopener">리디북스</a> · <a href="https://www.bookcube.com/detail.asp?series_num=926058874" target="_blank" rel="noopener">북큐브</a></div>
   </div>
 </footer>
 

@@ -27,12 +27,25 @@
 | `style.css` | 사이트 전체 디자인 (건드릴 필요 없음) |
 | `assets/cover.jpg` | 1권 표지 |
 | `assets/cover-advanced.jpg` | 2권 표지 |
+| `assets/cover-saju.jpg` | 「이것만 알고 사주 보러 가자」 표지 |
 
 > 💡 미리 보기: `index.html`을 더블클릭하면 브라우저에서 바로 열립니다.
 
 ### 구매처 링크 (사이트 곳곳에 이미 연결돼 있음)
+
+**1권 「코딩 몰라도 AI로 사주앱 만들기」**
 - 교보 eBook: https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013355696
 - YES24: https://www.yes24.com/product/goods/194527043
+- 알라딘: https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=399796054
+- 리디북스: https://ridibooks.com/books/5273014977
+- 북큐브: https://www.bookcube.com/detail.asp?series_num=926058874
+
+**「이것만 알고 사주 보러 가자」 (「알고 보러 가자」 시리즈 제1권)**
+- 교보 eBook: https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013426880
+- YES24: https://www.yes24.com/product/goods/195145257
+- 알라딘: https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=400552567
+- 리디북스: https://ridibooks.com/books/5273015195
+- 북큐브: https://www.bookcube.com/detail.asp?series_num=926061789
 
 ---
 
@@ -61,7 +74,7 @@
 그리고 안에서 아래만 바꾸면 됩니다:
 - 제목(`<title>`, `<h1>`), 설명 문구
 - 표지 경로 `assets/cover.jpg` → `assets/cover-book3.jpg`
-- 가격·쪽수, 구매 링크(교보/YES24 주소)
+- 가격·쪽수, 구매 링크(교보/YES24/알라딘/리디북스/북큐브 주소)
 - 커리큘럼(목차) 카드 내용
 
 ### ③ 홈에 카드 한 장 추가
