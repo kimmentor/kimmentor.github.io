@@ -28,6 +28,7 @@
 | `assets/cover.jpg` | 1권 표지 |
 | `assets/cover-advanced.jpg` | 2권 표지 |
 | `assets/cover-saju.jpg` | 「이것만 알고 사주 보러 가자」 표지 |
+| `assets/cover-tarot.jpg` | 「이것만 알고 타로 보러 가자」 표지 (출간 예정) |
 
 > 💡 미리 보기: `index.html`을 더블클릭하면 브라우저에서 바로 열립니다.
 
@@ -135,3 +136,15 @@
 ---
 
 궁금하거나 막히는 부분이 있으면 언제든 다시 불러주세요!
+
+---
+
+## 📕 「알고 보러 가자」 시리즈 현황
+
+| 권 | 제목 | 상세 페이지 | 상태 |
+|---|---|---|---|
+| 제1권 | 이것만 알고 사주 보러 가자 | `book-saju-reading.html` | 판매 중 (5개 서점) |
+| 제2권 | 이것만 알고 타로 보러 가자 | `book-tarot-reading.html` | 출간 예정 (집필 중) |
+
+출간되면 `book-tarot-reading.html`과 `index.html` 책 카드에서
+`출간 예정` → `판매 중`으로 바꾸고 구매처 링크를 넣으면 됩니다.
