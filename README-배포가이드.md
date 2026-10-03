@@ -29,6 +29,7 @@
 | `assets/cover-advanced.jpg` | 2권 표지 |
 | `assets/cover-saju.jpg` | 「이것만 알고 사주 보러 가자」 표지 |
 | `assets/cover-tarot.jpg` | 「이것만 알고 타로 보러 가자」 표지 |
+| `assets/cover-numerology.jpg` | 「이것만 알고 수비학 보러 가자」 표지 |
 
 > 💡 미리 보기: `index.html`을 더블클릭하면 브라우저에서 바로 열립니다.
 
@@ -54,6 +55,13 @@
 - 알라딘: https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=401057726
 - 리디북스: https://ridibooks.com/books/5273015282
 - 북큐브: https://www.bookcube.com/detail.asp?series_num=926064394
+
+**「이것만 알고 수비학 보러 가자」 (「알고 보러 가자」 시리즈 제3권)**
+- 교보 eBook: https://ebook-product.kyobobook.co.kr/dig/epd/ebook/E000013552260
+- YES24: https://www.yes24.com/product/goods/196262475
+- 알라딘: https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=402362278
+- 리디북스: https://ridibooks.com/books/5273015466
+- 북큐브: https://www.bookcube.com/detail.asp?series_num=926067556
 
 ---
 
@@ -152,6 +160,7 @@
 |---|---|---|---|
 | 제1권 | 이것만 알고 사주 보러 가자 | `book-saju-reading.html` | 판매 중 (5개 서점) |
 | 제2권 | 이것만 알고 타로 보러 가자 | `book-tarot-reading.html` | 판매 중 (5개 서점) |
+| 제3권 | 이것만 알고 수비학 보러 가자 | `book-numerology-reading.html` | 판매 중 (5개 서점) |
 
 다음 권이 나오면 `book-tarot-reading.html`을 복사해 새 상세 페이지를 만들고,
 `index.html` 책 카드에 `출간 예정` → `판매 중` 상태와 구매처 링크를 넣으면 됩니다.
